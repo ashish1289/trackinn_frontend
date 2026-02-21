@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Hotel Onboarding — TRACKINN</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/user.css">
+    <link rel="stylesheet" href="../assets/css/salesteam.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="user-body sales-body">
+    <!-- Sidebar -->
+    <aside class="sales-sidebar">
+        <div class="sales-sidebar-header">
+            <span style="font-weight: 800; font-size: 1.1rem; letter-spacing: 0.5px;">SALES<em>.</em></span>
+            <button class="btn btn-ghost btn-sm close-sidebar" style="width: auto; padding: 4px 8px;"><i
+                    class="fas fa-times"></i></button>
+        </div>
+        <nav class="sales-sidebar-body">
+            <a href="dashboard.html" class="s-nav-item">
+                <i class="fas fa-home s-nav-icon"></i> Home
+            </a>
+            <a href="onboarding.html" class="s-nav-item active">
+                <i class="fas fa-plus-circle s-nav-icon"></i> Onboard
+            </a>
+            <a href="tracking.html" class="s-nav-item">
+                <i class="fas fa-map-marker-alt s-nav-icon"></i> Tracking
+            </a>
+            <a href="targets.html" class="s-nav-item">
+                <i class="fas fa-award s-nav-icon"></i> Incentives
+            </a>
+            <div class="divider"></div>
+            <a href="../index.html" class="s-nav-item">
+                <i class="fas fa-sign-out-alt s-nav-icon"></i> Logout
+            </a>
+        </nav>
+    </aside>
+    <div class="sidebar-overlay"></div>
+    <header class="user-header">
+        <button class="btn btn-ghost btn-sm open-sidebar"
+            style="border:none; font-size: 1.2rem; padding: 4px; margin-right: 12px;"><i
+                class="fas fa-bars"></i></button>
+        <div class="user-header-logo" style="flex: 1; justify-content: center; margin-right: 24px;">
+            <span>ONBOARDING</span>
+        </div>
+    </header>
+
+    <main class="user-page">
+        <div class="step-indicator">
+            <div class="step-dot done"><i class="fas fa-check"></i></div>
+            <div class="step-line done"></div>
+            <div class="step-dot active">2</div>
+            <div class="step-line"></div>
+            <div class="step-dot">3</div>
+        </div>
+
+        <section class="onboarding-card animate-fade">
+            <h3 class="mb-2">Capture Hotel Details</h3>
+            <form id="onboardingForm">
+                <div class="form-group">
+                    <label class="form-label">Hotel Name</label>
+                    <input type="text" class="form-control" placeholder="Property Name" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">City / Location</label>
+                    <select class="form-control">
+                        <option>Delhi</option>
+                        <option>Mumbai</option>
+                        <option>Bangalore</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Inventory Size (Rooms)</label>
+                    <input type="number" class="form-control" placeholder="Total Rooms">
+                </div>
+
+                <h4 class="mt-3 mb-2">Upload Documents</h4>
+                <div class="upload-zone mb-3">
+                    <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">Trade License, GST, ID Proof</p>
+                    <strong style="color: var(--accent); font-size: 0.9rem;">Tap to Browse</strong>
+                </div>
+
+                <div class="card mb-3" style="background: rgba(0, 200, 83, 0.05); border-color: rgba(0, 200, 83, 0.2);">
+                    <div class="flex items-center gap-2">
+                        <i class="fas fa-shield-check" style="color: var(--success);"></i>
+                        <div>
+                            <strong style="font-size: 0.85rem; display: block;">Sarai Integration</strong>
+                            <span style="font-size: 0.72rem; color: var(--text-muted);">Checking status in
+                                real-time...</span>
+                        </div>
+                        <span class="badge badge-success" style="margin-left: auto;">Active</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-full btn-lg">Save & Continue</button>
+            </form>
+        </section>
+
+        <div class="card animate-fade" style="animation-delay: 0.1s;">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h4 style="font-size: 0.9rem;">KYC Verification</h4>
+                    <p style="font-size: 0.75rem;">Identity & Address validation</p>
+                </div>
+                <span class="badge badge-warning">In Progress</span>
+            </div>
+        </div>
+    </main>
+
+    <nav class="bottom-nav sales-nav">
+        <a href="dashboard.html" class="bnav-item">
+            <i class="fas fa-home bnav-icon"></i>
+            <span class="bnav-label">Home</span>
+        </a>
+        <a href="onboarding.html" class="bnav-item active" data-module="onboarding">
+            <i class="fas fa-plus-circle bnav-icon"></i>
+            <span class="bnav-label">Onboard</span>
+        </a>
+        <a href="tracking.html" class="bnav-item" data-module="tracking">
+            <i class="fas fa-map-marker-alt bnav-icon"></i>
+            <span class="bnav-label">Tracking</span>
+        </a>
+        <a href="targets.html" class="bnav-item" data-module="targets">
+            <i class="fas fa-award bnav-icon"></i>
+            <span class="bnav-label">Incentives</span>
+        </a>
+    </nav>
+
+    <script src="../assets/js/salesteam.js"></script>
+</body>
+
+</html>

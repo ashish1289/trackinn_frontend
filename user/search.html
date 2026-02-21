@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Search Hotels — TRACKINN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/main.css" />
+  <link rel="stylesheet" href="../assets/css/user.css" />
+  <style>
+    .search-full { display:flex; gap:0; align-items:center; background:var(--bg-card2); border:1px solid var(--border); border-radius:var(--radius-lg); overflow:hidden; margin-bottom:14px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: all 0.2s ease; }
+    .search-full:focus-within { border-color:var(--accent); box-shadow: 0 6px 20px rgba(124,77,255,0.15); transform:translateY(-2px); }
+    .search-full input { flex:1; background:transparent; border:none; outline:none; padding:16px 20px; font-size:1rem; color:var(--text-primary); font-family:var(--font-sans); }
+    .search-full input::placeholder { color:var(--text-muted); }
+    .search-full-btn { padding:12px 18px; background:var(--accent); border:none; cursor:pointer; font-size:1.1rem; color:#fff; }
+    .date-guests-row { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:14px; }
+    .dg-field { background:var(--bg-card2); border:1px solid var(--border); border-radius:var(--radius-md); padding:10px 14px; cursor:pointer; }
+    .dg-label { font-size:0.67rem; color:var(--text-muted); margin-bottom:2px; text-transform:uppercase; letter-spacing:0.4px; }
+    .dg-value { font-size:0.88rem; font-weight:700; }
+    .filter-panel { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-lg); padding:16px; margin-bottom:16px; }
+    .price-slider { width:100%; accent-color:var(--accent); }
+    .result-count { font-size:0.82rem; color:var(--text-muted); margin-bottom:14px; }
+    .sort-row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:14px; }
+    .sort-label { font-size:0.8rem; color:var(--text-muted); }
+    .map-placeholder { height:200px; background:linear-gradient(135deg,rgba(0,188,212,0.06),rgba(124,77,255,0.06)); border:1px solid var(--border); border-radius:var(--radius-lg); display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;margin-bottom:16px;cursor:pointer; }
+  </style>
+</head>
+<body class="user-body">
+
+  <header class="user-header">
+    <a href="dashboard.html" class="user-header-logo">
+      <div class="logo-dot">🏨</div>TRACK<em>INN</em>
+    </a>
+    <div class="user-header-actions">
+      <a href="#" class="user-icon-btn" onclick="event.preventDefault();openModal('filtersModal')">⚙️</a>
+      <a href="profile.html" class="user-avatar-btn">AM</a>
+    </div>
+  </header>
+
+  <div style="display:flex;flex:1;">
+    <nav class="user-sidebar">
+      <div style="padding:0 4px 16px;font-size:0.7rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:0.6px;">Menu</div>
+      <a href="dashboard.html" class="user-sidebar-item"><span class="user-sidebar-icon">🏠</span>Home</a>
+      <a href="search.html" class="user-sidebar-item active"><span class="user-sidebar-icon">🔍</span>Search Hotels</a>
+      <a href="my-bookings.html" class="user-sidebar-item"><span class="user-sidebar-icon">📅</span>My Bookings</a>
+      <a href="rewards.html" class="user-sidebar-item"><span class="user-sidebar-icon">🎁</span>Rewards</a>
+      <a href="tourism.html" class="user-sidebar-item"><span class="user-sidebar-icon">🗺️</span>Explore</a>
+      <a href="profile.html" class="user-sidebar-item"><span class="user-sidebar-icon">👤</span>Profile</a>
+    </nav>
+
+    <div class="user-page-area">
+      <div class="user-page">
+
+        <!-- Search Bar -->
+        <div class="search-full">
+          <input type="text" id="searchInput" placeholder="🔍  Search city, area or hotel name…" value="Varanasi" />
+          <button class="search-full-btn">→</button>
+        </div>
+
+        <div class="date-guests-row">
+          <div class="dg-field">
+            <div class="dg-label">📅 Dates</div>
+            <div class="dg-value">Feb 22 → Feb 24</div>
+          </div>
+          <div class="dg-field">
+            <div class="dg-label">👤 Guests & Rooms</div>
+            <div class="dg-value">2 Guests · 1 Room</div>
+          </div>
+        </div>
+
+        <!-- Filter Chips -->
+        <div class="chips-strip">
+          <div class="chip active" onclick="toggleChip(this)"><span class="chip-icon">✨</span>All</div>
+          <div class="chip" onclick="toggleChip(this)"><span class="chip-icon">💰</span>Under ₹2K</div>
+          <div class="chip" onclick="toggleChip(this)"><span class="chip-icon">⭐</span>4+ Stars</div>
+          <div class="chip" onclick="toggleChip(this)"><span class="chip-icon">🕌</span>Temple Tourism</div>
+          <div class="chip" onclick="toggleChip(this)"><span class="chip-icon">✅</span>Govt Approved</div>
+          <div class="chip" onclick="toggleChip(this)"><span class="chip-icon">🍳</span>With Breakfast</div>
+          <div class="chip" onclick="toggleChip(this)"><span class="chip-icon">🅿️</span>Free Parking</div>
+          <div class="chip" onclick="toggleChip(this)"><span class="chip-icon">📶</span>Free WiFi</div>
+          <div class="chip" onclick="toggleChip(this)"><span class="chip-icon">♿</span>Accessible</div>
+        </div>
+
+        <!-- Sort row -->
+        <div class="sort-row">
+          <span class="sort-label">Sort by:</span>
+          <div class="chip active" onclick="toggleChip(this)">Relevance</div>
+          <div class="chip" onclick="toggleChip(this)">Price ↑</div>
+          <div class="chip" onclick="toggleChip(this)">Price ↓</div>
+          <div class="chip" onclick="toggleChip(this)">Rating</div>
+          <div class="chip" onclick="toggleChip(this)">Distance</div>
+        </div>
+
+        <!-- Map View Toggle -->
+        <div class="tabs-nav" style="margin-bottom:16px;">
+          <button class="tab-btn active" onclick="switchTab('list');this.closest('.tabs-nav').querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')">📋 List</button>
+          <button class="tab-btn" onclick="switchTab('map');this.closest('.tabs-nav').querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')">🗺️ Map</button>
+        </div>
+
+        <!-- List View -->
+        <div id="tab-list" class="tab-panel active">
+          <div class="result-count">🏨 24 hotels found in <strong>Varanasi</strong></div>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+
+            <div class="hotel-list-card" onclick="window.location='hotel-detail.html'" style="cursor:pointer;">
+              <div class="hotel-list-img">🛕</div>
+              <div class="hotel-list-body">
+                <div class="hotel-list-name">The Taj Residency Varanasi</div>
+                <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:6px;">📍 Godowlia Chowk · 0.3km from Ghats</div>
+                <div class="hotel-list-badges">
+                  <span class="badge badge-success" style="font-size:0.62rem;">🛡 Sarai Verified</span>
+                  <span class="badge badge-info" style="font-size:0.62rem;">🕌 Temple Tourism</span>
+                  <span class="badge badge-success" style="font-size:0.62rem;">✅ Govt Approved</span>
+                </div>
+                <div class="hotel-list-footer">
+                  <div class="price-tag">₹1,800<small>/night incl. taxes</small></div>
+                  <div style="text-align:right;">
+                    <div class="hotel-card-rating" style="margin-bottom:4px;">⭐ 4.5 <span style="color:var(--text-muted);font-weight:400;">(142)</span></div>
+                    <button class="btn btn-primary btn-sm" onclick="event.stopPropagation();window.location='booking.html'">Book Now</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="hotel-list-card" onclick="window.location='hotel-detail.html'" style="cursor:pointer;">
+              <div class="hotel-list-img">🏨</div>
+              <div class="hotel-list-body">
+                <div class="hotel-list-name">Hotel Alka Classic</div>
+                <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:6px;">📍 Mir Ghat · Ganga Facing</div>
+                <div class="hotel-list-badges">
+                  <span class="badge badge-success" style="font-size:0.62rem;">🛡 Sarai Verified</span>
+                  <span class="badge badge-warning" style="font-size:0.62rem;">🌊 River View</span>
+                </div>
+                <div class="hotel-list-footer">
+                  <div class="price-tag">₹2,400<small>/night incl. taxes</small></div>
+                  <div style="text-align:right;">
+                    <div class="hotel-card-rating" style="margin-bottom:4px;">⭐ 4.3 <span style="color:var(--text-muted);font-weight:400;">(89)</span></div>
+                    <button class="btn btn-primary btn-sm" onclick="event.stopPropagation();window.location='booking.html'">Book Now</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="hotel-list-card" onclick="window.location='hotel-detail.html'" style="cursor:pointer;">
+              <div class="hotel-list-img">🏩</div>
+              <div class="hotel-list-body">
+                <div class="hotel-list-name">Benaras House Heritage</div>
+                <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:6px;">📍 Assi Ghat · 0.8km from Kashi Vishwanath</div>
+                <div class="hotel-list-badges">
+                  <span class="badge badge-primary" style="font-size:0.62rem;">🏰 Heritage</span>
+                  <span class="badge badge-info" style="font-size:0.62rem;">🕌 Temple Tourism</span>
+                </div>
+                <div class="hotel-list-footer">
+                  <div class="price-tag">₹3,200<small>/night incl. taxes</small></div>
+                  <div style="text-align:right;">
+                    <div class="hotel-card-rating" style="margin-bottom:4px;">⭐ 4.7 <span style="color:var(--text-muted);font-weight:400;">(214)</span></div>
+                    <button class="btn btn-primary btn-sm" onclick="event.stopPropagation();window.location='booking.html'">Book Now</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="hotel-list-card" onclick="window.location='hotel-detail.html'" style="cursor:pointer;">
+              <div class="hotel-list-img">🌄</div>
+              <div class="hotel-list-body">
+                <div class="hotel-list-name">Manikarnika Stay House</div>
+                <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:6px;">📍 Near Manikarnika Ghat</div>
+                <div class="hotel-list-badges">
+                  <span class="badge badge-success" style="font-size:0.62rem;">🛡 Sarai Verified</span>
+                  <span class="badge badge-warning" style="font-size:0.62rem;">💰 Budget</span>
+                </div>
+                <div class="hotel-list-footer">
+                  <div class="price-tag">₹899<small>/night incl. taxes</small></div>
+                  <div style="text-align:right;">
+                    <div class="hotel-card-rating" style="margin-bottom:4px;">⭐ 4.1 <span style="color:var(--text-muted);font-weight:400;">(56)</span></div>
+                    <button class="btn btn-primary btn-sm" onclick="event.stopPropagation();window.location='booking.html'">Book Now</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="hotel-list-card" onclick="window.location='hotel-detail.html'" style="cursor:pointer;">
+              <div class="hotel-list-img">🏯</div>
+              <div class="hotel-list-body">
+                <div class="hotel-list-name">Nadesar Palace (Taj)</div>
+                <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:6px;">📍 Cantonment Area · Varanasi</div>
+                <div class="hotel-list-badges">
+                  <span class="badge badge-success" style="font-size:0.62rem;">✅ Govt Approved</span>
+                  <span class="badge badge-primary" style="font-size:0.62rem;">👑 Luxury</span>
+                </div>
+                <div class="hotel-list-footer">
+                  <div class="price-tag">₹18,000<small>/night incl. taxes</small></div>
+                  <div style="text-align:right;">
+                    <div class="hotel-card-rating" style="margin-bottom:4px;">⭐ 4.9 <span style="color:var(--text-muted);font-weight:400;">(421)</span></div>
+                    <button class="btn btn-primary btn-sm" onclick="event.stopPropagation();window.location='booking.html'">Book Now</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Map View -->
+        <div id="tab-map" class="tab-panel">
+          <div class="map-placeholder">
+            <div style="font-size:3rem;">🗺️</div>
+            <div style="font-weight:700;">Interactive Map</div>
+            <div style="font-size:0.78rem;color:var(--text-muted);">24 hotels plotted around Varanasi</div>
+            <div style="font-size:0.72rem;color:var(--text-muted);">(Map integration coming soon)</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <nav class="bottom-nav">
+    <a href="dashboard.html" class="bnav-item"><span class="bnav-icon">🏠</span><span class="bnav-label">Home</span></a>
+    <a href="search.html" class="bnav-item active"><span class="bnav-icon">🔍</span><span class="bnav-label">Search</span></a>
+    <a href="my-bookings.html" class="bnav-item"><span class="bnav-icon">📅</span><span class="bnav-label">Bookings</span></a>
+    <a href="rewards.html" class="bnav-item"><span class="bnav-icon">🎁</span><span class="bnav-label">Rewards</span></a>
+    <a href="profile.html" class="bnav-item"><span class="bnav-icon">👤</span><span class="bnav-label">Profile</span></a>
+  </nav>
+
+  <!-- Filters Modal -->
+  <div class="modal-overlay" id="filtersModal">
+    <div class="modal" style="max-width:440px;">
+      <div class="modal-header"><h4>⚙️ Filters</h4><button class="modal-close" onclick="closeModal('filtersModal')">✕</button></div>
+      <div class="form-group"><label class="form-label">Price Range (per night)</label>
+        <input type="range" class="price-slider" min="500" max="20000" value="5000" oninput="document.getElementById('priceVal').textContent='₹'+this.value" />
+        <div style="display:flex;justify-content:space-between;font-size:0.75rem;color:var(--text-muted);margin-top:4px;"><span>₹500</span><span id="priceVal" style="color:var(--accent);font-weight:700;">₹5,000</span><span>₹20,000</span></div>
+      </div>
+      <div class="form-group"><label class="form-label">Star Rating</label><div class="chips-strip" style="flex-wrap:wrap;">
+        <div class="chip" onclick="toggleChip(this)">⭐ 1+</div>
+        <div class="chip" onclick="toggleChip(this)">⭐⭐ 2+</div>
+        <div class="chip active" onclick="toggleChip(this)">⭐⭐⭐ 3+</div>
+        <div class="chip" onclick="toggleChip(this)">⭐⭐⭐⭐ 4+</div>
+        <div class="chip" onclick="toggleChip(this)">⭐⭐⭐⭐⭐ 5</div>
+      </div></div>
+      <div class="form-group"><label class="form-label">Amenities</label><div class="chips-strip" style="flex-wrap:wrap;">
+        <div class="chip" onclick="toggleChip(this)">🅿️ Free Parking</div>
+        <div class="chip" onclick="toggleChip(this)">📶 Free WiFi</div>
+        <div class="chip" onclick="toggleChip(this)">🍳 Breakfast Incl.</div>
+        <div class="chip" onclick="toggleChip(this)">❄️ AC Rooms</div>
+        <div class="chip" onclick="toggleChip(this)">🏊 Swimming Pool</div>
+        <div class="chip" onclick="toggleChip(this)">🧖 Spa</div>
+        <div class="chip" onclick="toggleChip(this)">♿ Accessible</div>
+      </div></div>
+      <div class="form-group"><label class="form-label">Special Badges</label><div class="chips-strip" style="flex-wrap:wrap;">
+        <div class="chip" onclick="toggleChip(this)">🛡 Sarai Verified</div>
+        <div class="chip" onclick="toggleChip(this)">✅ Govt Approved</div>
+        <div class="chip" onclick="toggleChip(this)">🕌 Temple Tourism</div>
+      </div></div>
+      <div style="display:flex;gap:10px;">
+        <button class="btn btn-ghost" style="flex:1;" onclick="closeModal('filtersModal')">Reset</button>
+        <button class="btn btn-primary" style="flex:1;" onclick="closeModal('filtersModal');showToast('✅ Filters applied!')">Apply Filters</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../assets/js/user.js"></script>
+</body>
+</html>

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<script>
+  const role = localStorage.getItem('userRole');
+  if(role && role !== 'manager' && role !== 'billing' && role !== 'frontdesk') {
+    window.location.href = 'dashboard.html';
+  }
+</script>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Billing & Accounting — TRACKINN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/main.css" />
+  <link rel="stylesheet" href="../assets/css/dashboard.css" />
+  <style>
+    .invoice-card { background:var(--bg-card2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;margin-bottom:16px;position:relative; }
+    .invoice-header { display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px; }
+    .invoice-no { font-size:1.2rem;font-weight:800; }
+    .invoice-line { display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:0.875rem; }
+    .invoice-line:last-of-type { border-bottom:none; }
+    .invoice-total { display:flex;justify-content:space-between;padding:12px 0;font-size:1.1rem;font-weight:700;color:var(--accent); }
+    .payment-method-icon { width:48px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;background:var(--bg-input);border:1px solid var(--border); }
+    .expense-cat { display:flex;align-items:center;gap:12px;padding:12px;background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-md);margin-bottom:8px; }
+    .expense-icon { width:38px;height:38px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:1.1rem;background:rgba(0,188,212,0.1);flex-shrink:0; }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeMobileSidebar()"></div>
+  <aside class="sidebar" id="sidebar">
+    <a href="dashboard.html" class="sidebar-logo">
+      <div class="slogo-icon">🏨</div>
+      <div class="slogo-text">TRACK<em>INN<span class="slogo-sub">Hotel Manager</span></em></div>
+    </a>
+    <div class="hotel-badge">
+      <div class="hotel-badge-avatar">🏢</div>
+      <div class="hotel-badge-info">
+        <div class="hotel-badge-name">Grand Palace Hotel</div>
+        <div class="hotel-badge-plan">⭐ Growth Plan</div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Overview</div>
+      <a href="dashboard.html" class="nav-item" data-tooltip="Dashboard"><span class="nav-icon">📊</span><span class="nav-label">Dashboard</span></a>
+      <div class="nav-section-label">Operations</div>
+      <a href="checkin.html" class="nav-item" data-tooltip="Check-in/out"><span class="nav-icon">🛎</span><span class="nav-label">Check-in / Check-out</span></a>
+      <a href="rooms.html" class="nav-item" data-tooltip="Rooms"><span class="nav-icon">🛏</span><span class="nav-label">Room Management</span></a>
+      <a href="room-detail.html" class="nav-item" data-tooltip="All Rooms (Grid & Detail)"><span class="nav-icon">🔍</span><span class="nav-label">All Rooms (Live View)</span></a>
+      <a href="bookings.html" class="nav-item" data-tooltip="Bookings"><span class="nav-icon">📅</span><span class="nav-label">Bookings</span><span class="nav-badge">3</span></a>
+      <div class="nav-section-label">Finance</div>
+      <a href="billing.html" class="nav-item active" data-tooltip="Billing"><span class="nav-icon">💳</span><span class="nav-label">Billing & Accounting</span></a>
+      <div class="nav-section-label">Team</div>
+      <a href="staff.html" class="nav-item" data-tooltip="Staff"><span class="nav-icon">👥</span><span class="nav-label">Staff Management</span></a>
+      <div class="nav-section-label">Insights</div>
+      <a href="analytics.html" class="nav-item" data-tooltip="Analytics"><span class="nav-icon">🤖</span><span class="nav-label">Analytics & AI</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="sidebar-toggle" onclick="toggleSidebar()"><span class="toggle-icon">◀</span><span class="nav-label">Collapse Menu</span></button>
+    </div>
+  </aside>
+
+  <header class="topbar" id="topbar">
+    <button class="topbar-mobile-menu" onclick="toggleSidebar()">☰</button>
+    <div class="topbar-title">Billing & Accounting<span id="topbarDate"></span></div>
+    <div class="topbar-actions">
+      <a href="#" class="topbar-btn">🔔<span class="notif-dot"></span></a>
+      <div class="topbar-profile"><div class="profile-avatar">RK</div><div class="profile-info"><strong>Rajesh Kumar</strong><span>Hotel Manager</span></div></div>
+    </div>
+  </header>
+
+  <main class="main-content" id="mainContent">
+    <div class="page-wrapper">
+      <div class="page-header">
+        <div class="page-header-left"><h1>💳 Billing & Accounting</h1><p>GST invoices, expense tracking, and profit & loss overview.</p></div>
+        <div class="page-header-actions">
+          <button class="btn btn-outline btn-sm" onclick="openModal('addExpenseModal')">➕ Log Expense</button>
+          <button class="btn btn-primary" onclick="openModal('generateInvoiceModal')">🧾 Generate Invoice</button>
+        </div>
+      </div>
+
+      <!-- KPIs -->
+      <div class="kpi-grid">
+        <div class="kpi-card kpi-green"><span class="kpi-icon">💰</span><div class="kpi-label">Revenue (MTD)</div><div class="kpi-value">₹12.4L</div><div class="kpi-trend"><span class="up">↑ 22%</span> vs last month</div></div>
+        <div class="kpi-card kpi-red"><span class="kpi-icon">📉</span><div class="kpi-label">Expenses (MTD)</div><div class="kpi-value">₹3.8L</div><div class="kpi-trend"><span class="down">↑ 8%</span> vs last month</div></div>
+        <div class="kpi-card kpi-cyan"><span class="kpi-icon">📊</span><div class="kpi-label">Net Profit (MTD)</div><div class="kpi-value">₹8.6L</div><div class="kpi-trend"><span class="up">↑ 31%</span> margin: 69%</div></div>
+        <div class="kpi-card kpi-orange"><span class="kpi-icon">⏳</span><div class="kpi-label">Pending Invoices</div><div class="kpi-value">₹28K</div><div class="kpi-trend"><span style="color:var(--warning);">5 invoices</span> due</div></div>
+        <div class="kpi-card kpi-purple"><span class="kpi-icon">🏷️</span><div class="kpi-label">GST Collected</div><div class="kpi-value">₹1.49L</div><div class="kpi-trend">Filing due: Feb 20</div></div>
+        <div class="kpi-card kpi-green"><span class="kpi-icon">💳</span><div class="kpi-label">Today's Revenue</div><div class="kpi-value">₹84K</div><div class="kpi-trend"><span class="up">↑ 18%</span> vs yesterday</div></div>
+      </div>
+
+      <div class="tabs-nav">
+        <button class="tab-btn active" onclick="switchTab('invoices')">🧾 Invoices</button>
+        <button class="tab-btn" onclick="switchTab('expenses')">📉 Expenses</button>
+        <button class="tab-btn" onclick="switchTab('pnl')">📊 P&L Statement</button>
+        <button class="tab-btn" onclick="switchTab('gst')">🏷️ GST Reports</button>
+        <button class="tab-btn" onclick="switchTab('payments')">💳 Payments Ledger</button>
+      </div>
+
+      <!-- Invoices -->
+      <div class="tab-panel active" id="tab-invoices">
+        <div class="filter-bar">
+          <input type="text" class="form-control search-input" placeholder="🔍 Search invoice ID or guest..." />
+          <select class="form-control" style="width:auto;"><option>All Status</option><option>Paid</option><option>Pending</option><option>Overdue</option></select>
+          <input type="date" class="form-control" style="width:auto;" />
+          <button class="btn btn-outline btn-sm">📤 Export</button>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead><tr><th>Invoice No.</th><th>Guest</th><th>Booking ID</th><th>Date</th><th>Room Charges</th><th>GST</th><th>Total</th><th>Payment</th><th>Status</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr><td><strong>INV-240219-001</strong></td><td>Priya Mehta</td><td>TRK-2402191</td><td>Feb 19</td><td>₹7,500</td><td>₹900</td><td>₹8,400</td><td><div class="payment-method-icon">📲</div></td><td><span class="badge badge-success">Paid</span></td><td><button class="btn btn-sm btn-outline" onclick="openModal('viewInvoiceModal')" style="padding:4px 10px;">📄 View</button></td></tr>
+              <tr><td><strong>INV-240219-002</strong></td><td>Rajesh Kumar</td><td>TRK-2402190</td><td>Feb 19</td><td>₹2,857</td><td>₹343</td><td>₹3,200</td><td><div class="payment-method-icon">💵</div></td><td><span class="badge badge-success">Paid</span></td><td><button class="btn btn-sm btn-outline" onclick="openModal('viewInvoiceModal')" style="padding:4px 10px;">📄 View</button></td></tr>
+              <tr><td><strong>INV-240219-003</strong></td><td>Ankit Verma</td><td>TRK-2402189</td><td>Feb 19</td><td>₹11,250</td><td>₹1,350</td><td>₹12,600</td><td><div class="payment-method-icon">🏦</div></td><td><span class="badge badge-warning">Pending</span></td><td><div style="display:flex;gap:4px;"><button class="btn btn-sm btn-outline" onclick="openModal('viewInvoiceModal')" style="padding:4px 10px;">📄 View</button><button class="btn btn-sm btn-primary" style="padding:4px 10px;">Mark Paid</button></div></td></tr>
+              <tr><td><strong>INV-240218-005</strong></td><td>Sunita Joshi</td><td>TRK-2402180</td><td>Feb 18</td><td>₹2,500</td><td>₹300</td><td>₹2,800</td><td><div class="payment-method-icon">💵</div></td><td><span class="badge badge-danger">Overdue</span></td><td><div style="display:flex;gap:4px;"><button class="btn btn-sm btn-danger" style="background:transparent;border:1px solid var(--danger);color:var(--danger);padding:4px 10px;border-radius:6px;cursor:pointer;">Send Reminder</button></div></td></tr>
+              <tr><td><strong>INV-240217-012</strong></td><td>InfoSys Ltd.</td><td>TRK-2402178</td><td>Feb 17</td><td>₹37,500</td><td>₹4,500</td><td>₹42,000</td><td><div class="payment-method-icon">🏦</div></td><td><span class="badge badge-warning">Pending</span></td><td><button class="btn btn-sm btn-outline" onclick="openModal('viewInvoiceModal')" style="padding:4px 10px;">📄 View</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Expenses -->
+      <div class="tab-panel" id="tab-expenses">
+        <div class="charts-grid" style="margin-bottom:24px;">
+          <div class="chart-container">
+            <div class="chart-header"><h4>Expense Breakdown (MTD)</h4></div>
+            <div style="height:200px;"><canvas id="expenseChart"></canvas></div>
+          </div>
+          <div class="chart-container">
+            <div class="chart-header"><h4>Categories</h4></div>
+            <div class="expense-cat"><div class="expense-icon">👥</div><div style="flex:1;"><div style="font-size:0.85rem;font-weight:600;">Staff Salaries</div><div style="font-size:0.75rem;color:var(--text-muted);">₹1,20,000 (32%)</div></div><span class="badge badge-info">Major</span></div>
+            <div class="expense-cat"><div class="expense-icon">🍳</div><div style="flex:1;"><div style="font-size:0.85rem;font-weight:600;">F&B & Kitchen</div><div style="font-size:0.75rem;color:var(--text-muted);">₹68,000 (18%)</div></div></div>
+            <div class="expense-cat"><div class="expense-icon">⚡</div><div style="flex:1;"><div style="font-size:0.85rem;font-weight:600;">Utilities</div><div style="font-size:0.75rem;color:var(--text-muted);">₹45,000 (12%)</div></div></div>
+            <div class="expense-cat"><div class="expense-icon">🧴</div><div style="flex:1;"><div style="font-size:0.85rem;font-weight:600;">Housekeeping Supplies</div><div style="font-size:0.75rem;color:var(--text-muted);">₹22,000 (6%)</div></div></div>
+          </div>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead><tr><th>Date</th><th>Category</th><th>Description</th><th>Amount</th><th>Payment Mode</th><th>Added By</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr><td>Feb 19</td><td><span class="badge badge-info">Utilities</span></td><td>Electricity bill — Feb</td><td>₹12,400</td><td>NEFT</td><td>Manager</td><td><button class="btn btn-sm btn-outline" style="padding:4px 10px;">View</button></td></tr>
+              <tr><td>Feb 18</td><td><span class="badge badge-warning">F&B</span></td><td>Weekly grocery purchase</td><td>₹8,200</td><td>Cash</td><td>Chef Suresh</td><td><button class="btn btn-sm btn-outline" style="padding:4px 10px;">View</button></td></tr>
+              <tr><td>Feb 17</td><td><span class="badge badge-success">Maintenance</span></td><td>AC repair — Room 203</td><td>₹3,500</td><td>Cash</td><td>Maintenance Team</td><td><button class="btn btn-sm btn-outline" style="padding:4px 10px;">View</button></td></tr>
+              <tr><td>Feb 15</td><td><span class="badge badge-primary">Marketing</span></td><td>OTA commission — MMT</td><td>₹18,900</td><td>NEFT</td><td>System</td><td><button class="btn btn-sm btn-outline" style="padding:4px 10px;">View</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- P&L -->
+      <div class="tab-panel" id="tab-pnl">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
+          <div class="tabs-nav" style="margin-bottom:0;"><button class="tab-btn active">February 2026</button><button class="tab-btn">January 2026</button><button class="tab-btn">Q4 FY25</button></div>
+          <button class="btn btn-outline btn-sm">📥 Download PDF</button>
+        </div>
+        <div class="chart-container">
+          <div class="chart-header"><h4>Profit & Loss Statement — February 2026</h4></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+            <div>
+              <h5 style="color:var(--success);margin-bottom:12px;font-size:0.9rem;text-transform:uppercase;letter-spacing:0.5px;">💚 Revenue</h5>
+              <div class="invoice-line"><span>Room Revenue</span><span style="font-weight:600;">₹9,84,000</span></div>
+              <div class="invoice-line"><span>F&B Revenue</span><span style="font-weight:600;">₹1,62,000</span></div>
+              <div class="invoice-line"><span>Laundry & Services</span><span style="font-weight:600;">₹28,000</span></div>
+              <div class="invoice-line"><span>Event Bookings</span><span style="font-weight:600;">₹64,800</span></div>
+              <div class="invoice-line"><strong>Total Revenue</strong><strong style="color:var(--success);">₹12,38,800</strong></div>
+            </div>
+            <div>
+              <h5 style="color:var(--danger);margin-bottom:12px;font-size:0.9rem;text-transform:uppercase;letter-spacing:0.5px;">❤️ Expenses</h5>
+              <div class="invoice-line"><span>Staff Salaries</span><span style="font-weight:600;">₹1,20,000</span></div>
+              <div class="invoice-line"><span>F&B & Kitchen</span><span style="font-weight:600;">₹68,000</span></div>
+              <div class="invoice-line"><span>Utilities</span><span style="font-weight:600;">₹45,000</span></div>
+              <div class="invoice-line"><span>Maintenance</span><span style="font-weight:600;">₹24,000</span></div>
+              <div class="invoice-line"><span>OTA Commissions</span><span style="font-weight:600;">₹87,200</span></div>
+              <div class="invoice-line"><span>Supplies & Misc</span><span style="font-weight:600;">₹34,000</span></div>
+              <div class="invoice-line"><strong>Total Expenses</strong><strong style="color:var(--danger);">₹3,78,200</strong></div>
+            </div>
+          </div>
+          <div style="margin-top:20px;padding:16px;background:var(--bg-input);border-radius:var(--radius-md);border:1px solid var(--border-accent);">
+            <div style="display:flex;justify-content:space-between;align-items:center;"><h4 style="font-size:1.1rem;">Net Profit</h4><span style="font-size:1.4rem;font-weight:800;color:var(--success);">₹8,60,600 <small style="font-size:0.8rem;">(69.5% margin)</small></span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GST -->
+      <div class="tab-panel" id="tab-gst">
+        <div class="compliance-card" style="margin-bottom:20px;">
+          <div class="compliance-dot"></div>
+          <div class="compliance-text"><strong>GST GSTIN: 27AADPG1234Q1ZL</strong><span>Grand Palace Hotel · Monthly filing due: Feb 20, 2026</span></div>
+          <button class="btn btn-primary btn-sm" style="margin-left:auto;">📥 Download GSTR-1</button>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead><tr><th>Period</th><th>Taxable Amount</th><th>CGST (6%)</th><th>SGST (6%)</th><th>Total GST</th><th>Filing Status</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr><td>February 2026</td><td>₹12,38,800</td><td>₹74,328</td><td>₹74,328</td><td>₹1,48,656</td><td><span class="badge badge-warning">Due Feb 20</span></td><td><button class="btn btn-sm btn-primary" style="padding:4px 10px;">File GST</button></td></tr>
+              <tr><td>January 2026</td><td>₹10,14,200</td><td>₹60,852</td><td>₹60,852</td><td>₹1,21,704</td><td><span class="badge badge-success">Filed</span></td><td><button class="btn btn-sm btn-outline" style="padding:4px 10px;">View</button></td></tr>
+              <tr><td>December 2025</td><td>₹11,88,600</td><td>₹71,316</td><td>₹71,316</td><td>₹1,42,632</td><td><span class="badge badge-success">Filed</span></td><td><button class="btn btn-sm btn-outline" style="padding:4px 10px;">View</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Payments Ledger -->
+      <div class="tab-panel" id="tab-payments">
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;">
+          <div class="card" style="padding:14px 20px;flex:1;min-width:140px;"><div style="font-size:0.75rem;color:var(--text-muted);">Cash</div><div style="font-size:1.3rem;font-weight:800;color:var(--accent);">₹4.2L</div></div>
+          <div class="card" style="padding:14px 20px;flex:1;min-width:140px;"><div style="font-size:0.75rem;color:var(--text-muted);">UPI</div><div style="font-size:1.3rem;font-weight:800;color:var(--accent);">₹5.8L</div></div>
+          <div class="card" style="padding:14px 20px;flex:1;min-width:140px;"><div style="font-size:0.75rem;color:var(--text-muted);">Card</div><div style="font-size:1.3rem;font-weight:800;color:var(--accent);">₹1.9L</div></div>
+          <div class="card" style="padding:14px 20px;flex:1;min-width:140px;"><div style="font-size:0.75rem;color:var(--text-muted);">NEFT/Credit</div><div style="font-size:1.3rem;font-weight:800;color:var(--accent);">₹0.5L</div></div>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead><tr><th>Date</th><th>Description</th><th>Credit</th><th>Debit</th><th>Mode</th><th>Balance</th></tr></thead>
+            <tbody>
+              <tr><td>Feb 19</td><td>Priya Mehta — Room 302</td><td style="color:var(--success);">₹8,400</td><td>—</td><td>📲 UPI</td><td>₹2,18,400</td></tr>
+              <tr><td>Feb 19</td><td>Rajesh Sharma — Room 101</td><td style="color:var(--success);">₹3,200</td><td>—</td><td>💵 Cash</td><td>₹2,10,000</td></tr>
+              <tr><td>Feb 19</td><td>Electricity Bill — Feb</td><td>—</td><td style="color:var(--danger);">₹12,400</td><td>🏦 NEFT</td><td>₹2,06,800</td></tr>
+              <tr><td>Feb 18</td><td>Grocery Purchase</td><td>—</td><td style="color:var(--danger);">₹8,200</td><td>💵 Cash</td><td>₹2,19,200</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- View Invoice Modal -->
+  <div class="modal-overlay" id="viewInvoiceModal">
+    <div class="modal" style="max-width:520px;">
+      <div class="modal-header"><h4>🧾 GST Invoice</h4><button class="modal-close" onclick="closeModal('viewInvoiceModal')">✕</button></div>
+      <div class="invoice-card" style="margin-bottom:0;border:none;padding:0;">
+        <div class="invoice-header">
+          <div><div style="font-size:1rem;font-weight:800;color:var(--accent);">TRACKINN</div><div class="invoice-no">INV-240219-001</div><div style="font-size:0.8rem;color:var(--text-muted);">Date: Feb 19, 2026</div></div>
+          <span class="badge badge-success">Paid</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;font-size:0.82rem;">
+          <div><div style="color:var(--text-muted);margin-bottom:4px;">Bill To</div><strong>Priya Mehta</strong><div style="color:var(--text-muted);">+91 87654 32109</div></div>
+          <div><div style="color:var(--text-muted);margin-bottom:4px;">Hotel</div><strong>Grand Palace Hotel</strong><div style="color:var(--text-muted);">GSTIN: 27AADPG1234Q1ZL</div></div>
+        </div>
+        <div class="invoice-line"><span>Room 302 Suite — 2 nights @ ₹3,750/n</span><span>₹7,500</span></div>
+        <div class="invoice-line"><span>CGST @6%</span><span>₹450</span></div>
+        <div class="invoice-line"><span>SGST @6%</span><span>₹450</span></div>
+        <div class="invoice-total"><span>Total Amount</span><span>₹8,400</span></div>
+      </div>
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px;">
+        <button class="btn btn-ghost" onclick="closeModal('viewInvoiceModal')">Close</button>
+        <button class="btn btn-outline btn-sm">📧 Email Guest</button>
+        <button class="btn btn-primary btn-sm">⬇️ Download PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Expense Modal -->
+  <div class="modal-overlay" id="addExpenseModal">
+    <div class="modal" style="max-width:440px;">
+      <div class="modal-header"><h4>➕ Log Expense</h4><button class="modal-close" onclick="closeModal('addExpenseModal')">✕</button></div>
+      <div class="form-group"><label class="form-label">Category</label><select class="form-control"><option>Staff Salaries</option><option>F&B</option><option>Utilities</option><option>Maintenance</option><option>Marketing</option><option>Housekeeping</option><option>Other</option></select></div>
+      <div class="form-group"><label class="form-label">Description</label><input class="form-control" placeholder="What was this expense for?" /></div>
+      <div class="form-group"><label class="form-label">Amount (₹)</label><input type="number" class="form-control" placeholder="0.00" /></div>
+      <div class="form-group"><label class="form-label">Payment Mode</label><select class="form-control"><option>Cash</option><option>UPI</option><option>NEFT</option><option>Card</option></select></div>
+      <div class="form-group"><label class="form-label">Date</label><input type="date" class="form-control" /></div>
+      <div style="display:flex;gap:10px;justify-content:flex-end;">
+        <button class="btn btn-ghost" onclick="closeModal('addExpenseModal')">Cancel</button>
+        <button class="btn btn-primary" onclick="closeModal('addExpenseModal')">Save Expense</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Generate Invoice Modal -->
+  <div class="modal-overlay" id="generateInvoiceModal">
+    <div class="modal" style="max-width:440px;">
+      <div class="modal-header"><h4>🧾 Generate Invoice</h4><button class="modal-close" onclick="closeModal('generateInvoiceModal')">✕</button></div>
+      <div class="form-group"><label class="form-label">Booking / Guest</label><select class="form-control"><option>TRK-2402191 — Priya Mehta</option><option>TRK-2402189 — Ankit Verma</option><option>TRK-2402178 — InfoSys Ltd.</option></select></div>
+      <div class="form-group"><label class="form-label">Include Add-ons</label><label style="display:flex;align-items:center;gap:8px;font-size:0.875rem;cursor:pointer;"><input type="checkbox" /> Breakfast charges</label><label style="display:flex;align-items:center;gap:8px;font-size:0.875rem;cursor:pointer;margin-top:4px;"><input type="checkbox" /> Laundry charges</label><label style="display:flex;align-items:center;gap:8px;font-size:0.875rem;cursor:pointer;margin-top:4px;"><input type="checkbox" /> Room service</label></div>
+      <div style="display:flex;gap:10px;justify-content:flex-end;">
+        <button class="btn btn-ghost" onclick="closeModal('generateInvoiceModal')">Cancel</button>
+        <button class="btn btn-primary" onclick="closeModal('generateInvoiceModal');openModal('viewInvoiceModal')">Generate & Preview</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../assets/js/dashboard.js"></script>
+  <script>
+    initDoughnutChart('expenseChart',
+      ['Salaries','F&B','Utilities','OTA Comm.','Maintenance','Other'],
+      [120000,68000,45000,87200,24000,34000],
+      ['#7c4dff','#00bcd4','#ff6f00','#f44336','#29b6f6','#94a3c0']
+    );
+  </script>
+</body>
+</html>

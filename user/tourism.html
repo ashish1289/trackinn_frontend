@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Tourism & Add-ons — TRACKINN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/main.css" />
+  <link rel="stylesheet" href="../assets/css/user.css" />
+  <style>
+    .temple-card { background:linear-gradient(135deg,rgba(255,111,0,0.08),rgba(244,67,54,0.06)); border:1px solid rgba(255,111,0,0.2); border-radius:var(--radius-lg); padding:16px; cursor:pointer; transition:var(--transition-fast); }
+    .temple-card:hover { border-color:rgba(255,111,0,0.5); transform:translateY(-1px); }
+    .temple-card-icon { font-size:2rem; margin-bottom:8px; }
+    .temple-card-name { font-size:0.9rem; font-weight:700; margin-bottom:3px; }
+    .temple-card-city { font-size:0.74rem; color:var(--text-muted); }
+    .slot-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+    .slot-btn { padding:8px 4px; background:var(--bg-card2); border:1.5px solid var(--border); border-radius:var(--radius-md); font-size:0.75rem; font-weight:700; text-align:center; cursor:pointer; transition:var(--transition-fast); }
+    .slot-btn:hover { border-color:var(--accent); color:var(--accent); }
+    .slot-btn.selected { background:rgba(0,188,212,0.12); border-color:var(--accent); color:var(--accent); }
+    .slot-btn.full { opacity:0.4; cursor:not-allowed; border-style:dashed; }
+    .cab-option { background:var(--bg-card2); border:1px solid var(--border); border-radius:var(--radius-lg); padding:16px; display:flex; align-items:center; gap:12px; cursor:pointer; transition:var(--transition-fast); }
+    .cab-option:hover { border-color:var(--border-accent); }
+    .cab-icon { font-size:2rem; }
+    .cab-name { font-size:0.9rem; font-weight:700; }
+    .cab-desc { font-size:0.75rem; color:var(--text-muted); }
+    .cab-price { font-size:0.95rem; font-weight:800; color:var(--accent); margin-left:auto; flex-shrink:0; }
+    .tour-card { background:var(--bg-card2); border:1px solid var(--border); border-radius:var(--radius-lg); overflow:hidden; transition:var(--transition); }
+    .tour-card:hover { border-color:var(--border-accent); transform:translateY(-2px); }
+    .tour-img { height:120px; background:linear-gradient(135deg,rgba(0,188,212,0.1),rgba(124,77,255,0.1)); display:flex; align-items:center; justify-content:center; font-size:2.8rem; }
+    .tour-body { padding:14px; }
+    .food-item { display:flex; align-items:center; gap:12px; padding:10px 0; border-bottom:1px solid var(--border); }
+    .food-icon { width:42px; height:42px; border-radius:10px; background:linear-gradient(135deg,rgba(255,111,0,0.12),rgba(244,67,54,0.08)); display:flex; align-items:center; justify-content:center; font-size:1.3rem; flex-shrink:0; }
+    .food-name { font-size:0.88rem; font-weight:700; }
+    .food-tags { font-size:0.68rem; color:var(--text-muted); margin-top:2px; }
+    .food-price { font-weight:800; color:var(--accent); font-size:0.9rem; margin-left:auto; flex-shrink:0; }
+  </style>
+</head>
+<body class="user-body">
+
+  <header class="user-header">
+    <a href="dashboard.html" class="user-header-logo"><div class="logo-dot">🏨</div>TRACK<em>INN</em></a>
+    <div class="user-header-actions">
+      <a href="profile.html" class="user-avatar-btn">AM</a>
+    </div>
+  </header>
+
+  <div style="display:flex;flex:1;">
+    <nav class="user-sidebar">
+      <div style="padding:0 4px 16px;font-size:0.7rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:0.6px;">Menu</div>
+      <a href="dashboard.html" class="user-sidebar-item"><span class="user-sidebar-icon">🏠</span>Home</a>
+      <a href="search.html" class="user-sidebar-item"><span class="user-sidebar-icon">🔍</span>Search Hotels</a>
+      <a href="my-bookings.html" class="user-sidebar-item"><span class="user-sidebar-icon">📅</span>My Bookings</a>
+      <a href="rewards.html" class="user-sidebar-item"><span class="user-sidebar-icon">🎁</span>Rewards</a>
+      <a href="tourism.html" class="user-sidebar-item active"><span class="user-sidebar-icon">🗺️</span>Explore</a>
+      <a href="profile.html" class="user-sidebar-item"><span class="user-sidebar-icon">👤</span>Profile</a>
+    </nav>
+
+    <div class="user-page-area">
+      <div class="user-page">
+
+        <h1 style="font-size:1.2rem;font-weight:900;margin-bottom:4px;">🗺️ Tourism & Add-ons</h1>
+        <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:18px;">Explore, experience and enhance your stay</p>
+
+        <!-- Tabs -->
+        <div class="tabs-nav" style="margin-bottom:0;">
+          <button class="tab-btn active" onclick="switchTab('darshan')">🕌 Temple</button>
+          <button class="tab-btn" onclick="switchTab('cab')">🚗 Cab</button>
+          <button class="tab-btn" onclick="switchTab('tours')">🗺️ Tours</button>
+          <button class="tab-btn" onclick="switchTab('food')">🍽️ Food</button>
+        </div>
+
+        <!-- ===== TEMPLE DARSHAN ===== -->
+        <div id="tab-darshan" class="tab-panel active" style="padding-top:16px;">
+          <div style="margin-bottom:16px;">
+            <div class="section-title" style="margin-bottom:12px;">🕌 Select Temple</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
+              <div class="temple-card" onclick="selectTemple(this,'Kashi Vishwanath')">
+                <div class="temple-card-icon">🛕</div>
+                <div class="temple-card-name">Kashi Vishwanath</div>
+                <div class="temple-card-city">Varanasi, UP</div>
+              </div>
+              <div class="temple-card" onclick="selectTemple(this,'Dashashwamedh Ghat')">
+                <div class="temple-card-icon">🌊</div>
+                <div class="temple-card-name">Ganga Aarti</div>
+                <div class="temple-card-city">Dashashwamedh Ghat</div>
+              </div>
+              <div class="temple-card" onclick="selectTemple(this,'Sarnath Stupa')">
+                <div class="temple-card-icon">☸️</div>
+                <div class="temple-card-name">Sarnath Stupa</div>
+                <div class="temple-card-city">Sarnath, Varanasi</div>
+              </div>
+              <div class="temple-card" onclick="selectTemple(this,'Sankat Mochan')">
+                <div class="temple-card-icon">🐒</div>
+                <div class="temple-card-name">Sankat Mochan</div>
+                <div class="temple-card-city">Assi, Varanasi</div>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom:12px;">
+              <label class="form-label">📅 Select Date</label>
+              <input type="date" class="form-control" />
+            </div>
+
+            <div class="section-title" style="margin-bottom:8px;">⏰ Available Slots — <span id="selectedTemple" style="color:var(--accent);">Kashi Vishwanath</span></div>
+            <div class="slot-grid" style="margin-bottom:16px;">
+              <div class="slot-btn" onclick="selectSlot(this)">05:00 AM</div>
+              <div class="slot-btn" onclick="selectSlot(this)">06:30 AM</div>
+              <div class="slot-btn full">08:00 AM<br><span style="font-size:0.6rem;">Full</span></div>
+              <div class="slot-btn" onclick="selectSlot(this)">10:00 AM</div>
+              <div class="slot-btn" onclick="selectSlot(this)">12:00 PM</div>
+              <div class="slot-btn" onclick="selectSlot(this)">04:00 PM</div>
+              <div class="slot-btn full">06:00 PM<br><span style="font-size:0.6rem;">Full</span></div>
+              <div class="slot-btn" onclick="selectSlot(this)">07:30 PM</div>
+              <div class="slot-btn" onclick="selectSlot(this)">09:00 PM</div>
+            </div>
+
+            <div style="background:rgba(0,188,212,0.06);border:1px solid rgba(0,188,212,0.15);border-radius:var(--radius-md);padding:12px;margin-bottom:14px;">
+              <div style="font-size:0.82rem;font-weight:700;margin-bottom:4px;">🎁 FREE with your TrackPoints!</div>
+              <div style="font-size:0.74rem;color:var(--text-muted);">Use 200 TrackPoints for a VIP darshan slot. <span style="color:var(--accent);">1,240 pts available</span></div>
+            </div>
+            <button class="btn btn-primary w-full" style="justify-content:center;" onclick="showToast('🛕 Darshan slot booked! Check your email.')">Book Darshan Slot</button>
+          </div>
+        </div>
+
+        <!-- ===== CAB BOOKING ===== -->
+        <div id="tab-cab" class="tab-panel" style="padding-top:16px;">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
+            <div class="form-group" style="margin-bottom:0;"><label class="form-label">📍 Pickup</label><input class="form-control" placeholder="e.g. Hotel / Airport" /></div>
+            <div class="form-group" style="margin-bottom:0;"><label class="form-label">🎯 Drop</label><input class="form-control" placeholder="e.g. Railway Station" /></div>
+            <div class="form-group" style="margin-bottom:0;"><label class="form-label">📅 Date & Time</label><input type="datetime-local" class="form-control" /></div>
+            <div class="form-group" style="margin-bottom:0;"><label class="form-label">👤 Passengers</label>
+              <select class="form-control"><option>1</option><option>2</option><option>3</option><option>4</option><option>5+</option></select>
+            </div>
+          </div>
+
+          <div class="section-title" style="margin-bottom:12px;">🚗 Available Cabs</div>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
+            <div class="cab-option">
+              <div class="cab-icon">🚕</div>
+              <div><div class="cab-name">Economy — Hatchback</div><div class="cab-desc">AC · Max 4 passengers · Swift / Alto</div></div>
+              <div class="cab-price">₹249<small style="font-size:0.65rem;font-weight:400;color:var(--text-muted);display:block;">est.</small></div>
+              <button class="btn btn-outline btn-sm" style="margin-left:8px;" onclick="showToast('🚕 Cab booked! ETA 8 mins')">Book</button>
+            </div>
+            <div class="cab-option" style="border-color:rgba(0,188,212,0.3);">
+              <div class="cab-icon">🚗</div>
+              <div><div class="cab-name">Comfort — Sedan</div><div class="cab-desc">AC · Max 4 passengers · Dzire / Aspire</div></div>
+              <div class="cab-price">₹389<small style="font-size:0.65rem;font-weight:400;color:var(--text-muted);display:block;">est.</small></div>
+              <button class="btn btn-primary btn-sm" style="margin-left:8px;" onclick="showToast('🚗 Premium cab booked!')">Book</button>
+            </div>
+            <div class="cab-option">
+              <div class="cab-icon">🚙</div>
+              <div><div class="cab-name">Prime SUV</div><div class="cab-desc">AC · Max 6 passengers · Innova / Ertiga</div></div>
+              <div class="cab-price">₹649<small style="font-size:0.65rem;font-weight:400;color:var(--text-muted);display:block;">est.</small></div>
+              <button class="btn btn-outline btn-sm" style="margin-left:8px;" onclick="showToast('🚙 SUV booked!')">Book</button>
+            </div>
+            <div class="cab-option">
+              <div class="cab-icon">🚌</div>
+              <div><div class="cab-name">Tempo Traveller (Party / Group)</div><div class="cab-desc">AC · Max 12 passengers</div></div>
+              <div class="cab-price">₹1,299<small style="font-size:0.65rem;font-weight:400;color:var(--text-muted);display:block;">est.</small></div>
+              <button class="btn btn-outline btn-sm" style="margin-left:8px;" onclick="showToast('🚌 Group cab booked!')">Book</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== LOCAL TOURS ===== -->
+        <div id="tab-tours" class="tab-panel" style="padding-top:16px;">
+          <div class="chips-strip" style="margin-bottom:14px;">
+            <div class="chip active" onclick="toggleChip(this)">🌟 All</div>
+            <div class="chip" onclick="toggleChip(this)">🛕 Spiritual</div>
+            <div class="chip" onclick="toggleChip(this)">🏛️ Heritage</div>
+            <div class="chip" onclick="toggleChip(this)">🌊 River</div>
+            <div class="chip" onclick="toggleChip(this)">🍽️ Food Walk</div>
+            <div class="chip" onclick="toggleChip(this)">🌅 Sunrise</div>
+          </div>
+          <div class="hotel-cards-grid">
+            <div class="tour-card" onclick="openModal('tourDetailModal')">
+              <div class="tour-img">🛕</div>
+              <div class="tour-body">
+                <div style="font-size:0.92rem;font-weight:700;margin-bottom:3px;">Varanasi Ghat Heritage Walk</div>
+                <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:8px;">⏱ 3 hrs · 📍 Varanasi · ★ 4.8</div>
+                <div style="display:flex;align-items:center;justify-content:space-between;"><span style="font-size:1rem;font-weight:800;color:var(--accent);">₹599/person</span><button class="btn btn-primary btn-sm">Book</button></div>
+              </div>
+            </div>
+            <div class="tour-card" onclick="openModal('tourDetailModal')">
+              <div class="tour-img">🌅</div>
+              <div class="tour-body">
+                <div style="font-size:0.92rem;font-weight:700;margin-bottom:3px;">Sunrise Boat Ride on Ganga</div>
+                <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:8px;">⏱ 1.5 hrs · 📍 Dashashwamedh · ★ 4.9</div>
+                <div style="display:flex;align-items:center;justify-content:space-between;"><span style="font-size:1rem;font-weight:800;color:var(--accent);">₹349/person</span><button class="btn btn-primary btn-sm">Book</button></div>
+              </div>
+            </div>
+            <div class="tour-card" onclick="openModal('tourDetailModal')">
+              <div class="tour-img">🍵</div>
+              <div class="tour-body">
+                <div style="font-size:0.92rem;font-weight:700;margin-bottom:3px;">Banarasi Food Walk</div>
+                <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:8px;">⏱ 2 hrs · 📍 Godowlia · ★ 4.7</div>
+                <div style="display:flex;align-items:center;justify-content:space-between;"><span style="font-size:1rem;font-weight:800;color:var(--accent);">₹449/person</span><button class="btn btn-primary btn-sm">Book</button></div>
+              </div>
+            </div>
+            <div class="tour-card" onclick="openModal('tourDetailModal')">
+              <div class="tour-img">🏛️</div>
+              <div class="tour-body">
+                <div style="font-size:0.92rem;font-weight:700;margin-bottom:3px;">Sarnath Buddhist Circuit</div>
+                <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:8px;">⏱ 4 hrs · 📍 Sarnath · ★ 4.6</div>
+                <div style="display:flex;align-items:center;justify-content:space-between;"><span style="font-size:1rem;font-weight:800;color:var(--accent);">₹799/person</span><button class="btn btn-primary btn-sm">Book</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== FOOD DELIVERY ===== -->
+        <div id="tab-food" class="tab-panel" style="padding-top:16px;">
+          <div style="background:rgba(255,111,0,0.06);border:1px solid rgba(255,111,0,0.2);border-radius:var(--radius-md);padding:12px 14px;margin-bottom:14px;font-size:0.82rem;">
+            🍽️ Ordering from <strong>The Taj Residency Kitchen</strong> · Delivers to Room 204 in ~30 min
+          </div>
+          <div class="chips-strip" style="margin-bottom:12px;">
+            <div class="chip active" onclick="toggleChip(this)">🌟 All</div>
+            <div class="chip" onclick="toggleChip(this)">🥗 Veg</div>
+            <div class="chip" onclick="toggleChip(this)">🍗 Non-Veg</div>
+            <div class="chip" onclick="toggleChip(this)">🍜 Breakfast</div>
+            <div class="chip" onclick="toggleChip(this)">🍛 Lunch / Dinner</div>
+            <div class="chip" onclick="toggleChip(this)">☕ Beverages</div>
+          </div>
+          <div style="background:var(--bg-card2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:4px 16px;margin-bottom:16px;">
+            <div class="food-item">
+              <div class="food-icon">🥗</div>
+              <div style="flex:1;"><div class="food-name">Banarasi Thali (Veg)</div><div class="food-tags">Veg · Dal, Sabzi, 4 Rotis, Rice, Dessert</div></div>
+              <div class="food-price">₹285</div>
+              <button class="btn btn-primary btn-sm" style="margin-left:8px;" onclick="showToast('🛒 Added to cart!')">+</button>
+            </div>
+            <div class="food-item">
+              <div class="food-icon">🍗</div>
+              <div style="flex:1;"><div class="food-name">Tandoori Platter</div><div class="food-tags">Non-Veg · Chicken Tikka, Seekh, Mint Chutney</div></div>
+              <div class="food-price">₹420</div>
+              <button class="btn btn-primary btn-sm" style="margin-left:8px;" onclick="showToast('🛒 Added to cart!')">+</button>
+            </div>
+            <div class="food-item">
+              <div class="food-icon">🥐</div>
+              <div style="flex:1;"><div class="food-name">Continental Breakfast</div><div class="food-tags">Veg · Toast, Eggs, Juice, Tea/Coffee</div></div>
+              <div class="food-price">₹180</div>
+              <button class="btn btn-primary btn-sm" style="margin-left:8px;" onclick="showToast('🛒 Added to cart!')">+</button>
+            </div>
+            <div class="food-item">
+              <div class="food-icon">🍵</div>
+              <div style="flex:1;"><div class="food-name">Masala Chai + Kachori</div><div class="food-tags">Veg · Authentic Banarasi snack</div></div>
+              <div class="food-price">₹75</div>
+              <button class="btn btn-primary btn-sm" style="margin-left:8px;" onclick="showToast('🛒 Added to cart!')">+</button>
+            </div>
+            <div class="food-item" style="border:none;">
+              <div class="food-icon">🍦</div>
+              <div style="flex:1;"><div class="food-name">Malaiyo (Seasonal Dessert)</div><div class="food-tags">Veg · Winter specialty · Limited availability</div></div>
+              <div class="food-price">₹120</div>
+              <button class="btn btn-primary btn-sm" style="margin-left:8px;" onclick="showToast('🛒 Added to cart!')">+</button>
+            </div>
+          </div>
+          <button class="btn btn-primary w-full" style="justify-content:center;" onclick="showToast('🍽️ Order placed! Delivered in ~30 mins')">🛒 View Cart & Checkout</button>
+        </div>
+
+        <div style="height:20px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <nav class="bottom-nav">
+    <a href="dashboard.html" class="bnav-item"><span class="bnav-icon">🏠</span><span class="bnav-label">Home</span></a>
+    <a href="search.html" class="bnav-item"><span class="bnav-icon">🔍</span><span class="bnav-label">Search</span></a>
+    <a href="my-bookings.html" class="bnav-item"><span class="bnav-icon">📅</span><span class="bnav-label">Bookings</span></a>
+    <a href="rewards.html" class="bnav-item"><span class="bnav-icon">🎁</span><span class="bnav-label">Rewards</span></a>
+    <a href="profile.html" class="bnav-item"><span class="bnav-icon">👤</span><span class="bnav-label">Profile</span></a>
+  </nav>
+
+  <!-- Tour Detail Modal -->
+  <div class="modal-overlay" id="tourDetailModal">
+    <div class="modal" style="max-width:420px;">
+      <div class="modal-header"><h4>🛕 Varanasi Ghat Heritage Walk</h4><button class="modal-close" onclick="closeModal('tourDetailModal')">✕</button></div>
+      <div style="background:linear-gradient(135deg,rgba(0,188,212,0.1),rgba(124,77,255,0.08));border-radius:10px;padding:20px;text-align:center;font-size:2.5rem;margin-bottom:12px;">🛕</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">
+        <div style="background:var(--bg-input);border-radius:8px;padding:10px;text-align:center;"><div style="font-size:0.65rem;color:var(--text-muted);">DURATION</div><div style="font-weight:700;margin-top:2px;">3 Hours</div></div>
+        <div style="background:var(--bg-input);border-radius:8px;padding:10px;text-align:center;"><div style="font-size:0.65rem;color:var(--text-muted);">GROUP SIZE</div><div style="font-weight:700;margin-top:2px;">Max 12</div></div>
+        <div style="background:var(--bg-input);border-radius:8px;padding:10px;text-align:center;"><div style="font-size:0.65rem;color:var(--text-muted);">RATING</div><div style="font-weight:700;margin-top:2px;">⭐ 4.8</div></div>
+        <div style="background:var(--bg-input);border-radius:8px;padding:10px;text-align:center;"><div style="font-size:0.65rem;color:var(--text-muted);">PRICE</div><div style="font-weight:700;color:var(--accent);margin-top:2px;">₹599/person</div></div>
+      </div>
+      <p style="font-size:0.82rem;color:var(--text-secondary);margin-bottom:14px;">Walk through the ancient ghats of Varanasi with an expert guide. Visit Dashashwamedh, Manikarnika, and Assi Ghat. Includes photography stops, cultural commentary and evening Aarti.</p>
+      <div class="form-group"><label class="form-label">Select Date</label><input type="date" class="form-control" /></div>
+      <div class="form-group"><label class="form-label">Number of People</label>
+        <select class="form-control"><option>1</option><option>2</option><option>3</option><option>4</option><option>5+</option></select>
+      </div>
+      <button class="btn btn-primary w-full" style="justify-content:center;" onclick="closeModal('tourDetailModal');showToast('🗺️ Tour booked! Check your email.')">Confirm Booking — ₹599/person</button>
+    </div>
+  </div>
+
+  <script src="../assets/js/user.js"></script>
+  <script>
+    let selectedTemple = 'Kashi Vishwanath';
+    function selectTemple(el, name) {
+      document.querySelectorAll('.temple-card').forEach(c => c.style.borderColor = '');
+      el.style.borderColor = 'rgba(255,111,0,0.6)';
+      selectedTemple = name;
+      document.getElementById('selectedTemple').textContent = name;
+    }
+    function selectSlot(el) {
+      document.querySelectorAll('.slot-btn:not(.full)').forEach(b => b.classList.remove('selected'));
+      el.classList.add('selected');
+    }
+  </script>
+</body>
+</html>

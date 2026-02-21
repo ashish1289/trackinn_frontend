@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>The Taj Residency — TRACKINN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/main.css" />
+  <link rel="stylesheet" href="../assets/css/user.css" />
+  <style>
+    .rating-breakdown { display:flex; flex-direction:column; gap:6px; }
+    .rb-row { display:flex; align-items:center; gap:8px; font-size:0.78rem; }
+    .rb-label { width:70px; color:var(--text-muted); }
+    .rb-bar { flex:1; height:5px; background:var(--bg-input); border-radius:999px; overflow:hidden; }
+    .rb-fill { height:100%; background:linear-gradient(90deg,var(--accent),#ffc107); border-radius:999px; }
+    .rb-val { width:26px; text-align:right; font-weight:700; }
+    .avail-strip { display:flex; gap:6px; overflow-x:auto; padding-bottom:4px; }
+    .avail-day { display:flex; flex-direction:column; align-items:center; gap:4px; flex-shrink:0; }
+    .avail-dot { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.65rem; font-weight:700; border:1px solid var(--border); }
+    .avail-dot.avail { background:rgba(0,200,83,0.15); border-color:rgba(0,200,83,0.4); color:var(--success); }
+    .avail-dot.partial { background:rgba(255,111,0,0.15); border-color:rgba(255,111,0,0.4); color:var(--warning); }
+    .avail-dot.full { background:rgba(244,67,54,0.1); border-color:rgba(244,67,54,0.3); color:var(--danger); }
+    .avail-label { font-size:0.6rem; color:var(--text-muted); }
+    .safety-bar { display:flex; flex-direction:column; gap:6px; }
+    .safety-item { display:flex; align-items:center; gap:8px; font-size:0.8rem; }
+    .safety-icon { width:28px; text-align:center; }
+  </style>
+</head>
+<body class="user-body" style="padding-bottom:120px;">
+
+  <header class="user-header">
+    <a href="dashboard.html" class="user-header-logo">
+      <div class="logo-dot">🏨</div>TRACK<em>INN</em>
+    </a>
+    <div class="user-header-actions">
+      <button class="user-icon-btn" onclick="showToast('❤️ Saved to Wishlist!')">❤️</button>
+      <button class="user-icon-btn" onclick="showToast('🔗 Link copied!')">🔗</button>
+      <a href="profile.html" class="user-avatar-btn">AM</a>
+    </div>
+  </header>
+
+  <div style="display:flex;flex:1;">
+    <nav class="user-sidebar">
+      <div style="padding:0 4px 16px;font-size:0.7rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:0.6px;">Menu</div>
+      <a href="dashboard.html" class="user-sidebar-item"><span class="user-sidebar-icon">🏠</span>Home</a>
+      <a href="search.html" class="user-sidebar-item active"><span class="user-sidebar-icon">🔍</span>Search Hotels</a>
+      <a href="my-bookings.html" class="user-sidebar-item"><span class="user-sidebar-icon">📅</span>My Bookings</a>
+      <a href="rewards.html" class="user-sidebar-item"><span class="user-sidebar-icon">🎁</span>Rewards</a>
+      <a href="tourism.html" class="user-sidebar-item"><span class="user-sidebar-icon">🗺️</span>Explore</a>
+      <a href="profile.html" class="user-sidebar-item"><span class="user-sidebar-icon">👤</span>Profile</a>
+    </nav>
+
+    <div class="user-page-area">
+      <div class="user-page" style="padding-bottom:0;">
+
+        <!-- Photo Gallery -->
+        <div class="photo-strip" style="margin-bottom:16px;">
+          <div class="photo-thumb" style="width:260px;height:170px;">🛕</div>
+          <div class="photo-thumb">🛏</div>
+          <div class="photo-thumb">🏊</div>
+          <div class="photo-thumb">🍽️</div>
+          <div class="photo-thumb">🌅</div>
+          <div class="photo-thumb">🛁</div>
+        </div>
+
+        <!-- Hotel Info -->
+        <div style="margin-bottom:16px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap;">
+            <div>
+              <h1 style="font-size:1.3rem;font-weight:900;margin-bottom:4px;">The Taj Residency Varanasi</h1>
+              <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:8px;">📍 Godowlia Chowk, Varanasi · 0.3km from Dashashwamedh Ghat</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;background:rgba(255,193,7,0.12);padding:8px 14px;border-radius:var(--radius-full);flex-shrink:0;">
+              <span style="font-size:1.2rem;">⭐</span>
+              <span style="font-size:1.1rem;font-weight:900;color:#ffc107;">4.5</span>
+              <span style="font-size:0.72rem;color:var(--text-muted);">(142 reviews)</span>
+            </div>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            <span class="badge badge-success">🛡 Sarai Verified</span>
+            <span class="badge badge-info">🕌 Temple Tourism Hotel</span>
+            <span class="badge badge-success">✅ Govt. of UP Approved</span>
+            <span class="badge badge-warning">🔒 Safety Rating: 9.2/10</span>
+          </div>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <!-- Amenities -->
+        <div style="margin-bottom:16px;">
+          <div class="section-title">✨ Amenities</div>
+          <div class="chips-strip" style="flex-wrap:wrap;">
+            <span class="chip">📶 Free WiFi</span>
+            <span class="chip">❄️ AC Rooms</span>
+            <span class="chip">🅿️ Parking</span>
+            <span class="chip">🍳 Breakfast</span>
+            <span class="chip">📺 Smart TV</span>
+            <span class="chip">🧺 Laundry</span>
+            <span class="chip">🏥 24h Front Desk</span>
+            <span class="chip">♿ Accessible</span>
+          </div>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <!-- Live Availability -->
+        <div style="margin-bottom:16px;">
+          <div class="section-title">📅 Live Availability</div>
+          <div class="avail-strip">
+            <div class="avail-day"><div class="avail-dot avail">19</div><div class="avail-label">Fri</div></div>
+            <div class="avail-day"><div class="avail-dot avail">20</div><div class="avail-label">Sat</div></div>
+            <div class="avail-day"><div class="avail-dot avail">21</div><div class="avail-label">Sun</div></div>
+            <div class="avail-day"><div class="avail-dot partial">22</div><div class="avail-label">Mon</div></div>
+            <div class="avail-day"><div class="avail-dot avail">23</div><div class="avail-label">Tue</div></div>
+            <div class="avail-day"><div class="avail-dot avail">24</div><div class="avail-label">Wed</div></div>
+            <div class="avail-day"><div class="avail-dot full">25</div><div class="avail-label">Thu</div></div>
+            <div class="avail-day"><div class="avail-dot full">26</div><div class="avail-label">Fri</div></div>
+            <div class="avail-day"><div class="avail-dot avail">27</div><div class="avail-label">Sat</div></div>
+            <div class="avail-day"><div class="avail-dot avail">28</div><div class="avail-label">Sun</div></div>
+          </div>
+          <div style="display:flex;gap:12px;margin-top:10px;font-size:0.68rem;color:var(--text-muted);">
+            <span><span style="color:var(--success);">●</span> Available</span>
+            <span><span style="color:var(--warning);">●</span> Limited</span>
+            <span><span style="color:var(--danger);">●</span> Full</span>
+          </div>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <!-- Room Types -->
+        <div style="margin-bottom:16px;">
+          <div class="section-title">🛏 Room Types</div>
+          <div style="display:grid;grid-template-columns:1fr;gap:12px;">
+
+            <div class="room-type-card">
+              <div class="room-type-img">🛏</div>
+              <div class="room-type-body">
+                <div class="room-type-name">Standard AC Room</div>
+                <div class="room-amenities">
+                  <span class="amenity-chip">Max 2 guests</span>
+                  <span class="amenity-chip">❄️ AC</span>
+                  <span class="amenity-chip">📶 WiFi</span>
+                  <span class="amenity-chip">🚿 Private Bath</span>
+                </div>
+                <div class="room-type-footer">
+                  <div><span style="font-size:1.1rem;font-weight:800;color:var(--accent);">₹1,800</span><span style="font-size:0.72rem;color:var(--text-muted);">/night + taxes</span></div>
+                  <button class="btn btn-primary btn-sm" onclick="window.location='booking.html'">Book Now</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="room-type-card" style="border-color:rgba(0,188,212,0.3);background:rgba(0,188,212,0.03);">
+              <div class="room-type-img">👑</div>
+              <div class="room-type-body">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;"><div class="room-type-name">Deluxe River View</div><span class="badge badge-warning" style="font-size:0.62rem;">Best Value</span></div>
+                <div class="room-amenities">
+                  <span class="amenity-chip">Max 3 guests</span>
+                  <span class="amenity-chip">🌊 River View</span>
+                  <span class="amenity-chip">🍳 Breakfast</span>
+                  <span class="amenity-chip">❄️ AC</span>
+                  <span class="amenity-chip">📺 Smart TV</span>
+                </div>
+                <div class="room-type-footer">
+                  <div><span style="font-size:1.1rem;font-weight:800;color:var(--accent);">₹2,800</span><span style="font-size:0.72rem;color:var(--text-muted);">/night + taxes</span></div>
+                  <button class="btn btn-primary btn-sm" onclick="window.location='booking.html'">Book Now</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="room-type-card">
+              <div class="room-type-img">🏰</div>
+              <div class="room-type-body">
+                <div class="room-type-name">Heritage Suite</div>
+                <div class="room-amenities">
+                  <span class="amenity-chip">Max 4 guests</span>
+                  <span class="amenity-chip">🛁 Jacuzzi</span>
+                  <span class="amenity-chip">🍳 Breakfast</span>
+                  <span class="amenity-chip">🅿️ Parking</span>
+                </div>
+                <div class="room-type-footer">
+                  <div><span style="font-size:1.1rem;font-weight:800;color:var(--accent);">₹4,500</span><span style="font-size:0.72rem;color:var(--text-muted);">/night + taxes</span></div>
+                  <button class="btn btn-primary btn-sm" onclick="window.location='booking.html'">Book Now</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <!-- Safety Rating -->
+        <div style="margin-bottom:16px;">
+          <div class="section-title">🔒 Safety & Compliance</div>
+          <div class="safety-bar">
+            <div class="safety-item"><span class="safety-icon">🛡</span><span>Sarai Registration — Verified</span><span class="badge badge-success" style="margin-left:auto;">✓</span></div>
+            <div class="safety-item"><span class="safety-icon">✅</span><span>Govt. of UP Approved</span><span class="badge badge-success" style="margin-left:auto;">✓</span></div>
+            <div class="safety-item"><span class="safety-icon">🔒</span><span>Safety Score: 9.2 / 10</span><span class="badge badge-warning" style="margin-left:auto;">Excellent</span></div>
+            <div class="safety-item"><span class="safety-icon">🧯</span><span>Fire Safety Compliant</span><span class="badge badge-success" style="margin-left:auto;">✓</span></div>
+            <div class="safety-item"><span class="safety-icon">🚑</span><span>24h Medical Helpline</span><span class="badge badge-info" style="margin-left:auto;">Available</span></div>
+          </div>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <!-- Reviews -->
+        <div style="margin-bottom:16px;">
+          <div class="section-title">⭐ Guest Reviews <a href="#">See all 142</a></div>
+          <div style="display:flex;align-items:flex-start;gap:20px;margin-bottom:16px;flex-wrap:wrap;">
+            <div style="text-align:center;flex-shrink:0;">
+              <div style="font-size:3rem;font-weight:900;color:#ffc107;line-height:1;">4.5</div>
+              <div style="font-size:0.75rem;color:var(--text-muted);">out of 5</div>
+              <div style="font-size:1.2rem;margin-top:4px;">⭐⭐⭐⭐⭐</div>
+            </div>
+            <div class="rating-breakdown" style="flex:1;min-width:200px;">
+              <div class="rb-row"><div class="rb-label">Cleanliness</div><div class="rb-bar"><div class="rb-fill" style="width:92%;"></div></div><div class="rb-val">4.6</div></div>
+              <div class="rb-row"><div class="rb-label">Location</div><div class="rb-bar"><div class="rb-fill" style="width:98%;"></div></div><div class="rb-val">4.9</div></div>
+              <div class="rb-row"><div class="rb-label">Service</div><div class="rb-bar"><div class="rb-fill" style="width:88%;"></div></div><div class="rb-val">4.4</div></div>
+              <div class="rb-row"><div class="rb-label">Value</div><div class="rb-bar"><div class="rb-fill" style="width:84%;"></div></div><div class="rb-val">4.2</div></div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div class="review-card">
+              <div class="review-header">
+                <div class="reviewer-info">
+                  <div class="reviewer-avatar">PK</div>
+                  <div><div style="font-size:0.85rem;font-weight:700;">Priya K.</div><div style="font-size:0.7rem;color:var(--text-muted);">Feb 2026</div></div>
+                </div>
+                <div style="color:#ffc107;font-size:0.9rem;">★★★★★</div>
+              </div>
+              <p class="review-text">"Excellent location, just a 5-min walk to the Ghats. Clean rooms and very helpful staff. Will definitely revisit!"</p>
+            </div>
+            <div class="review-card">
+              <div class="review-header">
+                <div class="reviewer-info">
+                  <div class="reviewer-avatar" style="background:linear-gradient(135deg,#ff6f00,#f44336);">RS</div>
+                  <div><div style="font-size:0.85rem;font-weight:700;">Rohit S.</div><div style="font-size:0.7rem;color:var(--text-muted);">Jan 2026</div></div>
+                </div>
+                <div style="color:#ffc107;font-size:0.9rem;">★★★★☆</div>
+              </div>
+              <p class="review-text">"Good hotel for pilgrimage. Sarai compliance is a plus — felt safe. Food was decent but breakfast could be better."</p>
+            </div>
+          </div>
+        </div>
+
+        <div style="height:80px;"></div><!-- Sticky CTA spacing -->
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Sticky CTA -->
+  <div class="sticky-cta">
+    <div>
+      <div class="sticky-cta-price">₹1,800<small>per night + taxes</small></div>
+    </div>
+    <button class="btn btn-primary" style="font-size:1rem;padding:12px 28px;" onclick="window.location='booking.html'">🛏 Book Now</button>
+  </div>
+
+  <script src="../assets/js/user.js"></script>
+</body>
+</html>

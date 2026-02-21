@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Team Monitor — Super Admin</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <aside class="sidebar sidebar-admin">
+        <a href="../index.html" class="sidebar-logo">
+            <div class="slogo-icon"><i class="fas fa-shield-halved"></i></div>
+            <div class="slogo-text">TRACKINN<em>.</em> <small class="slogo-sub">ADMIN PANEL</small></div>
+        </a>
+        <div class="hotel-badge">
+            <div class="hotel-badge-avatar">HQ</div>
+            <div class="hotel-badge-info"><div class="hotel-badge-name">Corporate HQ</div><div class="hotel-badge-plan">Central Control</div></div>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section-label">Main Business</div>
+            <a href="dashboard.html" class="nav-item"><div class="nav-icon"><i class="fas fa-chart-pie"></i></div><div class="nav-label">Master Dashboard</div></a>
+            <a href="hotels.html" class="nav-item"><div class="nav-icon"><i class="fas fa-hotel"></i></div><div class="nav-label">Manage Hotels</div></a>
+            <a href="users.html" class="nav-item"><div class="nav-icon"><i class="fas fa-users"></i></div><div class="nav-label">Manage Travellers</div></a>
+            
+            <div class="nav-section-label">Finance</div>
+            <a href="commissions.html" class="nav-item"><div class="nav-icon"><i class="fas fa-coins"></i></div><div class="nav-label">Commission Engine</div></a>
+
+            <div class="nav-section-label">Intelligence</div>
+            <a href="intelligence.html" class="nav-item"><div class="nav-icon"><i class="fas fa-brain"></i></div><div class="nav-label">Data Intelligence</div></a>
+            <a href="compliance.html" class="nav-item"><div class="nav-icon"><i class="fas fa-file-contract"></i></div><div class="nav-label">Compliance & Risk</div></a>
+
+            <div class="nav-section-label">Operations</div>
+            <a href="sales-team.html" class="nav-item active"><div class="nav-icon"><i class="fas fa-briefcase"></i></div><div class="nav-label">Sales Team</div></a>
+            <a href="support.html" class="nav-item"><div class="nav-icon"><i class="fas fa-headset"></i></div><div class="nav-label">Support Desk</div></a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button class="sidebar-toggle">
+                <i class="fas fa-angle-left toggle-icon"></i>
+                <span>Collapse Sidebar</span>
+            </button>
+        </div>
+    </aside>
+
+    <div class="sidebar-overlay"></div>
+
+    <main class="main-content">
+        <header class="topbar">
+            <button class="topbar-mobile-menu"><i class="fas fa-bars"></i></button>
+            <div class="topbar-title">Sales Performance <span>Track agents and targets</span></div>
+            <div class="topbar-actions">
+                <div class="topbar-date">February 20, 2026</div>
+                <div class="topbar-profile"><div class="profile-avatar">S</div><div class="profile-info"><strong>Super Admin</strong></div></div>
+            </div>
+        </header>
+
+        <div class="page-wrapper">
+             <!-- KPIs -->
+             <div class="admin-overview-grid mb-3" style="grid-template-columns: repeat(4, 1fr);">
+                <div class="kpi-card kpi-blue"><div class="kpi-label">Total Agents</div><div class="kpi-value">24</div></div>
+                <div class="kpi-card kpi-green"><div class="kpi-label">Onboarding (MTD)</div><div class="kpi-value">42 Hotels</div></div>
+                <div class="kpi-card kpi-purple"><div class="kpi-label">Total Commission</div><div class="kpi-value">₹8.4 L</div></div>
+                <div class="kpi-card kpi-orange"><div class="kpi-label">Top Performer</div><div class="kpi-value">Arun K.</div></div>
+            </div>
+
+            <!-- Leaderboard & Grid -->
+            <div class="charts-grid" style="grid-template-columns: 2fr 1fr;">
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h4>Sales Agents List</h4>
+                        <button class="btn btn-sm btn-primary">Add New Agent</button>
+                    </div>
+                    <table class="table" style="width:100%; text-align:left;">
+                        <thead style="border-bottom:1px solid var(--border); color:var(--text-muted);">
+                            <tr>
+                                <th style="padding:12px;">Agent Name</th>
+                                <th>Zone</th>
+                                <th>Onboarded</th>
+                                <th>Commission</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-bottom:1px solid var(--border);">
+                                <td style="padding:12px; font-weight:600;">Arun Kumar</td>
+                                <td>South (Bangalore)</td>
+                                <td>15</td>
+                                <td style="color:var(--success);">₹45,000</td>
+                                <td><span class="badge badge-success">Active</span></td>
+                                <td><button class="btn btn-sm btn-ghost">View</button></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid var(--border);">
+                                <td style="padding:12px; font-weight:600;">Sneha Gupta</td>
+                                <td>North (Delhi)</td>
+                                <td>12</td>
+                                <td style="color:var(--success);">₹38,500</td>
+                                <td><span class="badge badge-success">Active</span></td>
+                                <td><button class="btn btn-sm btn-ghost">View</button></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid var(--border);">
+                                <td style="padding:12px; font-weight:600;">Vijay Singh</td>
+                                <td>West (Mumbai)</td>
+                                <td>8</td>
+                                <td style="color:var(--success);">₹22,000</td>
+                                <td><span class="badge badge-warning">On Leave</span></td>
+                                <td><button class="btn btn-sm btn-ghost">View</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-header"><h4>Simulate Incentive Payout</h4></div>
+                    <div style="padding:10px 0;">
+                        <div class="form-group">
+                            <label class="form-label">Select Agent</label>
+                            <select class="form-control"><option>Arun Kumar</option><option>Sneha Gupta</option></select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Bonus Amount (₹)</label>
+                            <input type="number" class="form-control" value="5000">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Reason</label>
+                            <input type="text" class="form-control" value="Q1 High Performer">
+                        </div>
+                        <button class="btn btn-success" style="width:100%; margin-top:10px;">Process Payout</button>
+                    </div>
+                    <hr style="border-color:var(--border); margin:20px 0;">
+                    <div class="chart-header"><h4>Pending Approvals</h4></div>
+                    <div class="alert-item" style="padding:10px; background:var(--bg-input); border-radius:8px; display:flex; gap:10px; align-items:center;">
+                        <div style="width:30px; height:30px; background:rgba(255,152,0,0.2); color:var(--warning); border-radius:50%; display:flex; align-items:center; justify-content:center;"><i class="fas fa-clock"></i></div>
+                        <div>
+                            <div style="font-size:0.85rem; font-weight:600;">Expense Claim #EXP-092</div>
+                            <div style="font-size:0.75rem; color:var(--text-muted);">₹2,500 (Travel) - Vijay Singh</div>
+                        </div>
+                        <button class="btn btn-sm btn-outline" style="margin-left:auto;">Approve</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="../assets/js/admin.js"></script>
+</body>
+</html>

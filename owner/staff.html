@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<script>
+  // Role-Based View Logic
+  const role = localStorage.getItem('userRole');
+  document.addEventListener("DOMContentLoaded", () => {
+    if(role && role !== 'manager') {
+       // Hide Admin actions for staff
+       const addBtn = document.querySelector('.page-header-actions .btn-primary');
+       if(addBtn) addBtn.style.display = 'none';
+       
+       // Hide edit buttons
+       document.querySelectorAll('.btn-outline').forEach(btn => btn.style.display = 'none');
+       
+       // Hide Assign buttons in tabs
+       const assignShift = document.querySelector("button[onclick*='assignShiftModal']");
+       if(assignShift) assignShift.style.display = 'none';
+       
+       const assignTask = document.querySelector("button[onclick*='addTaskModal']");
+       if(assignTask) assignTask.style.display = 'none';
+    }
+  });
+</script>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Staff Management — TRACKINN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/main.css" />
+  <link rel="stylesheet" href="../assets/css/dashboard.css" />
+  <style>
+    .staff-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-top: 20px; }
+    .staff-card { background: var(--bg-card2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; position: relative; overflow: hidden; transition: var(--transition); }
+    .staff-card:hover { border-color: var(--border-accent); transform: translateY(-2px); }
+    .staff-role-badge { position: absolute; top: 16px; right: 16px; font-size: 0.7rem; font-weight: 700; padding: 4px 10px; border-radius: var(--radius-full); }
+    .role-manager { background: rgba(0,188,212,0.15); color: #00bcd4; border: 1px solid rgba(0,188,212,0.3); }
+    .role-hk { background: rgba(255,193,7,0.15); color: #ffab00; border: 1px solid rgba(255,193,7,0.3); }
+    .role-reception { background: rgba(124,77,255,0.15); color: #7c4dff; border: 1px solid rgba(124,77,255,0.3); }
+    .role-billing { background: rgba(255,87,34,0.15); color: #ff5722; border: 1px solid rgba(255,87,34,0.3); }
+    
+    .staff-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .staff-avatar { width: 48px; height: 48px; border-radius: 12px; background: var(--bg-input); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 700; color: var(--text-muted); }
+    .staff-name { font-size: 1rem; font-weight: 700; }
+    .staff-id { font-size: 0.75rem; color: var(--text-muted); }
+    
+    .credential-box { background: rgba(0,0,0,0.2); border-radius: 8px; padding: 10px 12px; margin-top: 12px; display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; }
+    .pass-dots { letter-spacing: 2px; color: var(--text-muted); }
+    
+    .status-active { width: 8px; height: 8px; border-radius: 50%; background: var(--success); display: inline-block; margin-right: 6px; }
+  </style>
+</head>
+<body>
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeMobileSidebar()"></div>
+  <aside class="sidebar" id="sidebar">
+    <a href="dashboard.html" class="sidebar-logo"><div class="slogo-icon">🏨</div><div class="slogo-text">TRACK<em>INN<span class="slogo-sub">Hotel Manager</span></em></div></a>
+    <div class="hotel-badge"><div class="hotel-badge-avatar">🏢</div><div class="hotel-badge-info"><div class="hotel-badge-name">Grand Palace Hotel</div><div class="hotel-badge-plan">⭐ Growth Plan</div></div></div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Overview</div>
+      <a href="dashboard.html" class="nav-item"><span class="nav-icon">📊</span><span class="nav-label">Dashboard</span></a>
+      <div class="nav-section-label">Operations</div>
+      <a href="checkin.html" class="nav-item"><span class="nav-icon">🛎</span><span class="nav-label">Check-in / Check-out</span></a>
+      <a href="rooms.html" class="nav-item"><span class="nav-icon">🛏</span><span class="nav-label">Room Management</span></a>
+      <a href="room-detail.html" class="nav-item" data-tooltip="All Rooms (Grid & Detail)"><span class="nav-icon">🔍</span><span class="nav-label">All Rooms (Live View)</span></a>
+      <a href="bookings.html" class="nav-item"><span class="nav-icon">📅</span><span class="nav-label">Bookings</span><span class="nav-badge">3</span></a>
+      <div class="nav-section-label">Finance</div>
+      <a href="billing.html" class="nav-item"><span class="nav-icon">💳</span><span class="nav-label">Billing & Accounting</span></a>
+      <div class="nav-section-label">Team</div>
+      <a href="staff.html" class="nav-item active"><span class="nav-icon">👥</span><span class="nav-label">Staff Management</span></a>
+      <div class="nav-section-label">Insights</div>
+      <a href="analytics.html" class="nav-item"><span class="nav-icon">🤖</span><span class="nav-label">Analytics & AI</span></a>
+    </nav>
+    <div class="sidebar-footer"><button class="sidebar-toggle" onclick="toggleSidebar()"><span class="toggle-icon">◀</span><span class="nav-label">Collapse Menu</span></button></div>
+  </aside>
+
+  <!-- ========== TOPBAR ========== -->
+  <header class="topbar" id="topbar">
+    <button class="topbar-mobile-menu" onclick="toggleSidebar()">☰</button>
+    <div class="topbar-title">
+      Staff Management
+      <span id="topbarDate">Loading...</span>
+    </div>
+    <div class="topbar-actions">
+      <div class="topbar-date" id="topbarDateDesktop"></div>
+      <a href="#" class="topbar-btn" title="Search">🔍</a>
+      <a href="#" class="topbar-btn" title="Notifications" onclick="openModal('notifModal')">
+        🔔
+        <span class="notif-dot"></span>
+      </a>
+      <a href="#" class="topbar-btn" title="Settings">⚙️</a>
+      <div class="topbar-profile" onclick="openModal('profileModal')">
+        <div class="profile-avatar">RK</div>
+        <div class="profile-info">
+          <strong>Rajesh Kumar</strong>
+          <span>Hotel Manager</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content" id="mainContent">
+    <div class="page-wrapper">
+      <div class="page-header">
+        <div class="page-header-left">
+          <h1>Staff Management</h1>
+          <p>Manage employees, payroll, shifts, and attendance.</p>
+        </div>
+        <div class="page-header-actions">
+           <button class="btn btn-primary" onclick="openModal('addStaffModal')">➕ Add New Staff</button>
+        </div>
+      </div>
+
+      <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:24px;">
+        <div class="kpi-card kpi-purple"><span class="kpi-icon">👥</span><div class="kpi-label">Total Staff</div><div class="kpi-value">12</div></div>
+        <div class="kpi-card kpi-green"><span class="kpi-icon">🟢</span><div class="kpi-label">Active Now</div><div class="kpi-value">5</div></div>
+        <div class="kpi-card kpi-cyan"><span class="kpi-icon">👔</span><div class="kpi-label">Managers</div><div class="kpi-value">2</div></div>
+        <div class="kpi-card kpi-orange"><span class="kpi-icon">🧹</span><div class="kpi-label">Housekeeping</div><div class="kpi-value">6</div></div>
+      </div>
+
+      <div class="section-title">Active Staff</div>
+      <!-- TABS -->
+          <div class="tabs-nav">
+            <button class="tab-btn active" onclick="showTab('allStaff')">All Staff</button>
+            <button class="tab-btn" onclick="showTab('shifts')">🗓 Shift Roster</button>
+            <button class="tab-btn" onclick="showTab('tasks')">✅ Daily Tasks</button>
+            <button class="tab-btn" onclick="showTab('attendance')">📋 Attendance</button>
+          </div>
+
+      <!-- TAB: ALL STAFF -->
+      <div class="tab-panel active" id="allStaff">
+        <div class="staff-grid">
+          <!-- Manager -->
+        <div class="staff-card">
+          <div class="staff-role-badge role-manager">Manager</div>
+          <div class="staff-header">
+            <div class="staff-avatar">RK</div>
+            <div><div class="staff-name">Rajesh Kumar</div><div class="staff-id">ID: MGR-001</div></div>
+          </div>
+          <div style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:12px;">Full Access · Admin Rights</div>
+          <div class="credential-box">
+             <span>Login: rajesh.kumar</span>
+             <span class="pass-dots">••••••</span>
+          </div>
+          <div style="margin-top:16px;display:flex;gap:8px;">
+            <button class="btn btn-outline btn-sm" style="flex:1;">Edit Access</button>
+            <button class="btn btn-outline btn-sm" style="color:var(--danger);border-color:var(--danger-bg);">Block</button>
+          </div>
+        </div>
+
+        <!-- Reception -->
+        <div class="staff-card">
+          <div class="staff-role-badge role-reception">Front Desk</div>
+          <div class="staff-header">
+            <div class="staff-avatar">AK</div>
+            <div><div class="staff-name">Anil Kumar</div><div class="staff-id">ID: FD-003</div></div>
+          </div>
+          <div style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:12px;">Check-ins, Bookings, Billing</div>
+          <div class="credential-box">
+             <span>Login: anil.fd</span>
+             <span class="pass-dots">••••••</span>
+          </div>
+          <div style="margin-top:16px;display:flex;gap:8px;">
+            <button class="btn btn-outline btn-sm" style="flex:1;">Edit Access</button>
+            <button class="btn btn-outline btn-sm" style="color:var(--danger);border-color:var(--danger-bg);">Block</button>
+          </div>
+        </div>
+
+        <!-- HK 1 -->
+        <div class="staff-card">
+          <div class="staff-role-badge role-hk">Housekeeping</div>
+          <div class="staff-header">
+            <div class="staff-avatar">SD</div>
+            <div><div class="staff-name">Sunita Devi</div><div class="staff-id">ID: HK-012</div></div>
+          </div>
+          <div style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:12px;">Room Updates, Cleaning Logs</div>
+              <div class="credential-box">
+             <span>Login: sunita.hk</span>
+             <span class="pass-dots">••••••</span>
+          </div>
+          <div style="margin-top:16px;display:flex;gap:8px;">
+            <button class="btn btn-outline btn-sm" style="flex:1;">Reset Password</button>
+            <button class="btn btn-outline btn-sm" style="color:var(--danger);border-color:var(--danger-bg);">Block</button>
+          </div>
+        </div>
+
+        <!-- HK 2 -->
+        <div class="staff-card">
+          <div class="staff-role-badge role-hk">Housekeeping</div>
+          <div class="staff-header">
+            <div class="staff-avatar">RD</div>
+            <div><div class="staff-name">Rama Devi</div><div class="staff-id">ID: HK-014</div></div>
+          </div>
+          <div style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:12px;">Room Updates, Cleaning Logs</div>
+          <div class="credential-box">
+             <span>Login: rama.hk</span>
+             <span class="pass-dots">••••••</span>
+          </div>
+          <div style="margin-top:16px;display:flex;gap:8px;">
+            <button class="btn btn-outline btn-sm" style="flex:1;">Reset Password</button>
+            <button class="btn btn-outline btn-sm" style="color:var(--danger);border-color:var(--danger-bg);">Block</button>
+          </div>
+        </div>
+        </div>
+      </div>
+
+      <!-- TAB: SHIFT ROSTER -->
+      <div class="tab-panel" id="shifts">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+          <h3>🗓 Weekly Roster</h3>
+          <button class="btn btn-secondary btn-sm" onclick="openModal('assignShiftModal')">Assign Shifts</button>
+        </div>
+        <div class="chart-container" style="overflow-x:auto;">
+           <table style="width:100%;border-collapse:collapse;min-width:600px;">
+             <thead>
+               <tr style="border-bottom:1px solid var(--border);text-align:left;">
+                 <th style="padding:12px;">Staff</th><th style="padding:12px;">Mon</th><th style="padding:12px;">Tue</th><th style="padding:12px;">Wed</th><th style="padding:12px;">Thu</th><th style="padding:12px;">Fri</th><th style="padding:12px;">Sat</th><th style="padding:12px;">Sun</th>
+               </tr>
+             </thead>
+             <tbody>
+               <tr style="border-bottom:1px solid var(--border);">
+                 <td style="padding:12px;font-weight:600;">Rajesh (Mgr)</td>
+                 <td style="padding:12px;"><span class="badge badge-success">Morning</span></td>
+                 <td style="padding:12px;"><span class="badge badge-success">Morning</span></td>
+                 <td style="padding:12px;"><span class="badge badge-success">Morning</span></td>
+                 <td style="padding:12px;"><span class="badge badge-success">Morning</span></td>
+                 <td style="padding:12px;"><span class="badge badge-success">Morning</span></td>
+                 <td style="padding:12px;"><span class="badge badge-warning">DO</span></td>
+                 <td style="padding:12px;"><span class="badge badge-warning">DO</span></td>
+               </tr>
+               <tr>
+                 <td style="padding:12px;font-weight:600;">Anil (FD)</td>
+                 <td style="padding:12px;"><span class="badge badge-info">Evening</span></td>
+                 <td style="padding:12px;"><span class="badge badge-info">Evening</span></td>
+                 <td style="padding:12px;"><span class="badge badge-warning">DO</span></td>
+                 <td style="padding:12px;"><span class="badge badge-info">Evening</span></td>
+                 <td style="padding:12px;"><span class="badge badge-info">Evening</span></td>
+                 <td style="padding:12px;"><span class="badge badge-info">Evening</span></td>
+                 <td style="padding:12px;"><span class="badge badge-info">Evening</span></td>
+               </tr>
+             </tbody>
+           </table>
+        </div>
+      </div>
+
+      <!-- TAB: DAILY TASKS -->
+      <div class="tab-panel" id="tasks">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+          <h3>✅ Assigned Tasks</h3>
+          <button class="btn btn-primary btn-sm" onclick="openModal('addTaskModal')">➕ Assign Task</button>
+        </div>
+        
+        <div class="alert-item">
+          <div class="alert-icon" style="background:rgba(255,193,7,0.15);color:#ffab00;">⚡</div>
+          <div class="alert-body">
+            <strong>Room 205 Deep Clean</strong>
+            <span>Assigned to: Sunita Devi (HK) • Priority: High</span>
+          </div>
+          <div class="alert-time"><button class="btn btn-outline btn-sm" style="padding:2px 8px;font-size:0.7rem;">Mark Done</button></div>
+        </div>
+
+        <div class="alert-item">
+          <div class="alert-icon" style="background:rgba(0,188,212,0.15);color:#00bcd4;">🔧</div>
+          <div class="alert-body">
+            <strong>AC Repair - Room 104</strong>
+            <span>Assigned to: Maintenance • Due: Today 4 PM</span>
+          </div>
+          <div class="alert-time"><button class="btn btn-outline btn-sm" style="padding:2px 8px;font-size:0.7rem;">Mark Done</button></div>
+        </div>
+      </div>
+
+      <!-- TAB: ATTENDANCE -->
+      <div class="tab-panel" id="attendance">
+         <h3>📋 Daily Attendance</h3>
+         <div class="chart-container">
+            <table style="width:100%;border-collapse:collapse;">
+              <thead>
+                <tr style="border-bottom:1px solid var(--border);text-align:left;">
+                  <th style="padding:12px;">Staff</th><th style="padding:12px;">Role</th>
+                  <th style="padding:12px;">Status</th><th style="padding:12px;">Check-in</th>
+                  <th style="padding:12px;">Check-out</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Rajesh Kumar</td><td>Manager</td><td><span class="badge badge-success">Present</span></td><td>09:00 AM</td><td>-</td></tr>
+                <tr><td>Sunita Devi</td><td>Housekeeping</td><td><span class="badge badge-success">Present</span></td><td>08:00 AM</td><td>04:00 PM</td></tr>
+                <tr><td>Anil Kumar</td><td>Front Desk</td><td><span class="badge badge-success">Present</span></td><td>08:30 AM</td><td>-</td></tr>
+                <tr><td>Amit Singh</td><td>Billing</td><td><span class="badge badge-danger">Absent</span></td><td>-</td><td>-</td></tr>
+              </tbody>
+            </table>
+         </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Add Staff Modal -->
+  <div class="modal-overlay" id="addStaffModal">
+    <div class="modal" style="max-width:420px;">
+      <div class="modal-header"><h4>➕ Add New Staff</h4><button class="modal-close" onclick="closeModal('addStaffModal')">✕</button></div>
+      <div class="form-group"><label class="form-label">Full Name</label><input class="form-control" placeholder="e.g. Rahul Singh" /></div>
+      <div class="form-group"><label class="form-label">Role</label>
+        <select class="form-control">
+          <option value="manager">Manager (Full Access)</option>
+          <option value="frontdesk">Front Desk / Reception</option>
+          <option value="housekeeping">Housekeeping (Room View Only)</option>
+          <option value="billing">Billing Staff</option>
+        </select>
+      </div>
+      
+      <div id="passField">
+        <div class="form-group"><label class="form-label">Username</label><input class="form-control" placeholder="e.g. rahul.mgr" /></div>
+        <div class="form-group"><label class="form-label">Password</label><input class="form-control" type="password" placeholder="Create password" /></div>
+      </div>
+
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px;">
+        <button class="btn btn-ghost" onclick="closeModal('addStaffModal')">Cancel</button>
+        <button class="btn btn-primary" onclick="closeModal('addStaffModal')">Create Account</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Task Modal -->
+  <div class="modal-overlay" id="addTaskModal">
+    <div class="modal" style="max-width:420px;">
+      <div class="modal-header"><h4>✅ Assign New Task</h4><button class="modal-close" onclick="closeModal('addTaskModal')">✕</button></div>
+      <div class="form-group"><label class="form-label">Task Description</label><textarea class="form-control" rows="3" placeholder="e.g. Clean Lobby Area"></textarea></div>
+      <div class="form-group"><label class="form-label">Assign To</label>
+        <select class="form-control">
+          <option>Sunita Devi (HK)</option>
+          <option>Rama Devi (HK)</option>
+          <option>Anil Kumar (FD)</option>
+        </select>
+      </div>
+      <div class="form-group"><label class="form-label">Priority</label>
+        <select class="form-control">
+          <option>Normal</option>
+          <option>High 🔥</option>
+        </select>
+      </div>
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px;">
+        <button class="btn btn-ghost" onclick="closeModal('addTaskModal')">Cancel</button>
+        <button class="btn btn-primary" onclick="closeModal('addTaskModal'); alert('Task Assigned!');">Assign Task</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Assign Shift Modal -->
+  <div class="modal-overlay" id="assignShiftModal">
+    <div class="modal" style="max-width:400px;">
+      <div class="modal-header"><h4>🗓 Assign Shift</h4><button class="modal-close" onclick="closeModal('assignShiftModal')">✕</button></div>
+      <div class="form-group"><label class="form-label">Select Staff</label>
+        <select class="form-control">
+          <option>Rajesh Kumar (Mgr)</option>
+          <option>Anil Kumar (FD)</option>
+          <option>Sunita Devi (HK)</option>
+        </select>
+      </div>
+      <div class="form-group"><label class="form-label">Day</label>
+        <select class="form-control">
+          <option>Monday</option><option>Tuesday</option><option>Wednesday</option>
+          <option>Thursday</option><option>Friday</option><option>Saturday</option><option>Sunday</option>
+        </select>
+      </div>
+      <div class="form-group"><label class="form-label">Shift Type</label>
+        <select class="form-control">
+          <option>Morning (6am - 2pm)</option>
+          <option>Evening (2pm - 10pm)</option>
+          <option>Night (10pm - 6am)</option>
+          <option>Day Off</option>
+        </select>
+      </div>
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px;">
+        <button class="btn btn-ghost" onclick="closeModal('assignShiftModal')">Cancel</button>
+        <button class="btn btn-primary" onclick="closeModal('assignShiftModal'); alert('Shift Updated!');">Update Roster</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../assets/js/dashboard.js"></script>
+  <script>
+    function showTab(bg) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      
+      event.target.classList.add('active');
+      document.getElementById(bg).classList.add('active');
+    }
+  </script>
+</body>
+</html>

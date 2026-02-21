@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Room Live View — TRACKINN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/main.css" />
+  <link rel="stylesheet" href="../assets/css/dashboard.css" />
+  <style>
+    body { overflow: hidden; background: #060917; }
+    .app-body { display: flex; height: 100vh; overflow: hidden; position: relative; }
+
+    /* GRID VIEW (Initial State) */
+    .grid-view-container {
+      position: absolute; top:0; left:0; width:100%; height:100%; z-index: 10;
+      background: #060917;
+      display: flex; flex-direction: column;
+      padding: 20px 24px;
+      overflow-y: auto;
+    }
+    .grid-view-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 24px; flex-wrap: wrap; gap: 16px;
+    }
+    .grid-title { font-size: 1.5rem; font-weight: 900; display: flex; align-items: center; gap: 10px; }
+    .grid-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+    .grid-chip {
+      padding: 6px 14px; border-radius: 999px; font-size: 0.85rem; font-weight: 700;
+      display: flex; align-items: center; gap: 6px; cursor: pointer; transition: 0.2s;
+    }
+    .grid-chip:hover { opacity: 0.8; transform: translateY(-1px); }
+    .gc-av { background: rgba(0,200,83,0.15); color: #00c853; border: 1px solid rgba(0,200,83,0.3); }
+    .gc-occ { background: rgba(244,67,54,0.15); color: #f44336; border: 1px solid rgba(244,67,54,0.3); }
+    .gc-hk { background: rgba(255,193,7,0.15); color: #ffab00; border: 1px solid rgba(255,193,7,0.3); }
+    .gc-mt { background: rgba(41,182,246,0.15); color: #29b6f6; border: 1px solid rgba(41,182,246,0.3); }
+
+    .room-grid-layout {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 16px;
+      padding-bottom: 40px;
+    }
+    .room-tile {
+      aspect-ratio: 1.1;
+      background: var(--bg-card2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      cursor: pointer; transition: var(--transition);
+      position: relative; overflow: hidden;
+    }
+    .room-tile:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,0.3); z-index: 2; }
+    .rt-num { font-size: 1.6rem; font-weight: 800; margin-bottom: 6px; }
+    .rt-status { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+    
+    /* Status Styles */
+    .rt-occ { border-color: rgba(244,67,54,0.4); background: rgba(244,67,54,0.05); color: #f44336; }
+    .rt-occ:hover { border-color: #f44336; background: rgba(244,67,54,0.1); }
+    
+    .rt-av { border-color: rgba(0,200,83,0.4); background: rgba(0,200,83,0.05); color: #00c853; }
+    .rt-av:hover { border-color: #00c853; background: rgba(0,200,83,0.1); }
+    
+    .rt-hk { border-color: rgba(255,193,7,0.4); background: rgba(255,193,7,0.05); color: #ffab00; }
+    .rt-hk:hover { border-color: #ffab00; background: rgba(255,193,7,0.1); }
+    
+    .rt-mt { border-color: rgba(41,182,246,0.4); background: rgba(41,182,246,0.05); color: #29b6f6; }
+    .rt-mt:hover { border-color: #29b6f6; background: rgba(41,182,246,0.1); }
+
+    .grid-legend { display: flex; gap: 16px; margin-top: 20px; flex-wrap: wrap; justify-content: center; font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); }
+    .gl-item { display: flex; align-items: center; gap: 6px; }
+    .gl-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+    /* DETAIL VIEW (Hidden initially) */
+    .detail-view-container {
+      position: absolute; top:0; left:0; width:100%; height:100%; z-index: 5;
+      display: flex; opacity: 0; pointer-events: none; transition: 0.3s;
+      transform: scale(0.98);
+    }
+    .detail-view-container.active { opacity: 1; pointer-events: auto; transform: scale(1); z-index: 20; background: #060917; }
+
+    /* Reuse styles from previous build */
+    .rls { width: 210px; flex-shrink: 0; background: #060917; border-right: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; }
+    .rls-head { padding: 12px; border-bottom: 1px solid var(--border); display:flex; align-items:center; justify-content:space-between; }
+    .back-grid-btn { font-size: 0.8rem; font-weight: 700; color: var(--accent); cursor: pointer; text-decoration: none; padding: 4px 8px; border-radius: 6px; background: rgba(0,188,212,0.1); }
+    .back-grid-btn:hover { background: rgba(0,188,212,0.2); }
+    
+    .rls-list { flex: 1; overflow-y: auto; }
+    .rls-floor { padding: 8px 12px 3px; font-size: 0.62rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); }
+    .rli { display: flex; align-items: center; gap: 8px; padding: 7px 12px; cursor: pointer; border-left: 3px solid transparent; transition: 0.15s; }
+    .rli:hover { background: var(--bg-card2); }
+    .rli.active { background: rgba(0,188,212,0.08); border-left-color: var(--accent); }
+    .rom-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+    .d-occ { background: var(--danger); }
+    .d-av  { background: var(--success); }
+    .d-hk  { background: var(--warning); }
+    .d-mt  { background: #29b6f6; }
+    .rli-num  { font-size: 0.9rem; font-weight: 800; flex-shrink: 0; }
+    .rli-info { font-size: 0.68rem; color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+
+    .detail-area { flex: 1; display: flex; flex-direction: column; min-width: 0; overflow: hidden; }
+    .detail-top { display: flex; align-items: center; justify-content: space-between; padding: 10px 20px; border-bottom: 1px solid var(--border); background: var(--bg-card); gap: 10px; flex-wrap: wrap; flex-shrink: 0; }
+    .d-room-badge { display: flex; align-items: center; gap: 12px; }
+    .d-room-num { font-size: 1.8rem; font-weight: 900; color: var(--accent); line-height: 1; }
+    .d-room-type { font-size: 0.82rem; font-weight: 600; }
+    .d-actions { display: flex; gap: 7px; flex-wrap: wrap; }
+    .detail-scroll { flex: 1; overflow-y: auto; padding: 16px 20px 24px; }
+
+    .sec { background: var(--bg-card2); border: 1px solid var(--border); border-radius: 14px; margin-bottom: 14px; overflow: hidden; }
+    .sec-hdr { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.02); }
+    .sec-title { font-size: 0.85rem; font-weight: 800; }
+    .sec-body { padding: 14px 16px; }
+
+    .g-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
+    .g-lbl { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; color: var(--text-muted); }
+    .g-val { font-size: 0.86rem; font-weight: 700; margin-top: 2px; }
+    
+    .ord-row { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+    .ord-row:last-child { border: none; }
+    .ord-ico { width: 30px; height: 30px; border-radius: 8px; background: var(--bg-input); display: flex; align-items: center; justify-content: center; font-size: 0.95rem; flex-shrink: 0; }
+    .ord-name { flex: 1; font-size: 0.83rem; font-weight: 600; }
+    .ord-amt { font-size: 0.88rem; font-weight: 800; color: var(--accent); }
+
+    .bill-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 0.83rem; }
+    .bill-row:last-child { border: none; }
+    .bill-tot { font-size: 1rem; font-weight: 900; color: var(--accent); }
+
+    .hk-row { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--border); }
+    .hk-chk { width: 18px; height: 18px; border-radius: 5px; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; font-size: 0.65rem; transition: 0.2s; }
+    .hk-chk.done { background: var(--success); border-color: var(--success); color: #fff; }
+
+    .pill-staff { display: inline-flex; align-items: center; gap: 4px; background: rgba(124,77,255,0.1); border: 1px solid rgba(124,77,255,0.25); border-radius: 999px; padding: 2px 10px; font-size: 0.68rem; font-weight: 700; color: #b39dff; }
+  </style>
+</head>
+<body>
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeMobileSidebar()"></div>
+
+  <aside class="sidebar" id="sidebar">
+    <a href="dashboard.html" class="sidebar-logo">
+      <div class="slogo-icon">🏨</div>
+      <div class="slogo-text">TRACK<em>INN<span class="slogo-sub">Hotel Manager</span></em></div>
+    </a>
+    <div class="hotel-badge">
+      <div class="hotel-badge-avatar">🏢</div>
+      <div class="hotel-badge-info">
+        <div class="hotel-badge-name">Grand Palace Hotel</div>
+        <div class="hotel-badge-plan">⭐ Growth Plan</div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Overview</div>
+      <a href="dashboard.html" class="nav-item" data-tooltip="Dashboard"><span class="nav-icon">📊</span><span class="nav-label">Dashboard</span></a>
+      <div class="nav-section-label">Operations</div>
+      <a href="checkin.html" class="nav-item" data-tooltip="Check-in/out"><span class="nav-icon">🛎</span><span class="nav-label">Check-in / Check-out</span></a>
+      <a href="rooms.html" class="nav-item" data-tooltip="Rooms"><span class="nav-icon">🛏</span><span class="nav-label">Room Management</span></a>
+      <a href="room-detail.html" class="nav-item active" data-tooltip="All Rooms (Grid & Detail)"><span class="nav-icon">🔍</span><span class="nav-label">All Rooms (Live View)</span></a>
+      <a href="bookings.html" class="nav-item" data-tooltip="Bookings"><span class="nav-icon">📅</span><span class="nav-label">Bookings</span><span class="nav-badge">3</span></a>
+      <div class="nav-section-label">Finance</div>
+      <a href="billing.html" class="nav-item" data-tooltip="Billing"><span class="nav-icon">💳</span><span class="nav-label">Billing & Accounting</span></a>
+      <div class="nav-section-label">Team</div>
+      <a href="staff.html" class="nav-item" data-tooltip="Staff"><span class="nav-icon">👥</span><span class="nav-label">Staff Management</span></a>
+      <div class="nav-section-label">Insights</div>
+      <a href="analytics.html" class="nav-item" data-tooltip="Analytics"><span class="nav-icon">🤖</span><span class="nav-label">Analytics & AI</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="sidebar-toggle" onclick="toggleSidebar()"><span class="toggle-icon">◀</span><span class="nav-label">Collapse Menu</span></button>
+    </div>
+  </aside>
+
+  <main class="main-content" style="padding:var(--topbar-height) 0 0 0; height:100vh; overflow:hidden; display:flex; flex-direction:column;">
+    <header class="topbar" id="topbar">
+      <button class="topbar-mobile-menu" onclick="toggleSidebar()">☰</button>
+      <div class="topbar-title">🔍 Room Status Overview <span id="topbarDate"></span></div>
+      <div class="topbar-actions">
+        <a href="rooms.html" class="btn btn-outline btn-sm">🛏 Room Config</a>
+        <div class="topbar-profile"><div class="profile-avatar">RK</div><div class="profile-info"><strong>Rajesh Kumar</strong><span>Manager</span></div></div>
+      </div>
+    </header>
+
+    <div class="app-body">
+      
+      <!-- GRID VIEW -->
+      <div class="grid-view-container" id="gridView">
+        <div class="grid-view-header">
+          <div class="grid-title"><span>🛏 Room Status Overview</span></div>
+          <div class="grid-chips">
+            <div class="grid-chip gc-av" onclick="filterGrid('available')">18 Available</div>
+            <div class="grid-chip gc-occ" onclick="filterGrid('occupied')">24 Occupied</div>
+            <div class="grid-chip gc-hk" onclick="filterGrid('housekeeping')">4 HK</div>
+            <div class="grid-chip gc-mt" onclick="filterGrid('maintenance')">2 Maint.</div>
+          </div>
+        </div>
+
+        <div class="room-grid-layout" id="roomGrid"></div>
+
+        <div class="grid-legend">
+          <div class="gl-item"><div class="gl-dot" style="background:#00c853"></div>Available</div>
+          <div class="gl-item"><div class="gl-dot" style="background:#f44336"></div>Occupied</div>
+          <div class="gl-item"><div class="gl-dot" style="background:#ffab00"></div>Housekeeping</div>
+          <div class="gl-item"><div class="gl-dot" style="background:#29b6f6"></div>Maintenance</div>
+        </div>
+      </div>
+
+      <!-- DETAIL VIEW -->
+      <div class="detail-view-container" id="detailView">
+        <!-- Room List Sidebar -->
+
+
+        <!-- Detail Panel -->
+        <div class="detail-area" id="detailArea"></div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Reusing Modals (Order, HK, Note) -->
+  <div class="modal-overlay" id="addOrderModal">
+    <div class="modal" style="max-width:420px;">
+      <div class="modal-header"><h4>➕ Add Service / Order</h4><button class="modal-close" onclick="closeM('addOrderModal')">✕</button></div>
+      <div class="form-group"><label class="form-label">Category</label><select class="form-control" id="orderCat"><option>🍽️ Room Service</option><option>🧺 Laundry</option><option>🚗 Cab / Transfer</option><option>💆 Spa</option><option>🍾 Mini-bar</option></select></div>
+      <div class="form-group"><label class="form-label">Description</label><input class="form-control" id="orderDesc" placeholder="e.g. Chicken Biryani" /></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;"><div class="form-group" style="margin:0;"><label class="form-label">Price</label><input type="number" class="form-control" id="orderAmt" /></div><div class="form-group" style="margin:0;"><label class="form-label">Qty</label><input type="number" class="form-control" id="orderQty" value="1" /></div></div>
+      <div style="display:flex;gap:10px;margin-top:18px;"><button class="btn btn-ghost" style="flex:1" onclick="closeM('addOrderModal')">Cancel</button><button class="btn btn-primary" style="flex:1" onclick="submitOrder()">Add</button></div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="hkModal">
+    <div class="modal" style="max-width:400px;">
+      <div class="modal-header"><h4>🧹 Housekeeping Update</h4><button class="modal-close" onclick="closeM('hkModal')">✕</button></div>
+      <div class="form-group"><label class="form-label">Staff Name</label><input class="form-control" id="hkStaff" placeholder="e.g. Sunita Devi" /></div>
+      <div class="form-group"><label class="form-label">Remark</label><textarea class="form-control" id="hkRemark" rows="3"></textarea></div>
+      <div class="form-group"><label class="form-label">Status</label><select class="form-control" id="hkStat"><option>In Progress</option><option>Completed</option><option>On Hold</option></select></div>
+      <div style="display:flex;gap:10px;margin-top:14px;"><button class="btn btn-ghost" style="flex:1" onclick="closeM('hkModal')">Cancel</button><button class="btn btn-primary" style="flex:1" onclick="submitHK()">Submit</button></div>
+    </div>
+  </div>
+
+  <!-- Check-out & Invoice Modal -->
+  <div class="modal-overlay" id="checkoutModal">
+    <div class="modal" style="max-width:480px;">
+      <div class="modal-header">
+        <h4>🚪 Checkout & Invoice</h4>
+        <button class="modal-close" onclick="closeM('checkoutModal')">✕</button>
+      </div>
+      <div id="invoiceContent" style="padding: 10px 0;">
+        <!-- Invoice details populated by JS -->
+      </div>
+      <div style="display:flex;gap:10px;margin-top:20px;">
+        <button class="btn btn-ghost" style="flex:1" onclick="closeM('checkoutModal')">Cancel</button>
+        <button class="btn btn-primary" style="flex:2" onclick="confirmCheckout()">Generate Invoice & Checkout</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../assets/js/dashboard.js"></script>
+  <script>
+  // ── DATA ──
+  const ROOMS = [
+    {num:'101',floor:'1st',type:'Standard AC',status:'occupied',tariff:1800,guest:{name:'Rajesh Kumar',id:'AAD123',phone:'9876543210',email:'rj@ex.com',src:'Walk-in',ci:'19 Feb',co:'20 Feb',nights:1,adults:2,children:0},orders:[{ico:'🍛',name:'Dal Makhani',qty:2,amt:480,st:'Done'}],bill:{room:1800,svc:480,tax:144,paid:1800,mode:'Cash'},hk:[{t:'Bed made',done:true,s:'Sunita'},{t:'Bath clean',done:true,s:'Sunita'}],hkSt:'In Progress',hkStaff:'Sunita',log:[]},
+    {num:'102',floor:'1st',type:'Standard AC',status:'occupied',tariff:1800,guest:{name:'Priya M',id:'PM987',phone:'8765432109',email:'pm@ex.com',src:'Online',ci:'19 Feb',co:'21 Feb',nights:2,adults:1},orders:[],bill:{room:3600,svc:0,tax:300,paid:3600,mode:'Card'},hk:[{t:'Bed made',done:true,s:'Rama'}],hkSt:'Done',hkStaff:'Rama',log:[]},
+    {num:'103',floor:'1st',type:'Standard AC',status:'available',tariff:1800,hkSt:'Ready',hk:[],log:[]},
+    {num:'104',floor:'1st',type:'Standard AC',status:'housekeeping',tariff:1800,hkSt:'Pending',hkStaff:'Unassigned',hk:[],log:[]},
+    {num:'105',floor:'1st',type:'Standard AC',status:'occupied',tariff:1800,guest:{name:'Sunita J',id:'SJ567',phone:'7654321098',src:'Walk-in',ci:'18 Feb',co:'19 Feb',nights:1,adults:2},orders:[],bill:{room:1800,svc:0,tax:100,paid:0,mode:'Pending'},hkSt:'Done',hkStaff:'Sunita',log:[]},
+    {num:'106',floor:'1st',type:'Standard AC',status:'available',tariff:1800,hkSt:'Ready',hk:[],log:[]},
+    {num:'201',floor:'2nd',type:'Deluxe AC',status:'available',tariff:2800,hkSt:'Ready',hk:[],log:[]},
+    {num:'202',floor:'2nd',type:'Deluxe AC',status:'occupied',tariff:2800,guest:{name:'Arjun P',id:'AP432',phone:'6543210987',src:'Corp',ci:'17 Feb',co:'21 Feb',nights:4},orders:[],bill:{room:11200,svc:0,tax:800,paid:11200,mode:'Card'},hkSt:'In Progress',hkStaff:'Rama',log:[]},
+    {num:'203',floor:'2nd',type:'Deluxe AC',status:'maintenance',tariff:2800,hkSt:'Reviewing',hk:[],log:[]},
+    {num:'204',floor:'2nd',type:'Deluxe AC',status:'occupied',tariff:2800,guest:{name:'Ankit V',id:'AV876',phone:'5432109876',src:'Corp',ci:'19 Feb',co:'22 Feb'},orders:[],bill:{room:8400,svc:0,tax:600,paid:0,mode:'Pending'},hkSt:'Ready',hkStaff:'Geeta',log:[]},
+    {num:'205',floor:'2nd',type:'Deluxe AC',status:'housekeeping',tariff:2800,hkSt:'Deep Clean',hkStaff:'Unassigned',hk:[],log:[]},
+    {num:'206',floor:'2nd',type:'Deluxe AC',status:'available',tariff:2800,hkSt:'Ready',hk:[],log:[]},
+    {num:'301',floor:'3rd',type:'Suite',status:'occupied',tariff:5200,guest:{name:'Mohd Yusuf',id:'MY345',src:'Goibibo',ci:'18 Feb',co:'21 Feb'},orders:[{ico:'🍾',name:'Champagne',qty:1,amt:3200,st:'Done'}],bill:{room:15600,svc:3200,tax:1200,paid:15600,mode:'UPI'},hkSt:'In Progress',hkStaff:'Geeta',log:[]},
+    {num:'302',floor:'3rd',type:'Suite',status:'occupied',tariff:5200,guest:{name:'Dr Amit',id:'AS789',src:'Direct',ci:'19 Feb',co:'23 Feb'},orders:[{ico:'🛏',name:'Extra Bed',qty:2,amt:600,st:'Done'}],bill:{room:20800,svc:600,tax:1400,paid:20800,mode:'Card'},hkSt:'Done',hkStaff:'Sunita',log:[]},
+    {num:'303',floor:'3rd',type:'Suite',status:'occupied',tariff:5200,guest:{name:'Kavya N',id:'KN210',src:'Booking.com',ci:'19 Feb',co:'20 Feb'},orders:[],bill:{room:5200,svc:0,tax:400,paid:5200,mode:'Prepaid'},hkSt:'Done',hkStaff:'Rama',log:[]},
+    {num:'304',floor:'3rd',type:'Suite',status:'available',tariff:5200,hkSt:'Ready',hk:[],log:[]},
+    {num:'305',floor:'3rd',type:'Suite',status:'housekeeping',tariff:5200,hkSt:'Checkout Clean',hkStaff:'Geeta',hk:[],log:[]},
+    {num:'306',floor:'3rd',type:'Suite',status:'available',tariff:5200,hkSt:'Ready',hk:[],log:[]}
+  ];
+
+  let activeRoom = ROOMS[0];
+
+  function renderGrid(rooms) {
+    const el = document.getElementById('roomGrid');
+    const STATUS_CLASS = {occupied:'rt-occ', available:'rt-av', housekeeping:'rt-hk', maintenance:'rt-mt'};
+    const STATUS_LABEL = {occupied:'Occupied', available:'Free', housekeeping:'Housekeep', maintenance:'Maint.'};
+    
+    el.innerHTML = rooms.map(r => `
+      <div class="room-tile ${STATUS_CLASS[r.status]}" onclick="selRoom('${r.num}')">
+        <div class="rt-num">${r.num}</div>
+        <div class="rt-status">${STATUS_LABEL[r.status]}</div>
+      </div>
+    `).join('');
+  }
+
+  function filterGrid(status) {
+    const f = ROOMS.filter(r => r.status === status);
+    renderGrid(f);
+  }
+
+  function showGrid() {
+    document.getElementById('grid-view-container').style.opacity = '1';
+    document.getElementById('grid-view-container').style.pointerEvents = 'auto'; // Wait, I need to toggle classes
+    document.getElementById('gridView').style.opacity='1';
+    document.getElementById('gridView').style.zIndex='10';
+    document.getElementById('gridView').style.pointerEvents='auto';
+    document.getElementById('detailView').classList.remove('active');
+  }
+
+  function selRoom(num) {
+    activeRoom = ROOMS.find(r => r.num === num);
+    
+    // Switch Views
+    document.getElementById('gridView').style.opacity='0';
+    document.getElementById('gridView').style.zIndex='1'; // lower it
+    document.getElementById('gridView').style.pointerEvents='none';
+    
+    document.getElementById('detailView').classList.add('active');
+    
+    // renderList(ROOMS); // List removed
+    renderDetail();
+  }
+
+  // Reuse Detail Rendering (simplified for brevity, similar to before)
+  function renderList(rooms) {
+    const el = document.getElementById('rlsList');
+    const floors = [...new Set(rooms.map(r=>r.floor))];
+    const DOT={occupied:'d-occ',available:'d-av',housekeeping:'d-hk',maintenance:'d-mt'};
+    
+    el.innerHTML = floors.map(f =>
+      `<div class="rls-floor">Floor ${f}</div>` +
+      rooms.filter(r=>r.floor===f).map(r=>`
+        <div class="rli${r.num===activeRoom.num?' active':''}" onclick="selRoom('${r.num}')">
+          <div class="rom-dot ${DOT[r.status]}"></div>
+          <span class="rli-num">${r.num}</span>
+          <span class="rli-info">${r.guest?r.guest.name.split(' ')[0]:r.hkSt}</span>
+        </div>`).join('')
+    ).join('');
+  }
+
+  function renderDetail() {
+    const r = activeRoom;
+    const area = document.getElementById('detailArea');
+    const BADGE={occupied:'badge-danger',available:'badge-success',housekeeping:'badge-warning',maintenance:'badge-info'};
+    const LABEL={occupied:'Occupied',available:'Available',housekeeping:'Housekeeping',maintenance:'Maintenance'};
+    
+    let html = `
+      <div class="detail-top">
+        <div class="d-room-badge">
+          <div class="back-grid-btn" onclick="showGrid()" style="margin-right:16px;font-size:1.2rem;padding:6px 12px;background:var(--bg-card2);border:1px solid var(--border);border-radius:8px;">←</div>
+          <div><div class="d-room-num">🛏 ${r.num}</div>
+          <div class="d-room-type">${r.type} <span class="badge ${BADGE[r.status]}">${LABEL[r.status]}</span></div><div style="font-size:0.7rem;color:var(--text-muted)">Floor ${r.floor} • ₹${r.tariff}</div></div>
+        </div>
+        <div class="d-actions">
+          ${r.status==='occupied' ? `<button class="btn btn-outline btn-sm" onclick="openM('addOrderModal')">➕ Order</button><button class="btn btn-outline btn-sm" onclick="openM('hkModal')">🧹 HK</button><button class="btn btn-primary btn-sm" onclick="doCheckout()">🚪 Checkout</button>` : ''}
+          ${r.status==='housekeeping' ? `<button class="btn btn-primary btn-sm" onclick="markReady()">✅ Mark Ready</button>` : ''}
+          ${r.status==='available' ? `<button class="btn btn-primary btn-sm" onclick="window.location='checkin.html'">🛎 Check-in</button>` : ''}
+        </div>
+      </div>
+      <div class="detail-scroll">`;
+
+    if(r.status==='available') {
+      html += `<div style="text-align:center;padding:40px;opacity:0.6;"><div style="font-size:3rem;margin-bottom:10px;">🟢</div><h2>Room Available</h2><p>Ready for check-in</p></div>`;
+    } else if(r.guest) {
+      const g=r.guest;
+      html += `<div class="sec"><div class="sec-hdr"><div class="sec-title">👤 Guest</div></div><div class="sec-body"><div class="g-grid"><div><div class="g-lbl">Name</div><div class="g-val">${g.name}</div></div><div><div class="g-lbl">Phone</div><div class="g-val">${g.phone}</div></div><div><div class="g-lbl">Check-in</div><div class="g-val">${g.ci}</div></div><div><div class="g-lbl">Check-out</div><div class="g-val">${g.co}</div></div></div></div></div>`;
+      if(r.orders.length) html += `<div class="sec"><div class="sec-hdr"><div class="sec-title">🍽 Orders</div></div><div class="sec-body">${r.orders.map(o=>`<div class="ord-row"><div class="ord-ico">${o.ico}</div><div class="ord-name">${o.name}</div><div class="ord-amt">₹${o.amt}</div></div>`).join('')}</div></div>`;
+      if(r.bill) html += `<div class="sec"><div class="sec-hdr"><div class="sec-title">💳 Bill</div></div><div class="sec-body"><div class="bill-row"><span>Room</span><span>₹${r.bill.room}</span></div><div class="bill-row"><span>Services</span><span>₹${r.bill.svc}</span></div><div class="bill-row bill-tot"><span>Due</span><span>₹${r.bill.room+r.bill.svc+r.bill.tax-r.bill.paid}</span></div></div></div>`;
+    }
+
+    if(r.hk) {
+       html += `<div class="sec"><div class="sec-hdr"><div class="sec-title">🧹 Housekeeping</div></div><div class="sec-body">${r.hk.map(h=>`<div class="hk-row"><div class="hk-chk ${h.done?'done':''}">${h.done?'✓':''}</div><span>${h.t}</span><span class="pill-staff">${h.s}</span></div>`).join('')}</div></div>`;
+    }
+
+    html += `</div>`;
+    area.innerHTML = html;
+  }
+
+  function openM(id){document.getElementById(id).classList.add('active')}
+  function closeM(id){document.getElementById(id).classList.remove('active')}
+  
+  function doCheckout() { 
+    const r = activeRoom;
+    let invHtml = `<div style="text-align:center; margin-bottom: 20px;">
+      <h3 style="margin-bottom: 5px; font-size: 1.2rem; font-weight: 800;">Invoice for Room ${r.num}</h3>
+      <p style="color: var(--text-muted); font-size: 0.85rem;">Guest: <span style="color: var(--text-primary); font-weight: 600;">${r.guest ? r.guest.name : 'N/A'}</span></p>
+    </div>`;
+
+    if (r.bill) {
+      const totalDue = r.bill.room + r.bill.svc + r.bill.tax;
+      const balance = totalDue - r.bill.paid;
+      
+      invHtml += `
+        <div style="background: var(--bg-card2); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 20px;">
+          <div class="bill-row"><span>Room Charges</span><span style="font-weight: 600;">₹${r.bill.room}</span></div>
+          <div class="bill-row"><span>Services/Orders</span><span style="font-weight: 600;">₹${r.bill.svc}</span></div>
+          <div class="bill-row"><span>Taxes</span><span style="font-weight: 600;">₹${r.bill.tax}</span></div>
+          <div class="bill-row" style="margin-top: 12px; border-top: 1px dashed var(--border); padding-top: 12px;">
+            <span style="font-weight: 700; color: var(--text-secondary);">Total Amount</span><span style="font-weight: 800; font-size: 1.1rem;">₹${totalDue}</span>
+          </div>
+          <div class="bill-row" style="margin-top: 8px;">
+            <span style="font-weight: 600;">Amount Paid</span><span style="color: var(--success); font-weight: 700;">- ₹${r.bill.paid}</span>
+          </div>
+          <div class="bill-row bill-tot" style="margin-top: 12px; padding-top: 12px; border-top: 2px solid var(--border);">
+            <span>Balance Due</span><span>₹${Math.max(0, balance)}</span>
+          </div>
+        </div>`;
+      
+      if (balance > 0) {
+        invHtml += `
+          <div class="form-group">
+            <label class="form-label" style="display: flex; justify-content: space-between;"><span>Payment Method for Balance</span><span style="color:var(--accent);">₹${balance}</span></label>
+            <select class="form-control" style="border-color: var(--accent);">
+              <option>Cash</option>
+              <option>Credit Card</option>
+              <option>UPI</option>
+            </select>
+          </div>
+        `;
+      } else {
+        invHtml += `<div style="text-align: center; color: var(--success); font-weight: 700; padding: 10px; background: rgba(0, 200, 83, 0.1); border-radius: 8px; margin-bottom: 10px;">Fully Paid</div>`;
+      }
+    } else {
+      invHtml += `<p style="text-align: center; padding: 20px;">No bill details found.</p>`;
+    }
+
+    document.getElementById('invoiceContent').innerHTML = invHtml;
+    openM('checkoutModal');
+  }
+
+  function confirmCheckout() {
+    activeRoom.status = 'housekeeping';
+    // Clear the guest details for the next checkin
+    activeRoom.guest = null;
+    activeRoom.orders = [];
+    activeRoom.bill = null;
+    closeM('checkoutModal');
+    
+    // Switch to grid view and refresh
+    renderDetail();
+    showGrid();
+    renderGrid(ROOMS);
+    
+    // Simulate generation
+    setTimeout(() => {
+        alert('✅ Invoice generated successfully! A copy has been emailed to the guest. Room marked for Housekeeping.');
+    }, 300);
+  }
+
+  function markReady(){ activeRoom.status='available'; renderDetail(); renderGrid(ROOMS); }
+
+  renderGrid(ROOMS);
+  showGrid(); // Should force grid initially
+  
+  // Fix initial grid view call since grid-view-container display flex is fine but needs JS trigger if we rely on classes
+  </script>
+</body>
+</html>

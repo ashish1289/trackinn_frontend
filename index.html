@@ -1,0 +1,1968 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TRACKINN — Smart Hotel Management SaaS for Modern Hotels</title>
+    <meta
+      name="description"
+      content="TRACKINN is India's most powerful Hotel Management SaaS. Automate check-ins, manage bookings, track revenue, and grow your hotel business with AI-powered insights."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/landing.css" />
+  </head>
+  <body>
+    <!-- ========== NAVBAR ========== -->
+    <nav class="navbar" id="navbar">
+      <a href="index.html" class="nav-logo">
+        <div class="logo-icon">🏨</div>
+        <span>TRACK<em>INN</em></span>
+      </a>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#modules">Modules</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#testimonials">Reviews</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="nav-actions">
+        <a href="login.html" class="btn btn-ghost btn-sm">Login</a>
+        <a href="register.html" class="btn btn-primary btn-sm"
+          >Start Free Trial</a
+        >
+      </div>
+      <button class="nav-hamburger" id="hamburgerBtn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+
+    <!-- Mobile Nav -->
+    <div class="mobile-nav" id="mobileNav">
+      <a href="#features" onclick="closeMenu()">🚀 Features</a>
+      <a href="#modules" onclick="closeMenu()">📦 Modules</a>
+      <a href="#pricing" onclick="closeMenu()">💰 Pricing</a>
+      <a href="#testimonials" onclick="closeMenu()">⭐ Reviews</a>
+      <a href="login.html">🔐 Login</a>
+      <a
+        href="register.html"
+        class="btn btn-primary"
+        style="
+          text-align: center;
+          border-radius: 12px;
+          padding: 14px;
+          display: block;
+        "
+        >Start Free Trial →</a
+      >
+    </div>
+
+    <!-- ========== HERO ========== -->
+    <section class="hero">
+      <div class="hero-bg"></div>
+      <div class="hero-grid"></div>
+      <div class="hero-container">
+        <div class="hero-content">
+          <div class="hero-badge">
+            <span class="dot"></span>
+            India's #1 Hotel Management SaaS
+          </div>
+          <h1 class="hero-title">
+            Your <span class="gradient-text">Revenue Engine</span><br />
+            for Modern Hotels
+          </h1>
+          <p class="hero-desc">
+            TRACKINN automates check-ins, tracks bookings, manages rooms,
+            generates GST invoices, and gives you AI-powered insights — all in
+            one stunning dashboard. Built for Indian hoteliers.
+          </p>
+          <div class="hero-actions">
+            <a href="register.html" class="btn btn-primary btn-lg">
+              🚀 Get Started Free
+            </a>
+            <a href="#modules" class="btn btn-outline btn-lg">
+              👁 See How It Works
+            </a>
+          </div>
+          <div class="hero-stats">
+            <div class="hero-stat">
+              <strong>2,400+</strong>
+              <span>Hotels on TRACKINN</span>
+            </div>
+            <div class="hero-stat">
+              <strong>₹120Cr+</strong>
+              <span>Revenue Tracked</span>
+            </div>
+            <div class="hero-stat">
+              <strong>98.6%</strong>
+              <span>Customer Satisfaction</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dashboard Mockup -->
+        <div class="hero-visual">
+          <div class="hero-mockup">
+            <div class="mockup-topbar">
+              <div class="mockup-dots">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="mockup-title-bar">
+                🏨 TRACKINN Dashboard — Grand Palace Hotel
+              </div>
+            </div>
+            <div class="mockup-body">
+              <div class="mockup-kpis">
+                <div class="mockup-kpi">
+                  <div class="label">Today's Check-ins</div>
+                  <div class="value">24</div>
+                  <div class="trend">↑ 12% vs yesterday</div>
+                </div>
+                <div class="mockup-kpi">
+                  <div class="label">Occupancy</div>
+                  <div class="value" style="color: #7c4dff">87%</div>
+                  <div class="trend" style="color: #00c853">
+                    ↑ 5pts this week
+                  </div>
+                </div>
+                <div class="mockup-kpi">
+                  <div class="label">Revenue Today</div>
+                  <div class="value" style="color: #00c853">₹84K</div>
+                  <div class="trend">↑ 18% MTD</div>
+                </div>
+                <div class="mockup-kpi">
+                  <div class="label">Pending Payments</div>
+                  <div class="value" style="color: #ff6f00">₹12K</div>
+                  <div class="trend" style="color: #f44336">
+                    3 invoices pending
+                  </div>
+                </div>
+              </div>
+              <div class="mockup-chart-area">
+                <div
+                  style="
+                    font-size: 0.7rem;
+                    color: var(--text-muted);
+                    margin-bottom: 8px;
+                  "
+                >
+                  Revenue — Last 7 Days
+                </div>
+                <div class="chart-bars">
+                  <div class="chart-bar" style="height: 40%"></div>
+                  <div class="chart-bar" style="height: 60%"></div>
+                  <div class="chart-bar" style="height: 45%"></div>
+                  <div class="chart-bar" style="height: 75%"></div>
+                  <div class="chart-bar" style="height: 55%"></div>
+                  <div class="chart-bar" style="height: 90%"></div>
+                  <div
+                    class="chart-bar"
+                    style="
+                      height: 70%;
+                      background: linear-gradient(
+                        180deg,
+                        #7c4dff,
+                        rgba(124, 77, 255, 0.3)
+                      );
+                    "
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Floating badges -->
+          <div
+            style="
+              position: absolute;
+              top: 20px;
+              right: -16px;
+              background: var(--bg-card);
+              border: 1px solid var(--border-accent);
+              border-radius: 12px;
+              padding: 10px 14px;
+              font-size: 0.78rem;
+              box-shadow: var(--shadow-md);
+              white-space: nowrap;
+            "
+          >
+            ✅ Sarai Compliant
+          </div>
+          <div
+            style="
+              position: absolute;
+              bottom: 40px;
+              right: -20px;
+              background: var(--success-bg);
+              border: 1px solid rgba(0, 200, 83, 0.3);
+              border-radius: 12px;
+              padding: 10px 14px;
+              font-size: 0.78rem;
+              color: var(--success);
+              box-shadow: var(--shadow-md);
+              white-space: nowrap;
+            "
+          >
+            📊 GST Invoice Auto-generated
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== MARQUEE ========== -->
+    <div class="marquee-section">
+      <div class="marquee-track">
+        <div class="marquee-item"><span>🏨</span> AI-Powered Pricing</div>
+        <div class="marquee-item"><span>📋</span> Sarai API Integration</div>
+        <div class="marquee-item"><span>💳</span> GST Auto-Invoice</div>
+        <div class="marquee-item"><span>📱</span> Mobile-First Design</div>
+        <div class="marquee-item"><span>🔐</span> Aadhaar KYC Capture</div>
+        <div class="marquee-item"><span>📈</span> Revenue Heat Maps</div>
+        <div class="marquee-item"><span>🧑‍💼</span> Staff & Shift Management</div>
+        <div class="marquee-item"><span>📦</span> OTA Channel Manager</div>
+        <div class="marquee-item"><span>🏨</span> AI-Powered Pricing</div>
+        <div class="marquee-item"><span>📋</span> Sarai API Integration</div>
+        <div class="marquee-item"><span>💳</span> GST Auto-Invoice</div>
+        <div class="marquee-item"><span>📱</span> Mobile-First Design</div>
+        <div class="marquee-item"><span>🔐</span> Aadhaar KYC Capture</div>
+        <div class="marquee-item"><span>📈</span> Revenue Heat Maps</div>
+        <div class="marquee-item"><span>🧑‍💼</span> Staff & Shift Management</div>
+        <div class="marquee-item"><span>📦</span> OTA Channel Manager</div>
+      </div>
+    </div>
+
+    <!-- ========== STATS ========== -->
+    <section class="section" style="padding: 80px 40px">
+      <div class="container">
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            text-align: center;
+          "
+        >
+          <div
+            class="card"
+            style="padding: 32px; border-color: var(--border-accent)"
+          >
+            <div
+              style="
+                font-size: 2.5rem;
+                font-weight: 800;
+                background: linear-gradient(
+                  135deg,
+                  var(--accent),
+                  var(--secondary)
+                );
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+              "
+            >
+              15%
+            </div>
+            <p style="font-size: 0.9rem; margin-top: 8px">
+              Higher Occupancy<br />with OTA Sync
+            </p>
+          </div>
+          <div
+            class="card"
+            style="padding: 32px; border-color: var(--border-accent)"
+          >
+            <div
+              style="
+                font-size: 2.5rem;
+                font-weight: 800;
+                background: linear-gradient(
+                  135deg,
+                  var(--accent),
+                  var(--secondary)
+                );
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+              "
+            >
+              60s
+            </div>
+            <p style="font-size: 0.9rem; margin-top: 8px">
+              Guest Check-in<br />via Digital KYC
+            </p>
+          </div>
+          <div
+            class="card"
+            style="padding: 32px; border-color: var(--border-accent)"
+          >
+            <div
+              style="
+                font-size: 2.5rem;
+                font-weight: 800;
+                background: linear-gradient(
+                  135deg,
+                  var(--accent),
+                  var(--secondary)
+                );
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+              "
+            >
+              ₹0
+            </div>
+            <p style="font-size: 0.9rem; margin-top: 8px">
+              Setup Cost<br />Start Free Today
+            </p>
+          </div>
+          <div
+            class="card"
+            style="padding: 32px; border-color: var(--border-accent)"
+          >
+            <div
+              style="
+                font-size: 2.5rem;
+                font-weight: 800;
+                background: linear-gradient(
+                  135deg,
+                  var(--accent),
+                  var(--secondary)
+                );
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+              "
+            >
+              24/7
+            </div>
+            <p style="font-size: 0.9rem; margin-top: 8px">
+              Support & Help<br />On Every Plan
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== FEATURES ========== -->
+    <section class="section" id="features">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-label">Why TRACKINN</div>
+          <h2>
+            Everything Your Hotel Needs,
+            <span class="gradient-text">In One Place</span>
+          </h2>
+          <p>
+            From a small budget hotel to a 5-star resort — TRACKINN scales with
+            your business. Four powerful products built for every stakeholder.
+          </p>
+        </div>
+
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">🏨</div>
+            <h3>Hotel Owner Dashboard</h3>
+            <p>
+              Complete control center for hotel owners and managers. Track
+              revenue, manage rooms, oversee staff, and analyze performance —
+              all from one screen.
+            </p>
+            <div class="feature-tags">
+              <span class="feature-tag">KPI Dashboard</span>
+              <span class="feature-tag">Check-in/out</span>
+              <span class="feature-tag">Room Management</span>
+              <span class="feature-tag">GST Billing</span>
+            </div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">👤</div>
+            <h3>Guest & Traveller App</h3>
+            <p>
+              Seamless booking experience for customers. Browse hotels, book
+              rooms, check-in digitally, view invoices, and track loyalty
+              rewards — anytime, anywhere.
+            </p>
+            <div class="feature-tags">
+              <span class="feature-tag">Online Booking</span>
+              <span class="feature-tag">Digital Check-in</span>
+              <span class="feature-tag">Loyalty Points</span>
+              <span class="feature-tag">Trip History</span>
+            </div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🧑‍💼</div>
+            <h3>Sales Field App</h3>
+            <p>
+              Empower your internal sales team to onboard hotels, manage leads,
+              track targets, and submit reports from the field — even offline.
+            </p>
+            <div class="feature-tags">
+              <span class="feature-tag">Lead Management</span>
+              <span class="feature-tag">Hotel Onboarding</span>
+              <span class="feature-tag">Target Tracking</span>
+              <span class="feature-tag">Field Reports</span>
+            </div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🛡️</div>
+            <h3>Admin Control Center</h3>
+            <p>
+              The ultimate command center for TRACKINN operations. Manage all
+              hotels, users, billing, compliance, and platform analytics with
+              full administrative control.
+            </p>
+            <div class="feature-tags">
+              <span class="feature-tag">Platform Analytics</span>
+              <span class="feature-tag">Hotel Management</span>
+              <span class="feature-tag">Billing Control</span>
+              <span class="feature-tag">Compliance</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== HOW IT WORKS ========== -->
+    <section
+      class="section"
+      style="background: var(--bg-card); padding: 80px 40px"
+    >
+      <div class="container">
+        <div class="section-header">
+          <div class="section-label">How It Works</div>
+          <h2>
+            Up & Running in <span class="gradient-text">Under 30 Minutes</span>
+          </h2>
+          <p>
+            No technical knowledge needed. Our support team helps you set up
+            everything from scratch.
+          </p>
+        </div>
+        <div class="steps-grid">
+          <div class="step-card">
+            <div class="step-number">1</div>
+            <h4>Register Your Hotel</h4>
+            <p>
+              Sign up in 2 minutes. Add your hotel details, room categories, and
+              basic pricing.
+            </p>
+          </div>
+          <div class="step-card">
+            <div class="step-number">2</div>
+            <h4>Configure Your Setup</h4>
+            <p>
+              Add staff roles, set up tariffs, connect OTA channels, and
+              configure your preferences.
+            </p>
+          </div>
+          <div class="step-card">
+            <div class="step-number">3</div>
+            <h4>Accept Bookings</h4>
+            <p>
+              Start receiving bookings from OTAs and walk-ins. All automatically
+              synced in real-time.
+            </p>
+          </div>
+          <div class="step-card">
+            <div class="step-number">4</div>
+            <h4>Grow with AI Insights</h4>
+            <p>
+              Use AI pricing suggestions and analytics to maximize occupancy and
+              revenue every day.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== MODULES SHOWCASE ========== -->
+    <section class="section modules-section" id="modules">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-label">Platform Modules</div>
+          <h2>
+            Every Module You Need,
+            <span class="gradient-text">Built to Perfection</span>
+          </h2>
+          <p>
+            Explore the powerful modules inside the Hotel Owner Dashboard — each
+            built specifically for Indian hotel operations.
+          </p>
+        </div>
+
+        <div class="modules-tabs">
+          <button class="module-tab active" onclick="switchTab('dashboard')">
+            📊 Dashboard
+          </button>
+          <button class="module-tab" onclick="switchTab('checkin')">
+            🛎 Check-in/out
+          </button>
+          <button class="module-tab" onclick="switchTab('rooms')">
+            🛏 Rooms
+          </button>
+          <button class="module-tab" onclick="switchTab('bookings')">
+            📅 Bookings
+          </button>
+          <button class="module-tab" onclick="switchTab('billing')">
+            💳 Billing
+          </button>
+          <button class="module-tab" onclick="switchTab('staff')">
+            👥 Staff
+          </button>
+          <button class="module-tab" onclick="switchTab('analytics')">
+            🤖 AI Analytics
+          </button>
+        </div>
+
+        <!-- Dashboard Tab -->
+        <div class="module-content active" id="tab-dashboard">
+          <div class="module-features-list">
+            <div class="module-feature-item">
+              <div class="fi-icon">📊</div>
+              <div>
+                <h5>Live KPI Dashboard</h5>
+                <p>
+                  Track today's check-ins, check-outs, occupancy, revenue, and
+                  pending payments in real-time.
+                </p>
+              </div>
+            </div>
+            <div class="module-feature-item">
+              <div class="fi-icon">🔔</div>
+              <div>
+                <h5>Alerts & Notifications</h5>
+                <p>
+                  Stay on top of critical events — payment due, maintenance
+                  alerts, Sarai compliance deadlines.
+                </p>
+              </div>
+            </div>
+            <div class="module-feature-item">
+              <div class="fi-icon">✅</div>
+              <div>
+                <h5>Sarai Compliance Status</h5>
+                <p>
+                  Visual indicator for your hotel's Sarai API compliance health
+                  — green means you're clear.
+                </p>
+              </div>
+            </div>
+            <div class="module-feature-item">
+              <div class="fi-icon">⚡</div>
+              <div>
+                <h5>Quick Actions</h5>
+                <p>
+                  Walk-in check-in, new booking, and generate report — all from
+                  the dashboard in one click.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="module-visual">
+            <div style="display: flex; flex-direction: column; gap: 12px">
+              <div
+                style="
+                  background: var(--bg-input);
+                  border-radius: 12px;
+                  padding: 16px;
+                  border: 1px solid var(--border);
+                "
+              >
+                <div
+                  style="
+                    font-size: 0.75rem;
+                    color: var(--text-muted);
+                    margin-bottom: 10px;
+                  "
+                >
+                  Today's Overview
+                </div>
+                <div
+                  style="
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 10px;
+                  "
+                >
+                  <div
+                    style="
+                      text-align: center;
+                      padding: 12px;
+                      background: var(--bg-card);
+                      border-radius: 8px;
+                    "
+                  >
+                    <div
+                      style="
+                        font-size: 1.6rem;
+                        font-weight: 800;
+                        color: var(--accent);
+                      "
+                    >
+                      28
+                    </div>
+                    <div style="font-size: 0.7rem; color: var(--text-muted)">
+                      Check-ins
+                    </div>
+                  </div>
+                  <div
+                    style="
+                      text-align: center;
+                      padding: 12px;
+                      background: var(--bg-card);
+                      border-radius: 8px;
+                    "
+                  >
+                    <div
+                      style="
+                        font-size: 1.6rem;
+                        font-weight: 800;
+                        color: #7c4dff;
+                      "
+                    >
+                      91%
+                    </div>
+                    <div style="font-size: 0.7rem; color: var(--text-muted)">
+                      Occupancy
+                    </div>
+                  </div>
+                  <div
+                    style="
+                      text-align: center;
+                      padding: 12px;
+                      background: var(--bg-card);
+                      border-radius: 8px;
+                    "
+                  >
+                    <div
+                      style="
+                        font-size: 1.6rem;
+                        font-weight: 800;
+                        color: var(--success);
+                      "
+                    >
+                      ₹1.2L
+                    </div>
+                    <div style="font-size: 0.7rem; color: var(--text-muted)">
+                      Revenue MTD
+                    </div>
+                  </div>
+                  <div
+                    style="
+                      text-align: center;
+                      padding: 12px;
+                      background: var(--bg-card);
+                      border-radius: 8px;
+                    "
+                  >
+                    <div
+                      style="
+                        font-size: 1.6rem;
+                        font-weight: 800;
+                        color: var(--warning);
+                      "
+                    >
+                      3
+                    </div>
+                    <div style="font-size: 0.7rem; color: var(--text-muted)">
+                      Pending Bills
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                style="
+                  background: var(--bg-input);
+                  border-radius: 12px;
+                  padding: 16px;
+                  border: 1px solid var(--border);
+                "
+              >
+                <div
+                  style="
+                    font-size: 0.75rem;
+                    color: var(--text-muted);
+                    margin-bottom: 8px;
+                  "
+                >
+                  Sarai Compliance
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px">
+                  <div
+                    style="
+                      width: 10px;
+                      height: 10px;
+                      border-radius: 50%;
+                      background: var(--success);
+                      box-shadow: 0 0 8px var(--success);
+                    "
+                  ></div>
+                  <span
+                    style="
+                      font-size: 0.85rem;
+                      color: var(--success);
+                      font-weight: 600;
+                    "
+                    >All Compliant ✓</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Check-in Tab -->
+        <div class="module-content" id="tab-checkin">
+          <div class="module-features-list">
+            <div class="module-feature-item">
+              <div class="fi-icon">🪪</div>
+              <div>
+                <h5>Guest KYC Capture</h5>
+                <p>
+                  Capture guest Aadhaar, PAN, or Passport digitally. Auto-fill
+                  form from ID scan.
+                </p>
+              </div>
+            </div>
+            <div class="module-feature-item">
+              <div class="fi-icon">🏠</div>
+              <div>
+                <h5>Room Allocation</h5>
+                <p>
+                  Assign available rooms based on type, floor preference, and
+                  special requests in seconds.
+                </p>
+              </div>
+            </div>
+            <div class="module-feature-item">
+              <div class="fi-icon">✍️</div>
+              <div>
+                <h5>Digital Signature</h5>
+                <p>
+                  Guests sign digitally on the screen — no paper, no printing.
+                  Stored securely in the cloud.
+                </p>
+              </div>
+            </div>
+            <div class="module-feature-item">
+              <div class="fi-icon">📋</div>
+              <div>
+                <h5>Auto Sarai Submission</h5>
+                <p>
+                  Guest data auto-submitted to Sarai API on check-in — zero
+                  manual effort, zero errors.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="module-visual">
+            <div
+              style="
+                font-size: 0.8rem;
+                color: var(--text-muted);
+                margin-bottom: 16px;
+                font-weight: 600;
+              "
+            >
+              🛎 New Check-in
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px">
+              <div
+                style="
+                  background: var(--bg-input);
+                  border-radius: 8px;
+                  padding: 10px 14px;
+                  border: 1px solid var(--border);
+                  font-size: 0.82rem;
+                  color: var(--text-secondary);
+                "
+              >
+                👤 Guest: Rajesh Kumar Sharma
+              </div>
+              <div
+                style="
+                  background: var(--bg-input);
+                  border-radius: 8px;
+                  padding: 10px 14px;
+                  border: 1px solid var(--border);
+                  font-size: 0.82rem;
+                  color: var(--text-secondary);
+                "
+              >
+                🪪 Aadhaar: XXXX-XXXX-4521 ✓
+              </div>
+              <div
+                style="
+                  background: var(--bg-input);
+                  border-radius: 8px;
+                  padding: 10px 14px;
+                  border: 1px solid var(--border);
+                  font-size: 0.82rem;
+                  color: var(--text-secondary);
+                "
+              >
+                🛏 Room: 201 — Deluxe AC
+              </div>
+              <div
+                style="
+                  background: rgba(0, 200, 83, 0.1);
+                  border-radius: 8px;
+                  padding: 10px 14px;
+                  border: 1px solid rgba(0, 200, 83, 0.25);
+                  font-size: 0.82rem;
+                  color: var(--success);
+                "
+              >
+                ✅ Sarai Submitted Successfully
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rooms Tab -->
+        <div class="module-content" id="tab-rooms">
+          <div class="module-features-list">
+            <div class="module-feature-item">
+              <div class="fi-icon">🏗️</div>
+              <div>
+                <h5>Room Category Creation</h5>
+                <p>
+                  Create and manage room types — Standard, Deluxe, Suite,
+                  Dormitory with photos and amenities.
+                </p>
+              </div>
+            </div>
+            <div class="module-feature-item">
+              <div class="fi-icon">💰</div>
+              <div>
+                <h5>Dynamic Pricing</h5>
+                <p>
+                  Set seasonal rates, weekend rates, and event-based pricing
+                  automatically with AI assistance.
+                </p>
+              </div>
+            </div>
+            <div class="module-feature-item">
+              <div class="fi-icon">🔧</div>
+              <div>
+                <h5>Maintenance Tracking</h5>
+                <p>
+                  Mark rooms for maintenance, assign housekeeping tasks, and
+                  track completion status in real-time.
+                </p>
+              </div>
+            </div>
+            <div class="module-feature-item">
+              <div class="fi-icon">🔄</div>
+              <div>
+                <h5>Bulk Room Update</h5>
+                <p>
+                  Update status, pricing, or availability for multiple rooms at
+                  once — huge time saver.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="module-visual">
+            <div
+              style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px"
+            >
+              <div
+                style="
+                  background: rgba(0, 200, 83, 0.1);
+                  border: 1px solid rgba(0, 200, 83, 0.3);
+                  border-radius: 10px;
+                  padding: 12px;
+                  text-align: center;
+                "
+              >
+                <div
+                  style="
+                    font-size: 1.1rem;
+                    font-weight: 700;
+                    color: var(--success);
+                  "
+                >
+                  101
+                </div>
+                <div style="font-size: 0.7rem; color: var(--success)">
+                  Available
+                </div>
+              </div>
+              <div
+                style="
+                  background: rgba(244, 67, 54, 0.1);
+                  border: 1px solid rgba(244, 67, 54, 0.3);
+                  border-radius: 10px;
+                  padding: 12px;
+                  text-align: center;
+                "
+              >
+                <div
+                  style="
+                    font-size: 1.1rem;
+                    font-weight: 700;
+                    color: var(--danger);
+                  "
+                >
+                  102
+                </div>
+                <div style="font-size: 0.7rem; color: var(--danger)">
+                  Occupied
+                </div>
+              </div>
+              <div
+                style="
+                  background: rgba(255, 111, 0, 0.1);
+                  border: 1px solid rgba(255, 111, 0, 0.3);
+                  border-radius: 10px;
+                  padding: 12px;
+                  text-align: center;
+                "
+              >
+                <div
+                  style="
+                    font-size: 1.1rem;
+                    font-weight: 700;
+                    color: var(--warning);
+                  "
+                >
+                  103
+                </div>
+                <div style="font-size: 0.7rem; color: var(--warning)">
+                  Housekeeping
+                </div>
+              </div>
+              <div
+                style="
+                  background: rgba(41, 182, 246, 0.1);
+                  border: 1px solid rgba(41, 182, 246, 0.3);
+                  border-radius: 10px;
+                  padding: 12px;
+                  text-align: center;
+                "
+              >
+                <div
+                  style="
+                    font-size: 1.1rem;
+                    font-weight: 700;
+                    color: var(--info);
+                  "
+                >
+                  201
+                </div>
+                <div style="font-size: 0.7rem; color: var(--info)">
+                  Maintenance
+                </div>
+              </div>
+              <div
+                style="
+                  background: rgba(0, 200, 83, 0.1);
+                  border: 1px solid rgba(0, 200, 83, 0.3);
+                  border-radius: 10px;
+                  padding: 12px;
+                  text-align: center;
+                "
+              >
+                <div
+                  style="
+                    font-size: 1.1rem;
+                    font-weight: 700;
+                    color: var(--success);
+                  "
+                >
+                  202
+                </div>
+                <div style="font-size: 0.7rem; color: var(--success)">
+                  Available
+                </div>
+              </div>
+              <div
+                style="
+                  background: rgba(244, 67, 54, 0.1);
+                  border: 1px solid rgba(244, 67, 54, 0.3);
+                  border-radius: 10px;
+                  padding: 12px;
+                  text-align: center;
+                "
+              >
+                <div
+                  style="
+                    font-size: 1.1rem;
+                    font-weight: 700;
+                    color: var(--danger);
+                  "
+                >
+                  203
+                </div>
+                <div style="font-size: 0.7rem; color: var(--danger)">
+                  Occupied
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bookings Tab -->
+        <div class="module-content" id="tab-bookings">
+          <div class="module-features-list">
+            <div class="module-feature-item">
+              <div class="fi-icon">🌐</div>
+              <div>
+                <h5>OTA Booking Sync</h5>
+                <p>
+                  All bookings from MakeMyTrip, Goibibo, Booking.com auto-sync
+                  to TRACKINN in real-time.
+                </p>
+              </div>
+            </div>
+            <div class="module-feature-item">
+              <div class="fi-icon">🚶</div>
+              <div>
+                <h5>Walk-in Bookings</h5>
+                <p>
+                  Create instant walk-in bookings with room allocation, advance
+                  payment, and ID capture.
+                </p>
+              </div>
+            </div>
+            <div class="module-feature-item">
+              <div class="fi-icon">🏢</div>
+              <div>
+                <h5>Corporate Bookings</h5>
+                <p>
+                  Manage corporate accounts with credit booking limits, monthly
+                  billing, and TDS management.
+                </p>
+              </div>
+            </div>
+            <div class="module-feature-item">
+              <div class="fi-icon">↩️</div>
+              <div>
+                <h5>Cancel / Modify & Refunds</h5>
+                <p>
+                  One-click cancellations with auto refund processing per your
+                  hotel's refund policy rules.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="module-visual">
+            <div
+              style="
+                font-size: 0.8rem;
+                color: var(--text-muted);
+                margin-bottom: 12px;
+                font-weight: 600;
+              "
+            >
+              📅 Upcoming Arrivals Today
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 8px">
+              <div
+                style="
+                  background: var(--bg-input);
+                  border-radius: 8px;
+                  padding: 12px;
+                  border: 1px solid var(--border);
+                  font-size: 0.8rem;
+                "
+              >
+                <div
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    margin-bottom: 4px;
+                  "
+                >
+                  <span style="font-weight: 600">Priya Mehta</span
+                  ><span class="badge badge-success" style="font-size: 0.7rem"
+                    >Confirmed</span
+                  >
+                </div>
+                <span style="color: var(--text-muted)"
+                  >Room 301 · MakeMyTrip · 2 nights</span
+                >
+              </div>
+              <div
+                style="
+                  background: var(--bg-input);
+                  border-radius: 8px;
+                  padding: 12px;
+                  border: 1px solid var(--border);
+                  font-size: 0.8rem;
+                "
+              >
+                <div
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    margin-bottom: 4px;
+                  "
+                >
+                  <span style="font-weight: 600">Arjun Patel</span
+                  ><span class="badge badge-info" style="font-size: 0.7rem"
+                    >Walk-in</span
+                  >
+                </div>
+                <span style="color: var(--text-muted)"
+                  >Room 105 · Direct · 1 night</span
+                >
+              </div>
+              <div
+                style="
+                  background: var(--bg-input);
+                  border-radius: 8px;
+                  padding: 12px;
+                  border: 1px solid var(--border);
+                  font-size: 0.8rem;
+                "
+              >
+                <div
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    margin-bottom: 4px;
+                  "
+                >
+                  <span style="font-weight: 600">InfoSys Ltd.</span
+                  ><span class="badge badge-warning" style="font-size: 0.7rem"
+                    >Corporate</span
+                  >
+                </div>
+                <span style="color: var(--text-muted)"
+                  >Rooms 201-205 · 3 nights</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Billing Tab -->
+        <div class="module-content" id="tab-billing">
+          <div class="module-features-list">
+            <div class="module-feature-item">
+              <div class="fi-icon">🧾</div>
+              <div>
+                <h5>GST Invoice Auto-Generation</h5>
+                <p>
+                  GST-compliant invoices generated automatically on checkout
+                  with HSAC, room charges, and taxes.
+                </p>
+              </div>
+            </div>
+            <div class="module-feature-item">
+              <div class="fi-icon">💳</div>
+              <div>
+                <h5>Multi-mode Payments</h5>
+                <p>
+                  Accept Cash, UPI, Card, and Bank Transfer. All entries
+                  auto-synced to ledger.
+                </p>
+              </div>
+            </div>
+            <div class="module-feature-item">
+              <div class="fi-icon">📚</div>
+              <div>
+                <h5>Credit Ledger</h5>
+                <p>
+                  Track credit given to guests and corporates with automatic
+                  aging and reminder alerts.
+                </p>
+              </div>
+            </div>
+            <div class="module-feature-item">
+              <div class="fi-icon">📤</div>
+              <div>
+                <h5>Export to Tally</h5>
+                <p>
+                  One-click export of all accounting data to Tally-compatible
+                  format for your CA.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="module-visual">
+            <div
+              style="
+                font-size: 0.8rem;
+                color: var(--text-muted);
+                margin-bottom: 12px;
+                font-weight: 600;
+              "
+            >
+              💳 Payment Summary — Today
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 8px">
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  background: var(--bg-input);
+                  border-radius: 8px;
+                  padding: 10px 14px;
+                  border: 1px solid var(--border);
+                  font-size: 0.82rem;
+                "
+              >
+                <span>💵 Cash</span
+                ><span style="color: var(--success); font-weight: 600"
+                  >₹28,400</span
+                >
+              </div>
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  background: var(--bg-input);
+                  border-radius: 8px;
+                  padding: 10px 14px;
+                  border: 1px solid var(--border);
+                  font-size: 0.82rem;
+                "
+              >
+                <span>📱 UPI</span
+                ><span style="color: var(--accent); font-weight: 600"
+                  >₹41,200</span
+                >
+              </div>
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  background: var(--bg-input);
+                  border-radius: 8px;
+                  padding: 10px 14px;
+                  border: 1px solid var(--border);
+                  font-size: 0.82rem;
+                "
+              >
+                <span>💳 Card</span
+                ><span style="color: #7c4dff; font-weight: 600">₹14,600</span>
+              </div>
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  background: rgba(0, 200, 83, 0.1);
+                  border-radius: 8px;
+                  padding: 10px 14px;
+                  border: 1px solid rgba(0, 200, 83, 0.3);
+                  font-size: 0.85rem;
+                "
+              >
+                <span style="font-weight: 700">Total</span
+                ><span style="color: var(--success); font-weight: 700"
+                  >₹84,200</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Staff Tab -->
+        <div class="module-content" id="tab-staff">
+          <div class="module-features-list">
+            <div class="module-feature-item">
+              <div class="fi-icon">🔐</div>
+              <div>
+                <h5>Role-Based Access</h5>
+                <p>
+                  Define roles — Manager, Receptionist, Housekeeping, Accountant
+                  — each with specific permissions.
+                </p>
+              </div>
+            </div>
+            <div class="module-feature-item">
+              <div class="fi-icon">🧹</div>
+              <div>
+                <h5>Housekeeping Assignments</h5>
+                <p>
+                  Assign rooms to housekeeping staff, track completion, and view
+                  pending tasks on a visual board.
+                </p>
+              </div>
+            </div>
+            <div class="module-feature-item">
+              <div class="fi-icon">⏰</div>
+              <div>
+                <h5>Shift Tracking</h5>
+                <p>
+                  Manage morning, afternoon, and night shifts with digital
+                  clock-in/out records per staff member.
+                </p>
+              </div>
+            </div>
+            <div class="module-feature-item">
+              <div class="fi-icon">👤</div>
+              <div>
+                <h5>Staff Login Access</h5>
+                <p>
+                  Each staff member gets their own secure login with a
+                  mobile-optimized view for their tasks.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="module-visual">
+            <div
+              style="
+                font-size: 0.8rem;
+                color: var(--text-muted);
+                margin-bottom: 12px;
+                font-weight: 600;
+              "
+            >
+              👥 Staff On Duty — Morning Shift
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 8px">
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 10px;
+                  background: var(--bg-input);
+                  border-radius: 8px;
+                  padding: 10px 12px;
+                  border: 1px solid var(--border);
+                "
+              >
+                <div
+                  style="
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    background: linear-gradient(
+                      135deg,
+                      var(--accent),
+                      var(--secondary)
+                    );
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 0.8rem;
+                    font-weight: 700;
+                  "
+                >
+                  R
+                </div>
+                <div style="flex: 1">
+                  <div style="font-size: 0.82rem; font-weight: 600">
+                    Ramesh S.
+                  </div>
+                  <div style="font-size: 0.7rem; color: var(--text-muted)">
+                    Receptionist
+                  </div>
+                </div>
+                <span class="badge badge-success" style="font-size: 0.68rem"
+                  >On Duty</span
+                >
+              </div>
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 10px;
+                  background: var(--bg-input);
+                  border-radius: 8px;
+                  padding: 10px 12px;
+                  border: 1px solid var(--border);
+                "
+              >
+                <div
+                  style="
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    background: linear-gradient(135deg, #ff6f00, #ff9800);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 0.8rem;
+                    font-weight: 700;
+                  "
+                >
+                  S
+                </div>
+                <div style="flex: 1">
+                  <div style="font-size: 0.82rem; font-weight: 600">
+                    Sunita D.
+                  </div>
+                  <div style="font-size: 0.7rem; color: var(--text-muted)">
+                    Housekeeping
+                  </div>
+                </div>
+                <span class="badge badge-info" style="font-size: 0.68rem"
+                  >In Progress</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Analytics Tab -->
+        <div class="module-content" id="tab-analytics">
+          <div class="module-features-list">
+            <div class="module-feature-item">
+              <div class="fi-icon">📈</div>
+              <div>
+                <h5>Occupancy Trends</h5>
+                <p>
+                  Monthly and yearly occupancy charts with comparisons to last
+                  year and industry benchmarks.
+                </p>
+              </div>
+            </div>
+            <div class="module-feature-item">
+              <div class="fi-icon">🗺️</div>
+              <div>
+                <h5>Revenue Heat Map</h5>
+                <p>
+                  Color-coded monthly revenue grid to instantly spot your peak
+                  and off-peak periods.
+                </p>
+              </div>
+            </div>
+            <div class="module-feature-item">
+              <div class="fi-icon">🤖</div>
+              <div>
+                <h5>AI Pricing Suggestion ⭐</h5>
+                <p>
+                  Our AI analyzes market demand, local events, and competitor
+                  rates to suggest optimal room pricing.
+                </p>
+              </div>
+            </div>
+            <div class="module-feature-item">
+              <div class="fi-icon">🔁</div>
+              <div>
+                <h5>Repeat Guest Tracking</h5>
+                <p>
+                  Know your loyal guests — how often they stay, their
+                  preferences, and lifetime value to your hotel.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="module-visual">
+            <div
+              style="
+                font-size: 0.8rem;
+                color: var(--text-muted);
+                margin-bottom: 12px;
+                font-weight: 600;
+              "
+            >
+              🤖 AI Pricing Suggestion
+            </div>
+            <div
+              style="
+                background: rgba(124, 77, 255, 0.1);
+                border: 1px solid rgba(124, 77, 255, 0.3);
+                border-radius: 12px;
+                padding: 16px;
+                margin-bottom: 12px;
+              "
+            >
+              <div
+                style="
+                  font-size: 0.82rem;
+                  color: #7c4dff;
+                  font-weight: 600;
+                  margin-bottom: 6px;
+                "
+              >
+                💡 Tomorrow Night — Increase by 18%
+              </div>
+              <div style="font-size: 0.75rem; color: var(--text-muted)">
+                Local IPL match → 85% demand spike predicted. Suggested rate:
+                ₹3,200/night (was ₹2,700)
+              </div>
+            </div>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(7, 1fr);
+                gap: 4px;
+              "
+            >
+              <div
+                style="
+                  height: 24px;
+                  border-radius: 4px;
+                  background: rgba(0, 200, 83, 0.4);
+                "
+              ></div>
+              <div
+                style="
+                  height: 24px;
+                  border-radius: 4px;
+                  background: rgba(0, 200, 83, 0.7);
+                "
+              ></div>
+              <div
+                style="
+                  height: 24px;
+                  border-radius: 4px;
+                  background: rgba(0, 200, 83, 0.9);
+                "
+              ></div>
+              <div
+                style="
+                  height: 24px;
+                  border-radius: 4px;
+                  background: rgba(255, 111, 0, 0.8);
+                "
+              ></div>
+              <div
+                style="
+                  height: 24px;
+                  border-radius: 4px;
+                  background: rgba(244, 67, 54, 0.9);
+                "
+              ></div>
+              <div
+                style="
+                  height: 24px;
+                  border-radius: 4px;
+                  background: rgba(0, 200, 83, 0.5);
+                "
+              ></div>
+              <div
+                style="
+                  height: 24px;
+                  border-radius: 4px;
+                  background: rgba(0, 200, 83, 0.3);
+                "
+              ></div>
+            </div>
+            <div
+              style="
+                font-size: 0.65rem;
+                color: var(--text-muted);
+                margin-top: 6px;
+                text-align: center;
+              "
+            >
+              Revenue Heat — This Week
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== PRICING ========== -->
+    <section class="section" id="pricing">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-label">Pricing</div>
+          <h2>
+            Simple, Transparent <span class="gradient-text">Pricing</span>
+          </h2>
+          <p>
+            No hidden fees. No setup costs. Start free and upgrade when you're
+            ready to scale.
+          </p>
+        </div>
+        <div class="pricing-grid">
+          <div class="pricing-card">
+            <div class="plan-name">Starter</div>
+            <div class="plan-price"><sup>₹</sup>0<sub>/month</sub></div>
+            <p class="plan-desc">
+              Perfect for small hotels & guest houses just getting started.
+            </p>
+            <div class="plan-features">
+              <div class="plan-feature">
+                <span class="check">✓</span> Up to 15 rooms
+              </div>
+              <div class="plan-feature">
+                <span class="check">✓</span> Dashboard & Check-in/out
+              </div>
+              <div class="plan-feature">
+                <span class="check">✓</span> Basic booking management
+              </div>
+              <div class="plan-feature">
+                <span class="check">✓</span> GST invoice generation
+              </div>
+              <div class="plan-feature">
+                <span class="check">✓</span> Sarai API integration
+              </div>
+              <div class="plan-feature">
+                <span class="cross" style="color: var(--text-muted)">✗</span>
+                <span style="color: var(--text-muted)"
+                  >OTA channel manager</span
+                >
+              </div>
+              <div class="plan-feature">
+                <span class="cross" style="color: var(--text-muted)">✗</span>
+                <span style="color: var(--text-muted)"
+                  >AI pricing insights</span
+                >
+              </div>
+              <div class="plan-feature">
+                <span class="cross" style="color: var(--text-muted)">✗</span>
+                <span style="color: var(--text-muted)"
+                  >Analytics & reports</span
+                >
+              </div>
+            </div>
+            <a
+              href="register.html"
+              class="btn btn-outline w-full"
+              style="text-align: center; justify-content: center"
+              >Start Free</a
+            >
+          </div>
+
+          <div class="pricing-card popular">
+            <div class="popular-badge">🔥 Most Popular</div>
+            <div class="plan-name">Growth</div>
+            <div class="plan-price"><sup>₹</sup>2,499<sub>/month</sub></div>
+            <p class="plan-desc">
+              For growing hotels that want to maximize revenue and automate
+              operations.
+            </p>
+            <div class="plan-features">
+              <div class="plan-feature">
+                <span class="check">✓</span> Up to 100 rooms
+              </div>
+              <div class="plan-feature">
+                <span class="check">✓</span> All Starter features
+              </div>
+              <div class="plan-feature">
+                <span class="check">✓</span> OTA channel manager
+              </div>
+              <div class="plan-feature">
+                <span class="check">✓</span> Corporate bookings
+              </div>
+              <div class="plan-feature">
+                <span class="check">✓</span> Staff management
+              </div>
+              <div class="plan-feature">
+                <span class="check">✓</span> Analytics & revenue reports
+              </div>
+              <div class="plan-feature">
+                <span class="check">✓</span> Export to Tally
+              </div>
+              <div class="plan-feature">
+                <span class="cross" style="color: var(--text-muted)">✗</span>
+                <span style="color: var(--text-muted)"
+                  >AI pricing (₹6/pax/plan)</span
+                >
+              </div>
+            </div>
+            <a
+              href="register.html"
+              class="btn btn-primary w-full"
+              style="text-align: center; justify-content: center"
+              >Start 3-Month Free Trial</a
+            >
+          </div>
+
+          <div class="pricing-card">
+            <div class="plan-name">Enterprise</div>
+            <div class="plan-price"><sup>₹</sup>5,999<sub>/month</sub></div>
+            <p class="plan-desc">
+              For large hotels and chains that need complete control and AI
+              insights.
+            </p>
+            <div class="plan-features">
+              <div class="plan-feature">
+                <span class="check">✓</span> Unlimited rooms
+              </div>
+              <div class="plan-feature">
+                <span class="check">✓</span> All Growth features
+              </div>
+              <div class="plan-feature">
+                <span class="check">✓</span> AI pricing suggestions
+              </div>
+              <div class="plan-feature">
+                <span class="check">✓</span> Revenue heat maps
+              </div>
+              <div class="plan-feature">
+                <span class="check">✓</span> Multi-property management
+              </div>
+              <div class="plan-feature">
+                <span class="check">✓</span> Inventory & POS module
+              </div>
+              <div class="plan-feature">
+                <span class="check">✓</span> Dedicated account manager
+              </div>
+              <div class="plan-feature">
+                <span class="check">✓</span> WhatsApp API integration
+              </div>
+            </div>
+            <a
+              href="register.html"
+              class="btn btn-outline w-full"
+              style="text-align: center; justify-content: center"
+              >Contact Sales</a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== TESTIMONIALS ========== -->
+    <section
+      class="section"
+      id="testimonials"
+      style="background: var(--bg-card)"
+    >
+      <div class="container">
+        <div class="section-header">
+          <div class="section-label">Testimonials</div>
+          <h2>
+            Trusted by <span class="gradient-text">2,400+ Hotels</span> Across
+            India
+          </h2>
+          <p>
+            Don't just take our word for it — hear from hotel owners who
+            transformed their business with TRACKINN.
+          </p>
+        </div>
+        <div class="testimonials-grid">
+          <div class="testimonial-card">
+            <div class="stars">★★★★★</div>
+            <p class="testimonial-text">
+              "TRACKINN transformed how we manage our 45-room hotel. Check-in
+              time went from 8 minutes to under 60 seconds. Sarai compliance
+              used to take hours — now it's fully automatic. Best investment we
+              made."
+            </p>
+            <div class="testimonial-author">
+              <div class="author-avatar">RK</div>
+              <div class="author-info">
+                <strong>Rakesh Kumar Gupta</strong>
+                <span>Hotel Sunrise Palace, Varanasi · 45 rooms</span>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <div class="stars">★★★★★</div>
+            <p class="testimonial-text">
+              "The AI pricing feature is incredible. During IPL season, it
+              suggested raising our rates by 22% — I was hesitant but followed
+              it. We were 100% booked and made ₹2.4L extra revenue that week
+              alone."
+            </p>
+            <div class="testimonial-author">
+              <div class="author-avatar">PM</div>
+              <div class="author-info">
+                <strong>Priya Malhotra</strong>
+                <span>The Grand Boutique, Jaipur · 80 rooms</span>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <div class="stars">★★★★★</div>
+            <p class="testimonial-text">
+              "Our accountant used to spend 3 days every month on GST filing.
+              With TRACKINN, invoices are auto-generated and Tally export is one
+              click. We saved ₹24,000/year on accounting fees alone."
+            </p>
+            <div class="testimonial-author">
+              <div class="author-avatar">AS</div>
+              <div class="author-info">
+                <strong>Anil Sharma</strong>
+                <span>Hotel Comfort Zone, Pune · 32 rooms</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== CTA SECTION ========== -->
+    <section class="cta-section" id="contact">
+      <div class="container">
+        <div class="cta-card">
+          <div
+            class="hero-badge"
+            style="display: inline-flex; margin-bottom: 20px"
+          >
+            <span class="dot"></span>
+            3-Month Free Trial — No Credit Card Required
+          </div>
+          <h2>
+            Ready to Transform <span class="gradient-text">Your Hotel?</span>
+          </h2>
+          <p>
+            Join 2,400+ hotel owners using TRACKINN to automate operations,
+            increase revenue, and delight every guest. Setup takes under 30
+            minutes.
+          </p>
+          <div class="cta-actions">
+            <a href="register.html" class="btn btn-primary btn-lg"
+              >🚀 Start Free Today</a
+            >
+            <a href="login.html" class="btn btn-outline btn-lg"
+              >📞 Book a Demo</a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a
+              href="index.html"
+              class="nav-logo"
+              style="margin-bottom: 4px; display: inline-flex"
+            >
+              <div class="logo-icon">🏨</div>
+              <span>TRACK<em>INN</em></span>
+            </a>
+            <p>
+              India's most powerful Hotel Management SaaS — built to automate
+              operations, maximize revenue, and delight every guest.
+            </p>
+            <div class="footer-social">
+              <a href="#" class="social-btn" title="Twitter">𝕏</a>
+              <a href="#" class="social-btn" title="LinkedIn">in</a>
+              <a href="#" class="social-btn" title="Instagram">▶</a>
+              <a href="#" class="social-btn" title="WhatsApp">📱</a>
+            </div>
+          </div>
+          <div class="footer-col">
+            <h5>Product</h5>
+            <ul>
+              <li><a href="#features">Features</a></li>
+              <li><a href="#modules">Modules</a></li>
+              <li><a href="#pricing">Pricing</a></li>
+              <li><a href="#">Changelog</a></li>
+              <li><a href="#">API Docs</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h5>Company</h5>
+            <ul>
+              <li><a href="#">About Us</a></li>
+              <li><a href="#">Careers</a></li>
+              <li><a href="#">Blog</a></li>
+              <li><a href="#">Press Kit</a></li>
+              <li><a href="#">Contact</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h5>Support</h5>
+            <ul>
+              <li><a href="#">Help Center</a></li>
+              <li><a href="#">Sarai Guide</a></li>
+              <li><a href="#">GST Setup</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Terms of Service</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span
+            >© 2026 TRACKINN Technologies Pvt. Ltd. All rights reserved.</span
+          >
+          <span>Made with ❤️ in India 🇮🇳</span>
+        </div>
+      </div>
+    </footer>
+
+    <!-- ========== SCRIPTS ========== -->
+    <script>
+      // Navbar scroll effect
+      const navbar = document.getElementById("navbar");
+      window.addEventListener("scroll", () => {
+        navbar.classList.toggle("scrolled", window.scrollY > 40);
+      });
+
+      // Mobile menu toggle
+      const hamburgerBtn = document.getElementById("hamburgerBtn");
+      const mobileNav = document.getElementById("mobileNav");
+      hamburgerBtn.addEventListener("click", () => {
+        mobileNav.classList.toggle("open");
+      });
+      function closeMenu() {
+        mobileNav.classList.remove("open");
+      }
+
+      // Module Tabs
+      function switchTab(tabId) {
+        document
+          .querySelectorAll(".module-tab")
+          .forEach((t) => t.classList.remove("active"));
+        document
+          .querySelectorAll(".module-content")
+          .forEach((c) => c.classList.remove("active"));
+        event.target.classList.add("active");
+        document.getElementById("tab-" + tabId).classList.add("active");
+      }
+
+      // Smooth scroll for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: "smooth", block: "start" });
+            closeMenu();
+          }
+        });
+      });
+
+      // Animate numbers on scroll
+      function animateValue(
+        el,
+        start,
+        end,
+        duration,
+        prefix = "",
+        suffix = "",
+      ) {
+        let startTime = null;
+        const step = (timestamp) => {
+          if (!startTime) startTime = timestamp;
+          const progress = Math.min((timestamp - startTime) / duration, 1);
+          const eased =
+            progress < 0.5
+              ? 2 * progress * progress
+              : -1 + (4 - 2 * progress) * progress;
+          el.textContent =
+            prefix +
+            Math.floor(eased * (end - start) + start).toLocaleString("en-IN") +
+            suffix;
+          if (progress < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      }
+
+      // Intersection Observer for animations
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.style.animation = "fadeIn 0.6s ease forwards";
+            }
+          });
+        },
+        { threshold: 0.1 },
+      );
+
+      document
+        .querySelectorAll(
+          ".feature-card, .step-card, .pricing-card, .testimonial-card",
+        )
+        .forEach((el) => {
+          el.style.opacity = "0";
+          observer.observe(el);
+        });
+    </script>
+  </body>
+</html>

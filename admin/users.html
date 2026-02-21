@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Users — Super Admin</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <aside class="sidebar sidebar-admin">
+        <a href="../index.html" class="sidebar-logo">
+            <div class="slogo-icon"><i class="fas fa-shield-halved"></i></div>
+            <div class="slogo-text">TRACKINN<em>.</em> <small class="slogo-sub">ADMIN PANEL</small></div>
+        </a>
+        <div class="hotel-badge">
+            <div class="hotel-badge-avatar">HQ</div>
+            <div class="hotel-badge-info"><div class="hotel-badge-name">Corporate HQ</div><div class="hotel-badge-plan">Central Control</div></div>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section-label">Main Business</div>
+            <a href="dashboard.html" class="nav-item"><div class="nav-icon"><i class="fas fa-chart-pie"></i></div><div class="nav-label">Master Dashboard</div></a>
+            <a href="hotels.html" class="nav-item"><div class="nav-icon"><i class="fas fa-hotel"></i></div><div class="nav-label">Manage Hotels</div></a>
+            <a href="users.html" class="nav-item active"><div class="nav-icon"><i class="fas fa-users"></i></div><div class="nav-label">Manage Travellers</div></a>
+            
+            <div class="nav-section-label">Finance</div>
+            <a href="commissions.html" class="nav-item"><div class="nav-icon"><i class="fas fa-coins"></i></div><div class="nav-label">Commission Engine</div></a>
+
+            <div class="nav-section-label">Intelligence</div>
+            <a href="intelligence.html" class="nav-item"><div class="nav-icon"><i class="fas fa-brain"></i></div><div class="nav-label">Data Intelligence</div></a>
+            <a href="compliance.html" class="nav-item"><div class="nav-icon"><i class="fas fa-file-contract"></i></div><div class="nav-label">Compliance & Risk</div></a>
+
+            <div class="nav-section-label">Operations</div>
+            <a href="sales-team.html" class="nav-item"><div class="nav-icon"><i class="fas fa-briefcase"></i></div><div class="nav-label">Sales Team</div></a>
+            <a href="support.html" class="nav-item"><div class="nav-icon"><i class="fas fa-headset"></i></div><div class="nav-label">Support Desk</div></a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button class="sidebar-toggle">
+                <i class="fas fa-angle-left toggle-icon"></i>
+                <span>Collapse Sidebar</span>
+            </button>
+        </div>
+    </aside>
+
+    <div class="sidebar-overlay"></div>
+
+    <main class="main-content">
+        <header class="topbar">
+            <button class="topbar-mobile-menu"><i class="fas fa-bars"></i></button>
+            <div class="topbar-title">User Management <span>Track traveller activity and accounts</span></div>
+            <div class="topbar-actions">
+                <div class="topbar-date">February 20, 2026</div>
+                <div class="topbar-profile"><div class="profile-avatar">S</div><div class="profile-info"><strong>Super Admin</strong></div></div>
+            </div>
+        </header>
+
+        <div class="page-wrapper">
+            <!-- KPIs -->
+            <div class="admin-overview-grid mb-3" style="grid-template-columns: repeat(4, 1fr);">
+                <div class="kpi-card kpi-purple"><div class="kpi-label">Total Users</div><div class="kpi-value">45,201</div></div>
+                <div class="kpi-card kpi-green"><div class="kpi-label">Active Today</div><div class="kpi-value">1,204</div></div>
+                <div class="kpi-card kpi-cyan"><div class="kpi-label">New This Week</div><div class="kpi-value">+840</div></div>
+                <div class="kpi-card kpi-red"><div class="kpi-label">Blacklisted</div><div class="kpi-value">12</div></div>
+            </div>
+
+            <!-- Filters -->
+            <div class="filter-bar" style="background:var(--bg-card); padding:16px; border-radius:12px; margin-bottom:24px; border:1px solid var(--border);">
+                <div class="flex gap-2">
+                    <input type="text" class="form-control" placeholder="Search by Name, Phone, Email..." style="width:300px;">
+                    <select class="form-control" style="width:150px;"><option>All Users</option><option>Active</option><option>Blacklisted</option></select>
+                </div>
+                <button class="btn btn-primary"><i class="fas fa-plus"></i> Manual Add</button>
+            </div>
+
+            <!-- User Grid -->
+            <div class="table-container" style="background:var(--bg-card); border-radius:12px; border:1px solid var(--border); overflow:hidden;">
+                <table class="table" style="width:100%; border-collapse:collapse;">
+                    <thead style="background:var(--bg-input); border-bottom:1px solid var(--border);">
+                        <tr>
+                            <th style="padding:16px; text-align:left;">User Details</th>
+                            <th style="padding:16px; text-align:left;">Phone / Email</th>
+                            <th style="padding:16px; text-align:left;">Membership</th>
+                            <th style="padding:16px; text-align:left;">Total Bookings</th>
+                            <th style="padding:16px; text-align:left;">Wallet Balance</th>
+                            <th style="padding:16px; text-align:left;">Status</th>
+                            <th style="padding:16px; text-align:left;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom:1px solid var(--border);">
+                            <td style="padding:16px;">
+                                <div style="font-weight:600;">Rahul Sharma</div>
+                                <div style="font-size:0.8rem; color:var(--text-muted);">Joined: Jan 2024</div>
+                            </td>
+                            <td style="padding:16px;">+91 98765 43210<br><span style="font-size:0.8rem; color:var(--text-muted);">rahul@gmail.com</span></td>
+                            <td style="padding:16px;"><span class="badge badge-warning" style="background:gold; color:black;">Gold</span></td>
+                            <td style="padding:16px;">12</td>
+                            <td style="padding:16px;">₹2,450</td>
+                            <td style="padding:16px;"><span class="badge badge-success">Active</span></td>
+                            <td style="padding:16px;">
+                                <button class="btn btn-sm btn-outline" onclick="openModal('userActionModal')">View History</button>
+                            </td>
+                        </tr>
+                         <tr style="border-bottom:1px solid var(--border);">
+                            <td style="padding:16px;">
+                                <div style="font-weight:600;">Priya Verma</div>
+                                <div style="font-size:0.8rem; color:var(--text-muted);">Joined: Feb 2024</div>
+                            </td>
+                            <td style="padding:16px;">+91 88776 65544<br><span style="font-size:0.8rem; color:var(--text-muted);">priya.v@outlook.com</span></td>
+                            <td style="padding:16px;"><span class="badge badge-info">Silver</span></td>
+                            <td style="padding:16px;">4</td>
+                            <td style="padding:16px;">₹150</td>
+                            <td style="padding:16px;"><span class="badge badge-success">Active</span></td>
+                            <td style="padding:16px;">
+                                <button class="btn btn-sm btn-outline">View History</button>
+                            </td>
+                        </tr>
+                        <tr style="border-bottom:1px solid var(--border); background:rgba(244, 67, 54, 0.05);">
+                            <td style="padding:16px;">
+                                <div style="font-weight:600; color:var(--danger);">Vikram Singh</div>
+                                <div style="font-size:0.8rem; color:var(--text-muted);">Joined: Dec 2023</div>
+                            </td>
+                            <td style="padding:16px;">+91 99887 76655<br><span style="font-size:0.8rem; color:var(--text-muted);">vikram@fake.com</span></td>
+                            <td style="padding:16px;"><span class="badge badge-info">Bronze</span></td>
+                            <td style="padding:16px;">0</td>
+                            <td style="padding:16px;">₹0</td>
+                            <td style="padding:16px;"><span class="badge badge-danger">Banned</span></td>
+                            <td style="padding:16px;">
+                                <button class="btn btn-sm btn-outline">Unban</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div style="margin-top:20px; text-align:center;">
+                <button class="btn btn-outline">Load More Users</button>
+            </div>
+        </div>
+    </main>
+    
+    <!-- User Modal -->
+    <div class="modal-overlay" id="userActionModal">
+        <div class="modal" style="max-width:600px;">
+            <div class="modal-header">
+                <h4>Rahul Sharma — Booking History</h4>
+                <button class="modal-close" onclick="closeModal('userActionModal')">✕</button>
+            </div>
+            <div class="table-responsive" style="margin-bottom:16px;">
+                <table class="table" style="width:100%; font-size:0.9rem;">
+                   <thead style="background:var(--bg-input);"><tr><th>Booking ID</th><th>Hotel</th><th>Date</th><th>Amount</th><th>Status</th></tr></thead>
+                   <tbody>
+                      <tr><td>#TRK-8821</td><td>Grand Palace</td><td>Feb 18, 2026</td><td>₹4,200</td><td><span class="badge badge-success">Completed</span></td></tr>
+                      <tr><td>#TRK-8104</td><td>City Stay</td><td>Jan 12, 2026</td><td>₹2,100</td><td><span class="badge badge-success">Completed</span></td></tr>
+                      <tr><td>#TRK-7922</td><td>Seaside Resort</td><td>Dec 24, 2025</td><td>₹15,400</td><td><span class="badge badge-warning">Cancelled</span></td></tr>
+                   </tbody>
+                </table>
+            </div>
+            <div style="display:flex; justify-content:flex-end; gap:12px;">
+                <button class="btn btn-outline" style="color:var(--danger); border-color:var(--danger);">Blacklist User</button>
+                <button class="btn btn-primary">Add Wallet Credit</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/admin.js"></script>
+    <script>
+        function openModal(id) { document.getElementById(id).classList.add('active'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+        window.onclick = function(e) { if(e.target.classList.contains('modal-overlay')) e.target.classList.remove('active'); }
+    </script>
+</body>
+</html>

@@ -1,0 +1,145 @@
+/* ============================================================
+   TRACKINN — Admin Panel Dashboard CSS (admin.css)
+   Web-first · Data Intelligence · High Density
+   ============================================================ */
+
+/* Heatmap Placeholder */
+.heatmap-container {
+    height: 400px;
+    background: var(--bg-card2);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+    background-image: radial-gradient(circle at 50% 50%, rgba(0, 188, 212, 0.1) 0%, transparent 70%);
+}
+
+.heatmap-point {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle, rgba(0, 188, 212, 0.4) 0%, transparent 70%);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: pulse 2s infinite;
+}
+
+/* Commission Engine styles */
+.rule-card {
+    padding: 16px;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.payout-status-pill {
+    padding: 2px 12px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.status-processed {
+    background: var(--success-bg);
+    color: var(--success);
+}
+
+.status-pending {
+    background: var(--warning-bg);
+    color: var(--warning);
+}
+
+.status-flagged {
+    background: var(--danger-bg);
+    color: var(--danger);
+}
+
+/* Data Intelligence Tables */
+.intel-table th {
+    background: var(--bg-card);
+    position: sticky;
+    top: 0;
+}
+
+.rank-up {
+    color: var(--success);
+    font-size: 0.8rem;
+}
+
+.rank-down {
+    color: var(--danger);
+    font-size: 0.8rem;
+}
+
+/* Fraud Detection Markers */
+.fraud-flag {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--danger);
+    display: inline-block;
+    margin-right: 8px;
+    box-shadow: 0 0 8px var(--danger);
+}
+
+/* Wallet Ledger */
+.ledger-entry {
+    border-left: 3px solid var(--border);
+    padding-left: 16px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.ledger-entry::before {
+    content: '';
+    position: absolute;
+    left: -7px;
+    top: 0;
+    width: 11px;
+    height: 11px;
+    background: var(--bg-dark);
+    border: 2px solid var(--border);
+    border-radius: 50%;
+}
+
+.ledger-entry.credit {
+    border-color: var(--success);
+}
+
+.ledger-entry.debit {
+    border-color: var(--danger);
+}
+
+/* Sidebar variations for Admin */
+.sidebar-admin .nav-item.active {
+    background: linear-gradient(135deg, rgba(124, 77, 255, 0.15), rgba(0, 188, 212, 0.1));
+    color: var(--secondary);
+    border-color: rgba(124, 77, 255, 0.3);
+}
+
+.sidebar-admin .slogo-icon {
+    background: linear-gradient(135deg, var(--secondary), var(--accent));
+}
+
+/* Stats Overview */
+.admin-overview-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+@media (max-width: 1200px) {
+    .admin-overview-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .admin-overview-grid {
+        grid-template-columns: 1fr;
+    }
+}

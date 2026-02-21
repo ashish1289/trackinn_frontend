@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login — TRACKINN Hotel Management</title>
+  <meta name="description" content="Login to your TRACKINN account. Hotel owners, guests, sales team and admins can login here." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <style>
+    body { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: var(--bg-dark); overflow-y: auto; padding: 24px 16px; box-sizing: border-box; }
+    .auth-bg {
+      position: fixed; inset: 0;
+      background: radial-gradient(ellipse 80% 70% at 20% 50%, rgba(26,35,126,0.4) 0%, transparent 60%),
+                  radial-gradient(ellipse 60% 60% at 80% 30%, rgba(0,188,212,0.15) 0%, transparent 60%),
+                  radial-gradient(ellipse 50% 60% at 60% 80%, rgba(124,77,255,0.1) 0%, transparent 60%);
+    }
+    .auth-grid {
+      position: fixed; inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .auth-container {
+      position: relative; z-index: 1;
+      width: 100%; max-width: 520px;
+      padding: 20px;
+    }
+    .auth-logo {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      margin-bottom: 32px;
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 800;
+    }
+    .auth-logo .logo-icon {
+      width: 44px; height: 44px;
+      background: linear-gradient(135deg, var(--accent), var(--secondary));
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+    }
+    .auth-logo span em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--accent), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .auth-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 40px;
+      box-shadow: var(--shadow-lg), 0 0 60px rgba(0,188,212,0.05);
+    }
+    .auth-title { font-size: 1.6rem; font-weight: 700; margin-bottom: 6px; }
+    .auth-subtitle { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 28px; }
+
+    /* Role Selector */
+    .role-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+    .role-card {
+      padding: 16px 12px;
+      background: var(--bg-input);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: var(--transition-fast);
+      text-align: center;
+      position: relative;
+    }
+    .role-card:hover { border-color: var(--border-accent); background: rgba(0,188,212,0.05); }
+    .role-card.selected {
+      border-color: var(--accent);
+      background: rgba(0,188,212,0.08);
+      box-shadow: 0 0 0 2px rgba(0,188,212,0.15);
+    }
+    .role-card input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+    .role-icon { font-size: 1.6rem; margin-bottom: 6px; display: block; }
+    .role-name { font-size: 0.82rem; font-weight: 600; color: var(--text-primary); display: block; }
+    .role-desc { font-size: 0.72rem; color: var(--text-muted); display: block; margin-top: 2px; }
+    .role-card.selected .role-name { color: var(--accent); }
+
+    .divider-text {
+      display: flex; align-items: center; gap: 12px;
+      color: var(--text-muted); font-size: 0.82rem;
+      margin: 20px 0;
+    }
+    .divider-text::before, .divider-text::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+    .auth-footer {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+    .auth-footer a { color: var(--accent); font-weight: 600; }
+    .auth-footer a:hover { text-decoration: underline; }
+
+    .input-group { position: relative; }
+    .input-icon {
+      position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+      font-size: 1rem; color: var(--text-muted); pointer-events: none;
+    }
+    .input-group .form-control { padding-left: 42px; }
+    .pass-toggle {
+      position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+      font-size: 1rem; color: var(--text-muted); cursor: pointer; background: none;
+      border: none; padding: 0;
+    }
+    .forgot-row {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .forgot-row label { display: flex; align-items: center; gap: 8px; font-size: 0.875rem; color: var(--text-secondary); cursor: pointer; }
+    .forgot-row a { font-size: 0.875rem; color: var(--accent); }
+    .forgot-row a:hover { text-decoration: underline; }
+
+    .back-link {
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      color: var(--text-muted); font-size: 0.85rem;
+      margin-bottom: 24px;
+      transition: var(--transition-fast);
+    }
+    .back-link:hover { color: var(--accent); }
+
+    @media (max-width: 480px) {
+      .auth-card { padding: 24px 20px; }
+      .role-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-bg"></div>
+  <div class="auth-grid"></div>
+
+  <div class="auth-container">
+    <a href="index.html" class="back-link">← Back to TRACKINN.com</a>
+
+    <div class="auth-logo">
+      <div class="logo-icon">🏨</div>
+      <span>TRACK<em>INN</em></span>
+    </div>
+
+    <div class="auth-card">
+      <h1 class="auth-title">Welcome Back 👋</h1>
+      <p class="auth-subtitle">Select your role and sign in to your dashboard</p>
+
+      <!-- Role Selector -->
+      <div class="role-grid" id="roleGrid">
+        <label class="role-card selected" onclick="selectRole(this, 'owner')">
+          <input type="radio" name="role" value="owner" checked />
+          <span class="role-icon">🏨</span>
+          <span class="role-name">Hotel Login</span>
+          <span class="role-desc">Owner / Staff</span>
+        </label>
+        <label class="role-card" onclick="selectRole(this, 'customer')">
+          <input type="radio" name="role" value="customer" />
+          <span class="role-icon">�</span>
+          <span class="role-name">Guest / Traveller</span>
+          <span class="role-desc">Book & manage trips</span>
+        </label>
+        <label class="role-card" onclick="selectRole(this, 'sales')">
+          <input type="radio" name="role" value="sales" />
+          <span class="role-icon">🧑‍�</span>
+          <span class="role-name">Sales Team</span>
+          <span class="role-desc">Field operations</span>
+        </label>
+        <label class="role-card" onclick="selectRole(this, 'admin')">
+          <input type="radio" name="role" value="admin" />
+          <span class="role-icon">🛡️</span>
+          <span class="role-name">Admin</span>
+          <span class="role-desc">Control center</span>
+        </label>
+      </div>
+
+      <div class="divider-text">Sign in with your credentials</div>
+
+      <!-- Login Form -->
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label class="form-label" for="email">Email / Username</label>
+          <div class="input-group">
+            <span class="input-icon">✉️</span>
+            <input type="text" id="email" class="form-control" placeholder="staff.hk or manager" required />
+          </div>
+          <div style="font-size:0.75rem;color:var(--text-muted);margin-top:4px;">
+            Demo: <b>manager</b> (Full Dashboard) • <b>staff.hk</b> (Room View)
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="password">Password</label>
+          <div class="input-group">
+            <span class="input-icon">🔒</span>
+            <input type="password" id="password" class="form-control" placeholder="Enter your password" required />
+            <button type="button" class="pass-toggle" onclick="togglePassword()">👁</button>
+          </div>
+        </div>
+        <div class="forgot-row">
+          <label>
+            <input type="checkbox" style="accent-color:var(--accent);" />
+            <span>Remember me</span>
+          </label>
+          <a href="#">Forgot password?</a>
+        </div>
+        <button type="submit" class="btn btn-primary w-full" style="justify-content:center;font-size:1rem;padding:14px;">
+          Sign In →
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        New to TRACKINN? 
+        <a href="register.html">Create your hotel account</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let selectedRole = 'owner';
+
+    function selectRole(el, role) {
+      document.querySelectorAll('.role-card').forEach(c => c.classList.remove('selected'));
+      el.classList.add('selected');
+      selectedRole = role;
+    }
+
+    function togglePassword() {
+      const pwd = document.getElementById('password');
+      pwd.type = pwd.type === 'password' ? 'text' : 'password';
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('button[type="submit"]');
+      const email = document.getElementById('email').value.trim().toLowerCase();
+      
+      btn.innerHTML = '⏳ Signing in...';
+      btn.disabled = true;
+
+      // Simulate Auth & Route Logic
+      setTimeout(() => {
+        let route = 'owner/dashboard.html';
+
+        if(selectedRole === 'admin') {
+          localStorage.setItem('userRole', 'super_admin');
+          localStorage.setItem('userName', 'Super Admin');
+          localStorage.setItem('userRoleLabel', 'System Admin');
+          localStorage.setItem('userAvatar', 'SA');
+          route = 'admin/dashboard.html';
+        }
+        else if(selectedRole === 'sales') {
+          localStorage.setItem('userRole', 'sales_agent');
+          localStorage.setItem('userName', 'Arun Kumar');
+          localStorage.setItem('userRoleLabel', 'Sales Agent');
+          localStorage.setItem('userAvatar', 'AK');
+          route = 'salesteam/dashboard.html';
+        }
+        else if(selectedRole === 'customer') {
+          localStorage.setItem('userRole', 'customer');
+          localStorage.setItem('userName', 'Rahul Sharma');
+          route = 'user/dashboard.html';
+        } 
+        else if(selectedRole === 'owner') {
+          // Owner / Staff Logic
+          if(email.includes('hk') || email.includes('house')) {
+            localStorage.setItem('userRole', 'housekeeping');
+            localStorage.setItem('userName', 'Housekeeping Staff');
+            localStorage.setItem('userRoleLabel', 'Housekeeping');
+            localStorage.setItem('userAvatar', 'HK');
+            route = 'owner/room-detail.html';
+          } else if(email.includes('fd') || email.includes('recep')) {
+            localStorage.setItem('userRole', 'frontdesk');
+            localStorage.setItem('userName', 'Reception Desk');
+            localStorage.setItem('userRoleLabel', 'Front Desk');
+            localStorage.setItem('userAvatar', 'RD');
+            route = 'owner/checkin.html';
+          } else if(email.includes('bill')) {
+            localStorage.setItem('userRole', 'billing');
+            localStorage.setItem('userName', 'Accounts Team');
+            localStorage.setItem('userRoleLabel', 'Billing');
+            localStorage.setItem('userAvatar', 'AT');
+            route = 'owner/billing.html';
+          } else {
+            localStorage.setItem('userRole', 'manager');
+            localStorage.setItem('userName', 'Rajesh Kumar');
+            localStorage.setItem('userRoleLabel', 'Hotel Manager');
+            localStorage.setItem('userAvatar', 'RK');
+            route = 'owner/dashboard.html'; // Fallback to Dashboard (Manager/Owner)
+          }
+        }
+        
+        window.location.href = route;
+      }, 1000);
+    }
+  </script>
+</body>
+</html>

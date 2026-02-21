@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Hotels — Super Admin</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar sidebar-admin">
+        <a href="../index.html" class="sidebar-logo">
+            <div class="slogo-icon"><i class="fas fa-shield-halved"></i></div>
+            <div class="slogo-text">TRACKINN<em>.</em> <small class="slogo-sub">ADMIN PANEL</small></div>
+        </a>
+        <div class="hotel-badge">
+            <div class="hotel-badge-avatar">HQ</div>
+            <div class="hotel-badge-info"><div class="hotel-badge-name">Corporate HQ</div><div class="hotel-badge-plan">Central Control</div></div>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section-label">Main Business</div>
+            <a href="dashboard.html" class="nav-item"><div class="nav-icon"><i class="fas fa-chart-pie"></i></div><div class="nav-label">Master Dashboard</div></a>
+            <a href="hotels.html" class="nav-item active"><div class="nav-icon"><i class="fas fa-hotel"></i></div><div class="nav-label">Manage Hotels</div></a>
+            <a href="users.html" class="nav-item"><div class="nav-icon"><i class="fas fa-users"></i></div><div class="nav-label">Manage Travellers</div></a>
+            
+            <div class="nav-section-label">Finance</div>
+            <a href="commissions.html" class="nav-item"><div class="nav-icon"><i class="fas fa-coins"></i></div><div class="nav-label">Commission Engine</div></a>
+
+            <div class="nav-section-label">Intelligence</div>
+            <a href="intelligence.html" class="nav-item"><div class="nav-icon"><i class="fas fa-brain"></i></div><div class="nav-label">Data Intelligence</div></a>
+            <a href="compliance.html" class="nav-item"><div class="nav-icon"><i class="fas fa-file-contract"></i></div><div class="nav-label">Compliance & Risk</div></a>
+
+            <div class="nav-section-label">Operations</div>
+            <a href="sales-team.html" class="nav-item"><div class="nav-icon"><i class="fas fa-briefcase"></i></div><div class="nav-label">Sales Team</div></a>
+            <a href="support.html" class="nav-item"><div class="nav-icon"><i class="fas fa-headset"></i></div><div class="nav-label">Support Desk</div></a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button class="sidebar-toggle">
+                <i class="fas fa-angle-left toggle-icon"></i>
+                <span>Collapse Sidebar</span>
+            </button>
+        </div>
+    </aside>
+
+    <div class="sidebar-overlay"></div>
+
+    <main class="main-content">
+        <header class="topbar">
+            <button class="topbar-mobile-menu"><i class="fas fa-bars"></i></button>
+            <div class="topbar-title">Hotel Management <span>Monitor and manage all property partners</span></div>
+            <div class="topbar-actions">
+                <div class="topbar-date">February 20, 2026</div>
+                <div class="topbar-profile"><div class="profile-avatar">S</div><div class="profile-info"><strong>Super Admin</strong></div></div>
+            </div>
+        </header>
+
+        <div class="page-wrapper">
+            <!-- KPIs -->
+            <div class="admin-overview-grid mb-3" style="grid-template-columns: repeat(4, 1fr);">
+                <div class="kpi-card kpi-cyan"><div class="kpi-label">Total Hotels</div><div class="kpi-value">842</div></div>
+                <div class="kpi-card kpi-green"><div class="kpi-label">Active</div><div class="kpi-value">810</div></div>
+                <div class="kpi-card kpi-orange"><div class="kpi-label">Pending KYC</div><div class="kpi-value">24</div></div>
+                <div class="kpi-card kpi-red"><div class="kpi-label">Suspended</div><div class="kpi-value">8</div></div>
+            </div>
+
+            <!-- Filters -->
+            <div class="filter-bar" style="background:var(--bg-card); padding:16px; border-radius:12px; margin-bottom:24px; border:1px solid var(--border);">
+                <div class="flex gap-2">
+                    <input type="text" class="form-control" placeholder="Search by Name, City, or ID..." style="width:300px;">
+                    <select class="form-control" style="width:150px;"><option>All Status</option><option>Active</option><option>Pending</option><option>Suspended</option></select>
+                    <select class="form-control" style="width:150px;"><option>All Cities</option><option>Bangalore</option><option>Delhi</option><option>Mumbai</option></select>
+                </div>
+                <button class="btn btn-primary"><i class="fas fa-download"></i> Export CSV</button>
+            </div>
+
+            <!-- Hotel Grid -->
+            <div class="table-container" style="background:var(--bg-card); border-radius:12px; border:1px solid var(--border); overflow:hidden;">
+                <table class="table" style="width:100%; border-collapse:collapse;">
+                    <thead style="background:var(--bg-input); border-bottom:1px solid var(--border);">
+                        <tr>
+                            <th style="padding:16px; text-align:left;">Hotel Name</th>
+                            <th style="padding:16px; text-align:left;">Location</th>
+                            <th style="padding:16px; text-align:left;">Owner</th>
+                            <th style="padding:16px; text-align:left;">Rooms</th>
+                            <th style="padding:16px; text-align:left;">Revenue (MTD)</th>
+                            <th style="padding:16px; text-align:left;">Status</th>
+                            <th style="padding:16px; text-align:left;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom:1px solid var(--border);">
+                            <td style="padding:16px;">
+                                <div style="font-weight:600;">Grand Palace Hotel</div>
+                                <div style="font-size:0.8rem; color:var(--text-muted);">ID: HTL-2024-001</div>
+                            </td>
+                            <td style="padding:16px;">Bangalore</td>
+                            <td style="padding:16px;">Rajesh Kumar</td>
+                            <td style="padding:16px;">48</td>
+                            <td style="padding:16px; color:var(--success); font-weight:600;">₹12.4 L</td>
+                            <td style="padding:16px;"><span class="badge badge-success">Active</span></td>
+                            <td style="padding:16px;">
+                                <button class="btn btn-sm btn-outline" onclick="openModal('hotelActionModal')">Manage</button>
+                                <a href="../owner/dashboard.html" target="_blank" class="btn btn-sm btn-ghost" style="color:var(--accent);">Ghost Login <i class="fas fa-external-link-alt"></i></a>
+                            </td>
+                        </tr>
+                        <tr style="border-bottom:1px solid var(--border);">
+                            <td style="padding:16px;">
+                                <div style="font-weight:600;">City Stay Inn</div>
+                                <div style="font-size:0.8rem; color:var(--text-muted);">ID: HTL-2024-045</div>
+                            </td>
+                            <td style="padding:16px;">Delhi</td>
+                            <td style="padding:16px;">Amit Singh</td>
+                            <td style="padding:16px;">22</td>
+                            <td style="padding:16px; color:var(--success); font-weight:600;">₹4.8 L</td>
+                            <td style="padding:16px;"><span class="badge badge-warning">Pending KYC</span></td>
+                            <td style="padding:16px;">
+                                <button class="btn btn-sm btn-primary">Review KYC</button>
+                            </td>
+                        </tr>
+                        <tr style="border-bottom:1px solid var(--border); opacity:0.7;">
+                            <td style="padding:16px;">
+                                <div style="font-weight:600;">Seaview Resort</div>
+                                <div style="font-size:0.8rem; color:var(--text-muted);">ID: HTL-2023-882</div>
+                            </td>
+                            <td style="padding:16px;">Goa</td>
+                            <td style="padding:16px;">Robert D'Souza</td>
+                            <td style="padding:16px;">15</td>
+                            <td style="padding:16px; color:var(--text-muted);">₹0</td>
+                            <td style="padding:16px;"><span class="badge badge-danger">Suspended</span></td>
+                            <td style="padding:16px;">
+                                <button class="btn btn-sm btn-outline">Unsuspend</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div style="margin-top:20px; text-align:center;">
+                <button class="btn btn-outline">Load More Hotels</button>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Action Modal -->
+    <div class="modal-overlay" id="hotelActionModal">
+        <div class="modal" style="max-width:500px;">
+            <div class="modal-header">
+                <h4>Manage Grand Palace Hotel</h4>
+                <button class="modal-close" onclick="closeModal('hotelActionModal')">✕</button>
+            </div>
+            <div style="padding:10px 0;">
+                <p><strong>Contact:</strong> 98765 43210 <br> <strong>Email:</strong> admin@grandpalace.com</p>
+                <hr style="border-color:var(--border); margin:16px 0;">
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+                    <button class="btn btn-outline" style="width:100%;">View Documents</button>
+                    <button class="btn btn-outline" style="width:100%;">Edit Details</button>
+                    <button class="btn btn-outline" style="width:100%; border-color:var(--warning); color:var(--warning);">Freeze Payouts</button>
+                    <button class="btn btn-outline" style="width:100%; border-color:var(--danger); color:var(--danger);">Suspend Account</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/admin.js"></script>
+    <script>
+        // Modal Logic
+        function openModal(id) { document.getElementById(id).classList.add('active'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+        window.onclick = function(e) { if(e.target.classList.contains('modal-overlay')) e.target.classList.remove('active'); }
+    </script>
+</body>
+</html>

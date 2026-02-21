@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bookings — TRACKINN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/main.css" />
+  <link rel="stylesheet" href="../assets/css/dashboard.css" />
+</head>
+<body>
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeMobileSidebar()"></div>
+  <aside class="sidebar" id="sidebar">
+    <a href="dashboard.html" class="sidebar-logo">
+      <div class="slogo-icon">🏨</div>
+      <div class="slogo-text">TRACK<em>INN<span class="slogo-sub">Hotel Manager</span></em></div>
+    </a>
+    <div class="hotel-badge">
+      <div class="hotel-badge-avatar">🏢</div>
+      <div class="hotel-badge-info">
+        <div class="hotel-badge-name">Grand Palace Hotel</div>
+        <div class="hotel-badge-plan">⭐ Growth Plan</div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Overview</div>
+      <a href="dashboard.html" class="nav-item" data-tooltip="Dashboard"><span class="nav-icon">📊</span><span class="nav-label">Dashboard</span></a>
+      <div class="nav-section-label">Operations</div>
+      <a href="checkin.html" class="nav-item" data-tooltip="Check-in/out"><span class="nav-icon">🛎</span><span class="nav-label">Check-in / Check-out</span></a>
+      <a href="rooms.html" class="nav-item" data-tooltip="Rooms"><span class="nav-icon">🛏</span><span class="nav-label">Room Management</span></a>
+      <a href="room-detail.html" class="nav-item" data-tooltip="All Rooms (Grid & Detail)"><span class="nav-icon">🔍</span><span class="nav-label">All Rooms (Live View)</span></a>
+      <a href="bookings.html" class="nav-item active" data-tooltip="Bookings"><span class="nav-icon">📅</span><span class="nav-label">Bookings</span><span class="nav-badge">3</span></a>
+      <div class="nav-section-label">Finance</div>
+      <a href="billing.html" class="nav-item" data-tooltip="Billing"><span class="nav-icon">💳</span><span class="nav-label">Billing & Accounting</span></a>
+      <div class="nav-section-label">Team</div>
+      <a href="staff.html" class="nav-item" data-tooltip="Staff"><span class="nav-icon">👥</span><span class="nav-label">Staff Management</span></a>
+      <div class="nav-section-label">Insights</div>
+      <a href="analytics.html" class="nav-item" data-tooltip="Analytics"><span class="nav-icon">🤖</span><span class="nav-label">Analytics & AI</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="sidebar-toggle" onclick="toggleSidebar()"><span class="toggle-icon">◀</span><span class="nav-label">Collapse Menu</span></button>
+    </div>
+  </aside>
+
+  <header class="topbar" id="topbar">
+    <button class="topbar-mobile-menu" onclick="toggleSidebar()">☰</button>
+    <div class="topbar-title">Booking Management<span id="topbarDate"></span></div>
+    <div class="topbar-actions">
+      <a href="#" class="topbar-btn">🔔<span class="notif-dot"></span></a>
+      <div class="topbar-profile"><div class="profile-avatar">RK</div><div class="profile-info"><strong>Rajesh Kumar</strong><span>Hotel Manager</span></div></div>
+    </div>
+  </header>
+
+  <main class="main-content" id="mainContent">
+    <div class="page-wrapper">
+      <div class="page-header">
+        <div class="page-header-left"><h1>📅 Booking Management</h1><p>Manage OTA, walk-in, and corporate bookings in one place.</p></div>
+        <div class="page-header-actions">
+          <button class="btn btn-outline btn-sm" onclick="openModal('refundModal')">↩️ Process Refund</button>
+          <button class="btn btn-primary" onclick="openModal('newBookingModal')">➕ New Booking</button>
+        </div>
+      </div>
+
+      <!-- KPIs -->
+      <div class="kpi-grid" style="grid-template-columns:repeat(auto-fill,minmax(170px,1fr));">
+        <div class="kpi-card kpi-cyan"><span class="kpi-icon">📅</span><div class="kpi-label">Total Bookings</div><div class="kpi-value">247</div><div class="kpi-trend"><span class="up">↑ 18%</span> this month</div></div>
+        <div class="kpi-card kpi-green"><span class="kpi-icon">✅</span><div class="kpi-label">Confirmed</div><div class="kpi-value">198</div></div>
+        <div class="kpi-card kpi-orange"><span class="kpi-icon">⏳</span><div class="kpi-label">Pending</div><div class="kpi-value">38</div></div>
+        <div class="kpi-card kpi-red"><span class="kpi-icon">❌</span><div class="kpi-label">Cancelled</div><div class="kpi-value">11</div></div>
+        <div class="kpi-card kpi-purple"><span class="kpi-icon">🔄</span><div class="kpi-label">Pending Refunds</div><div class="kpi-value">₹18K</div></div>
+      </div>
+
+      <div class="tabs-nav">
+        <button class="tab-btn active" onclick="switchTab('allbooks')">📋 All Bookings</button>
+        <button class="tab-btn" onclick="switchTab('ota')">🌐 OTA Bookings</button>
+        <button class="tab-btn" onclick="switchTab('walkin')">🚶 Walk-in</button>
+        <button class="tab-btn" onclick="switchTab('corporate')">🏢 Corporate</button>
+        <button class="tab-btn" onclick="switchTab('cancelled')">❌ Cancelled</button>
+      </div>
+
+      <!-- All Bookings -->
+      <div class="tab-panel active" id="tab-allbooks">
+        <div class="filter-bar">
+          <input type="text" class="form-control search-input" placeholder="🔍 Search name, booking ID, room..." />
+          <input type="date" class="form-control" style="width:auto;" />
+          <input type="date" class="form-control" style="width:auto;" />
+          <select class="form-control" style="width:auto;"><option>All Status</option><option>Confirmed</option><option>Pending</option><option>Cancelled</option></select>
+          <button class="btn btn-outline btn-sm">📤 Export</button>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead><tr><th>Booking ID</th><th>Guest</th><th>Room</th><th>Source</th><th>Check-in</th><th>Check-out</th><th>Nights</th><th>Amount</th><th>Status</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr style="background:rgba(255,193,7,0.08);">
+                <td><strong>TRK-2402220</strong></td>
+                <td>Amit Mehra <span class="badge badge-warning" style="font-size:0.6rem;margin-left:4px;vertical-align:text-top;">NEW</span></td>
+                <td><span style="color:var(--text-muted);font-style:italic;">--</span></td>
+                <td><span class="badge badge-primary">TrackInn App</span></td>
+                <td>Feb 22</td>
+                <td>Feb 24</td>
+                <td>2</td>
+                <td>₹5,652</td>
+                <td><span class="badge badge-warning">Pending Request</span></td>
+                <td>
+                   <div style="display:flex;gap:4px;">
+                     <button class="btn btn-sm btn-primary" onclick="acceptBooking(this)" style="padding:4px 10px;">✅ Accept</button>
+                     <button class="btn btn-sm btn-outline" style="padding:4px 10px;color:var(--danger);">❌ Reject</button>
+                   </div>
+                </td>
+              </tr>
+              <tr><td><strong>TRK-2402191</strong></td><td>Priya Mehta</td><td>302</td><td><span class="badge badge-primary">TrackInn App</span></td><td>Feb 19</td><td>Feb 21</td><td>2</td><td>₹8,400</td><td><span class="badge badge-success">Confirmed</span></td><td><div style="display:flex;gap:4px;"><button class="btn btn-sm btn-outline" onclick="openModal('modifyModal')" style="padding:4px 10px;">Modify</button><button class="btn btn-sm btn-outline" style="padding:4px 10px;color:var(--danger);">Cancel</button></div></td></tr>
+              <tr><td><strong>TRK-2402190</strong></td><td>Rajesh K. Sharma</td><td>101</td><td><span class="badge badge-info">Walk-in</span></td><td>Feb 19</td><td>Feb 20</td><td>1</td><td>₹3,200</td><td><span class="badge badge-success">Confirmed</span></td><td><div style="display:flex;gap:4px;"><button class="btn btn-sm btn-outline" onclick="openModal('modifyModal')" style="padding:4px 10px;">Modify</button></td></tr>
+              <tr><td><strong>TRK-2402189</strong></td><td>Ankit Verma</td><td>204</td><td><span class="badge badge-warning">Corporate</span></td><td>Feb 19</td><td>Feb 22</td><td>3</td><td>₹12,600</td><td><span class="badge badge-info">Expected</span></td><td><div style="display:flex;gap:4px;"><button class="btn btn-sm btn-outline" onclick="openModal('modifyModal')" style="padding:4px 10px;">Modify</button><button class="btn btn-sm btn-outline" style="padding:4px 10px;color:var(--danger);">Cancel</button></div></td></tr>
+              <tr><td><strong>TRK-2402185</strong></td><td>Mohammed Yusuf</td><td>201</td><td><span class="badge badge-primary">Goibibo</span></td><td>Feb 19</td><td>Feb 20</td><td>1</td><td>₹4,500</td><td><span class="badge badge-success">Confirmed</span></td><td><div style="display:flex;gap:4px;"><button class="btn btn-sm btn-outline" style="padding:4px 10px;">Modify</button></div></td></tr>
+              <tr><td><strong>TRK-2402180</strong></td><td>Sunita Joshi</td><td>105</td><td><span class="badge badge-info">Walk-in</span></td><td>Feb 18</td><td>Feb 19</td><td>1</td><td>₹2,800</td><td><span class="badge badge-warning">Check-out Due</span></td><td><div style="display:flex;gap:4px;"><a href="checkin.html" class="btn btn-sm btn-primary" style="padding:4px 10px;">Check Out</a></div></td></tr>
+              <tr><td><strong>TRK-2402178</strong></td><td>InfoSys Ltd.</td><td>201-205</td><td><span class="badge badge-warning">Corporate</span></td><td>Feb 20</td><td>Feb 25</td><td>5</td><td>₹42,000</td><td><span class="badge badge-success">Confirmed</span></td><td><div style="display:flex;gap:4px;"><button class="btn btn-sm btn-outline" onclick="openModal('modifyModal')" style="padding:4px 10px;">Modify</button></div></td></tr>
+              <tr><td><strong>TRK-2402170</strong></td><td>Riya Kapoor</td><td>306</td><td><span class="badge badge-primary">Booking.com</span></td><td>Feb 19</td><td>Feb 21</td><td>2</td><td>₹7,200</td><td><span class="badge badge-success">Confirmed</span></td><td><div style="display:flex;gap:4px;"><button class="btn btn-sm btn-outline" onclick="openModal('modifyModal')" style="padding:4px 10px;">Modify</button></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- OTA Bookings -->
+      <div class="tab-panel" id="tab-ota">
+        <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:20px;">
+          <div class="card" style="padding:16px;flex:1;min-width:140px;text-align:center;border-color:var(--border-accent);"><div style="font-size:1.5rem;font-weight:800;color:var(--accent);">89</div><div style="font-size:0.8rem;color:var(--text-muted);margin-top:4px;">MakeMyTrip</div></div>
+          <div class="card" style="padding:16px;flex:1;min-width:140px;text-align:center;"><div style="font-size:1.5rem;font-weight:800;color:var(--accent);">54</div><div style="font-size:0.8rem;color:var(--text-muted);margin-top:4px;">Goibibo</div></div>
+          <div class="card" style="padding:16px;flex:1;min-width:140px;text-align:center;"><div style="font-size:1.5rem;font-weight:800;color:var(--accent);">33</div><div style="font-size:0.8rem;color:var(--text-muted);margin-top:4px;">Booking.com</div></div>
+          <div class="card" style="padding:16px;flex:1;min-width:140px;text-align:center;"><div style="font-size:1.5rem;font-weight:800;color:var(--accent);">22</div><div style="font-size:0.8rem;color:var(--text-muted);margin-top:4px;">Agoda</div></div>
+        </div>
+        <div style="background:rgba(124,77,255,0.08);border:1px solid rgba(124,77,255,0.2);border-radius:var(--radius-md);padding:14px;display:flex;align-items:center;gap:12px;">
+          <div style="font-size:1.5rem;">🌐</div>
+          <div><strong style="font-size:0.9rem;">Channel Manager Integration</strong><p style="font-size:0.8rem;margin:0;color:var(--text-muted);">Auto-sync inventory across all OTA channels. Next sync in 4 minutes.</p></div>
+          <span class="badge badge-success" style="margin-left:auto;">Live</span>
+        </div>
+      </div>
+
+      <!-- Walk-in -->
+      <div class="tab-panel" id="tab-walkin">
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead><tr><th>Booking ID</th><th>Guest</th><th>Room</th><th>Check-in</th><th>Check-out</th><th>Amount Paid</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>TRK-2402190</td><td>Rajesh Kumar Sharma</td><td>101</td><td>Feb 19</td><td>Feb 20</td><td>₹3,200 (Full)</td><td><span class="badge badge-success">Checked In</span></td></tr>
+              <tr><td>TRK-2402180</td><td>Sunita Joshi</td><td>105</td><td>Feb 18</td><td>Feb 19</td><td>₹2,000 (Advance)</td><td><span class="badge badge-warning">Due Checkout</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Corporate -->
+      <div class="tab-panel" id="tab-corporate">
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead><tr><th>Company</th><th>Rooms</th><th>Check-in</th><th>Nights</th><th>Total Value</th><th>Credit Limit</th><th>Status</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr><td><strong>InfoSys Ltd.</strong></td><td>201-205 (5 rooms)</td><td>Feb 20</td><td>5</td><td>₹42,000</td><td>₹1,00,000</td><td><span class="badge badge-success">Confirmed</span></td><td><button class="btn btn-sm btn-outline" style="padding:4px 10px;">View Details</button></td></tr>
+              <tr><td><strong>TCS Group</strong></td><td>301 (1 room)</td><td>Feb 19</td><td>3</td><td>₹15,600</td><td>₹50,000</td><td><span class="badge badge-success">Confirmed</span></td><td><button class="btn btn-sm btn-outline" style="padding:4px 10px;">View Details</button></td></tr>
+              <tr><td><strong>Wipro Technologies</strong></td><td>102, 104 (2 rooms)</td><td>Feb 22</td><td>2</td><td>₹8,400</td><td>₹50,000</td><td><span class="badge badge-info">Upcoming</span></td><td><button class="btn btn-sm btn-outline" style="padding:4px 10px;">View Details</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Cancelled -->
+      <div class="tab-panel" id="tab-cancelled">
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead><tr><th>Booking ID</th><th>Guest</th><th>Cancelled On</th><th>Reason</th><th>Amount Paid</th><th>Refund Status</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr><td>TRK-2402160</td><td>Rahul Sharma</td><td>Feb 16</td><td>Emergency</td><td>₹4,200</td><td><span class="badge badge-warning">Pending Refund</span></td><td><button class="btn btn-sm btn-primary" onclick="openModal('refundModal')" style="padding:4px 10px;">Process Refund</button></td></tr>
+              <tr><td>TRK-2402155</td><td>Kavita Singh</td><td>Feb 14</td><td>No-show</td><td>₹2,800</td><td><span class="badge badge-danger">No Refund (Policy)</span></td><td><button class="btn btn-sm btn-outline" style="padding:4px 10px;">View Policy</button></td></tr>
+              <tr><td>TRK-2402140</td><td>Dinesh Patel</td><td>Feb 12</td><td>Plan Change</td><td>₹6,000</td><td><span class="badge badge-success">Refunded</span></td><td><button class="btn btn-sm btn-outline" style="padding:4px 10px;">View Details</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- New Booking Modal -->
+  <div class="modal-overlay" id="newBookingModal">
+    <div class="modal" style="max-width:600px;">
+      <div class="modal-header"><h4>➕ New Booking</h4><button class="modal-close" onclick="closeModal('newBookingModal')">✕</button></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div class="form-group"><label class="form-label">Guest Name *</label><input class="form-control" placeholder="Full Name" /></div>
+        <div class="form-group"><label class="form-label">Mobile *</label><input class="form-control" placeholder="+91 XXXXX XXXXX" /></div>
+        <div class="form-group"><label class="form-label">Booking Source</label><select class="form-control"><option>Walk-in</option><option>MakeMyTrip</option><option>Goibibo</option><option>Booking.com</option><option>Direct Call</option><option>Corporate</option></select></div>
+        <div class="form-group"><label class="form-label">Room Category</label><select class="form-control"><option>Standard AC — ₹1,800/n</option><option>Deluxe AC — ₹2,800/n</option><option>Suite — ₹5,200/n</option></select></div>
+        <div class="form-group"><label class="form-label">Check-in Date *</label><input type="date" class="form-control" /></div>
+        <div class="form-group"><label class="form-label">Check-out Date *</label><input type="date" class="form-control" /></div>
+        <div class="form-group"><label class="form-label">Adults</label><input type="number" class="form-control" value="1" min="1" /></div>
+        <div class="form-group"><label class="form-label">Advance Payment</label><input class="form-control" placeholder="₹0" /></div>
+      </div>
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px;">
+        <button class="btn btn-ghost" onclick="closeModal('newBookingModal')">Cancel</button>
+        <button class="btn btn-primary" onclick="closeModal('newBookingModal')">💾 Confirm Booking</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modify Modal -->
+  <div class="modal-overlay" id="modifyModal">
+    <div class="modal" style="max-width:480px;">
+      <div class="modal-header"><h4>✏️ Modify Booking — TRK-2402191</h4><button class="modal-close" onclick="closeModal('modifyModal')">✕</button></div>
+      <div class="form-group"><label class="form-label">Change Room</label><select class="form-control"><option>302 — Suite (Current)</option><option>301 — Suite</option><option>304 — Suite</option></select></div>
+      <div class="form-group"><label class="form-label">New Check-out Date</label><input type="date" class="form-control" value="2026-02-21" /></div>
+      <div class="form-group"><label class="form-label">Reason for Modification</label><textarea class="form-control" rows="2"></textarea></div>
+      <div style="display:flex;gap:10px;justify-content:flex-end;">
+        <button class="btn btn-ghost" onclick="closeModal('modifyModal')">Cancel</button>
+        <button class="btn btn-primary" onclick="closeModal('modifyModal')">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Refund Modal -->
+  <div class="modal-overlay" id="refundModal">
+    <div class="modal" style="max-width:440px;">
+      <div class="modal-header"><h4>↩️ Process Refund</h4><button class="modal-close" onclick="closeModal('refundModal')">✕</button></div>
+      <div style="background:var(--bg-input);border-radius:10px;padding:14px;margin-bottom:16px;border:1px solid var(--border);font-size:0.875rem;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px;"><span style="color:var(--text-muted);">Booking ID</span><span>TRK-2402160</span></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px;"><span style="color:var(--text-muted);">Guest</span><span>Rahul Sharma</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:var(--text-muted);">Amount Paid</span><strong style="color:var(--accent);">₹4,200</strong></div>
+      </div>
+      <div class="form-group"><label class="form-label">Refund Amount</label><input type="number" class="form-control" value="4200" /></div>
+      <div class="form-group"><label class="form-label">Refund Mode</label><select class="form-control"><option>Original Payment Method</option><option>Bank Transfer</option><option>UPI</option><option>Cheque</option></select></div>
+      <div class="form-group"><label class="form-label">Notes</label><textarea class="form-control" rows="2" placeholder="Reason for refund..."></textarea></div>
+      <div style="display:flex;gap:10px;justify-content:flex-end;">
+        <button class="btn btn-ghost" onclick="closeModal('refundModal')">Cancel</button>
+        <button class="btn btn-primary" onclick="closeModal('refundModal')">Process Refund</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Assign Room Modal (New) -->
+  <div class="modal-overlay" id="assignRoomModal">
+    <div class="modal" style="max-width:500px;">
+      <div class="modal-header">
+        <h4>🛏 Assign Room to Guest</h4>
+        <button class="modal-close" onclick="closeModal('assignRoomModal')">✕</button>
+      </div>
+      <div style="margin-bottom:16px;">
+        <div style="font-size:0.9rem;color:var(--text-muted);margin-bottom:4px;">Guest Name</div>
+        <div style="font-weight:600;font-size:1.1rem;">Amit Mehra <span class="badge badge-info" style="font-size:0.7rem;vertical-align:middle;">Deluxe River View</span></div>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Available Rooms (River View)</label>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <!-- Static Options -->
+          <label style="display:flex;align-items:center;gap:12px;padding:12px;border:1px solid var(--border);border-radius:8px;cursor:pointer;background:var(--bg-input);">
+            <input type="radio" name="roomAssign" value="305" checked>
+            <div>
+              <div style="font-weight:600;">Room 305</div>
+              <div style="font-size:0.8rem;color:var(--success);">Available • Clean • 3rd Floor</div>
+            </div>
+          </label>
+          <label style="display:flex;align-items:center;gap:12px;padding:12px;border:1px solid var(--border);border-radius:8px;cursor:pointer;background:var(--bg-input);">
+            <input type="radio" name="roomAssign" value="308">
+            <div>
+              <div style="font-weight:600;">Room 308</div>
+              <div style="font-size:0.8rem;color:var(--success);">Available • Clean • Corner Room</div>
+            </div>
+          </label>
+           <label style="display:flex;align-items:center;gap:12px;padding:12px;border:1px solid var(--border);border-radius:8px;cursor:pointer;opacity:0.6;background:var(--bg-input);">
+            <input type="radio" name="roomAssign" value="301" disabled>
+            <div>
+              <div style="font-weight:600;color:var(--text-muted);">Room 301 <span class="badge badge-danger">Occupied</span></div>
+              <div style="font-size:0.8rem;color:var(--text-muted);">Checkout tomorrow</div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group">
+         <label class="form-label">Special Instructions for HK (Optional)</label>
+         <input type="text" class="form-control" placeholder="e.g. Extra pillows, Late check-in">
+      </div>
+
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px;">
+        <button class="btn btn-ghost" onclick="closeModal('assignRoomModal')">Cancel</button>
+        <button class="btn btn-primary" onclick="confirmAssignment()">Confirm & Assign Room</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../assets/js/dashboard.js"></script>
+  <script>
+    let pendingBookingBtn = null; // Store reference to the button that opened modal
+
+    function acceptBooking(btn) {
+      pendingBookingBtn = btn;
+      openModal('assignRoomModal');
+    }
+
+    function confirmAssignment() {
+       if(!pendingBookingBtn) return;
+       
+       // Get Selected Room
+       const selectedRoom = document.querySelector('input[name="roomAssign"]:checked').value;
+       
+       const row = pendingBookingBtn.closest('tr');
+       row.style.background = 'transparent'; 
+       row.style.transition = 'background 0.5s';
+       
+       // 1. Update Room Column (Column 3)
+       const roomCell = row.querySelector('td:nth-child(3)');
+       roomCell.innerHTML = `<span style="font-weight:700;color:var(--accent);">${selectedRoom}</span>`;
+
+       // 2. Update Status Badge
+       const statusBadge = row.querySelector('td:nth-child(9) span');
+       statusBadge.className = 'badge badge-success';
+       statusBadge.textContent = 'Confirmed';
+       
+       // 3. Remove NEW Badge
+       const newBadge = row.querySelector('td:nth-child(2) .badge');
+       if(newBadge) newBadge.style.display = 'none';
+
+       // 4. Update Actions
+       const actionCell = row.querySelector('td:last-child');
+       actionCell.innerHTML = `<div style="display:flex;gap:4px;"><button class="btn btn-sm btn-outline" onclick="openModal('modifyModal')" style="padding:4px 10px;">Modify</button></div>`;
+
+       // 5. Update KPIs
+       const confirmedKpi = document.querySelector('.kpi-green .kpi-value');
+       if(confirmedKpi) confirmedKpi.textContent = parseInt(confirmedKpi.innerText) + 1;
+       
+       const pendingKpi = document.querySelector('.kpi-orange .kpi-value');
+       if(pendingKpi) pendingKpi.textContent = parseInt(pendingKpi.innerText) - 1;
+
+       closeModal('assignRoomModal');
+
+       // Show Toast
+       const toast = document.createElement('div');
+       toast.textContent = `✅ Booking Confirmed! Room ${selectedRoom} assigned to Amit Mehra`;
+       toast.style.cssText = 'position:fixed;bottom:20px;right:20px;background:#4caf50;color:white;padding:12px 24px;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.15);animation:fadeIn 0.3s forwards;z-index:9999;';
+       document.body.appendChild(toast);
+       setTimeout(() => {
+         toast.style.opacity = '0';
+         setTimeout(() => toast.remove(), 300);
+       }, 3000);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commission Engine — TRACKINN</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <aside class="sidebar sidebar-admin">
+        <a href="../index.html" class="sidebar-logo">
+            <div class="slogo-icon"><i class="fas fa-shield-halved"></i></div>
+            <div class="slogo-text">TRACKINN<em>.</em> <small class="slogo-sub">ADMIN PANEL</small></div>
+        </a>
+
+        <div class="hotel-badge">
+            <div class="hotel-badge-avatar">HQ</div>
+            <div class="hotel-badge-info">
+                <div class="hotel-badge-name">Corporate HQ</div>
+                <div class="hotel-badge-plan">Central Control</div>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-section-label">Main Business</div>
+            <a href="dashboard.html" class="nav-item"><div class="nav-icon"><i class="fas fa-chart-pie"></i></div><div class="nav-label">Master Dashboard</div></a>
+            <a href="hotels.html" class="nav-item"><div class="nav-icon"><i class="fas fa-hotel"></i></div><div class="nav-label">Manage Hotels</div></a>
+            <a href="users.html" class="nav-item"><div class="nav-icon"><i class="fas fa-users"></i></div><div class="nav-label">Manage Travellers</div></a>
+            
+            <div class="nav-section-label">Finance</div>
+            <a href="commissions.html" class="nav-item active"><div class="nav-icon"><i class="fas fa-coins"></i></div><div class="nav-label">Commission Engine</div></a>
+
+            <div class="nav-section-label">Intelligence</div>
+            <a href="intelligence.html" class="nav-item"><div class="nav-icon"><i class="fas fa-brain"></i></div><div class="nav-label">Data Intelligence</div></a>
+            <a href="compliance.html" class="nav-item"><div class="nav-icon"><i class="fas fa-file-contract"></i></div><div class="nav-label">Compliance & Risk</div></a>
+
+            <div class="nav-section-label">Operations</div>
+            <a href="sales-team.html" class="nav-item"><div class="nav-icon"><i class="fas fa-briefcase"></i></div><div class="nav-label">Sales Team</div></a>
+            <a href="support.html" class="nav-item"><div class="nav-icon"><i class="fas fa-headset"></i></div><div class="nav-label">Support Desk</div></a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button class="sidebar-toggle">
+                <i class="fas fa-angle-left toggle-icon"></i>
+                <span>Collapse Sidebar</span>
+            </button>
+        </div>
+    </aside>
+
+    <div class="sidebar-overlay"></div>
+
+    <main class="main-content">
+        <header class="topbar">
+            <button class="topbar-mobile-menu"><i class="fas fa-bars"></i></button>
+            <div class="topbar-title">Commission Engine <span>Revenue distributions & payout management</span></div>
+            <div class="topbar-actions">
+                <div class="topbar-date">February 20, 2026</div>
+                <div class="topbar-profile"><div class="profile-avatar">S</div><div class="profile-info"><strong>Super Admin</strong></div></div>
+            </div>
+        </header>
+
+        <div class="page-wrapper">
+            <div class="charts-grid">
+                <div class="card">
+                    <h4 class="mb-2">Platform Rules</h4>
+                    <div class="rule-card">
+                        <div>
+                            <strong>Standard Commission</strong>
+                            <p style="font-size: 0.75rem;">Flat 10% on all bookings</p>
+                        </div>
+                        <span class="badge badge-success">Active</span>
+                    </div>
+                    <div class="rule-card">
+                        <div>
+                            <strong>Cashback Distribution</strong>
+                            <p style="font-size: 0.75rem;">2% to User Wallet, 1% to Sales</p>
+                        </div>
+                        <span class="badge badge-primary">Dynamic</span>
+                    </div>
+                    <div class="rule-card">
+                        <div>
+                            <strong>Early Bird Promo</strong>
+                            <p style="font-size: 0.75rem;">Reduced commission (5%) for new hotels</p>
+                        </div>
+                        <input type="checkbox" class="rule-switch" checked data-rule="early-bird">
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4 class="mb-2">Payout Overview</h4>
+                    <div class="kpi-value">₹8,12,400</div>
+                    <p class="text-muted">Total Pending Payouts</p>
+                    <div class="divider"></div>
+                    <button class="btn btn-primary w-full">Process Batch Payout</button>
+                    <p class="text-muted text-center mt-2" style="font-size: 0.7rem;">Next scheduled: Feb 25, 2026</p>
+                </div>
+            </div>
+
+            <div class="section-title mt-3">
+                <h3>Wallet Ledger</h3>
+            </div>
+            <div class="table-wrapper">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Transaction ID</th>
+                            <th>Entity</th>
+                            <th>Type</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>19 Feb, 14:10</td>
+                            <td><code>TXN-84210</code></td>
+                            <td>Hotel Sun Park</td>
+                            <td><span style="color: var(--success);">Commission</span></td>
+                            <td><strong>₹1,250.00</strong></td>
+                            <td><span class="payout-status-pill status-processed">Completed</span></td>
+                        </tr>
+                        <tr>
+                            <td>19 Feb, 12:45</td>
+                            <td><code>TXN-84195</code></td>
+                            <td>John Doe (Sales)</td>
+                            <td><span style="color: var(--secondary);">Incentive</span></td>
+                            <td><strong>₹500.00</strong></td>
+                            <td><span class="payout-status-pill status-pending">In Queue</span></td>
+                        </tr>
+                        <tr>
+                            <td>18 Feb, 22:30</td>
+                            <td><code>TXN-83901</code></td>
+                            <td>Traveller App</td>
+                            <td><span style="color: var(--info);">Cashback</span></td>
+                            <td><strong>₹120.00</strong></td>
+                            <td><span class="payout-status-pill status-flagged">Flagged</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script src="../assets/js/admin.js"></script>
+</body>
+
+</html>

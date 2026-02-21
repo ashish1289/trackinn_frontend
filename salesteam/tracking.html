@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Sales Tracking — TRACKINN</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/user.css">
+    <link rel="stylesheet" href="../assets/css/salesteam.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="user-body sales-body">
+    <!-- Sidebar -->
+    <aside class="sales-sidebar">
+        <div class="sales-sidebar-header">
+            <span style="font-weight: 800; font-size: 1.1rem; letter-spacing: 0.5px;">SALES<em>.</em></span>
+            <button class="btn btn-ghost btn-sm close-sidebar" style="width: auto; padding: 4px 8px;"><i
+                    class="fas fa-times"></i></button>
+        </div>
+        <nav class="sales-sidebar-body">
+            <a href="dashboard.html" class="s-nav-item">
+                <i class="fas fa-home s-nav-icon"></i> Home
+            </a>
+            <a href="onboarding.html" class="s-nav-item">
+                <i class="fas fa-plus-circle s-nav-icon"></i> Onboard
+            </a>
+            <a href="tracking.html" class="s-nav-item active">
+                <i class="fas fa-map-marker-alt s-nav-icon"></i> Tracking
+            </a>
+            <a href="targets.html" class="s-nav-item">
+                <i class="fas fa-award s-nav-icon"></i> Incentives
+            </a>
+            <div class="divider"></div>
+            <a href="../index.html" class="s-nav-item">
+                <i class="fas fa-sign-out-alt s-nav-icon"></i> Logout
+            </a>
+        </nav>
+    </aside>
+    <div class="sidebar-overlay"></div>
+
+    <header class="user-header">
+        <div class="flex items-center gap-2">
+            <button class="btn btn-ghost btn-sm open-sidebar" style="border:none; font-size: 1.2rem; padding: 4px;"><i
+                    class="fas fa-bars"></i></button>
+        </div>
+        <div class="user-header-logo" style="flex:1; justify-content:center; margin-right:32px;">
+            <span>TRACKING</span>
+        </div>
+    </header>
+
+    <main class="user-page">
+        <!-- Revenue Potential Scoring -->
+        <!-- Revenue Potential Scoring (Advanced) -->
+        <section class="rev-score-card animate-fade">
+            <h4 style="font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">
+                Revenue Potential Score</h4>
+            <div class="rev-score-val" id="revScoreDisplay">0<span style="font-size: 1.2rem; opacity: 0.5;">/100</span>
+            </div>
+            <div class="rev-meter">
+                <div class="rev-meter-fill" id="revMeterFill" style="width: 0%;"></div>
+            </div>
+            <div class="rev-details">
+                <div class="flex justify-between text-xs text-muted mb-1">
+                    <span>Rooms: <b id="scoreRooms">0</b></span>
+                    <span>Seasonality: <b>High</b></span>
+                </div>
+                <div class="flex justify-between text-xs text-muted">
+                    <span>City Index: <b>Delhi (0.9)</b></span>
+                    <span>Avg. Price: <b id="scorePrice">₹0</b></span>
+                </div>
+            </div>
+            <button class="btn btn-outline btn-sm w-full mt-3" onclick="calculateRevenueScore()">Recalculate
+                Score</button>
+        </section>
+
+        <!-- Lead Status Pipeline -->
+        <div class="section-title mt-3">
+            <h3>Lead Pipeline</h3>
+            <span class="badge badge-primary">Total: 14</span>
+        </div>
+        <!-- Lead Status Pipeline (Kanban) -->
+        <div class="section-title mt-3">
+            <h3>Lead Status Pipeline</h3>
+            <span class="badge badge-primary">Drag & Drop</span>
+        </div>
+        <div class="lead-pipeline kanban-board">
+            <!-- Stage: New Lead -->
+            <div class="pipeline-stage" ondrop="drop(event)" ondragover="allowDrop(event)" id="stage-new">
+                <div class="stage-header">
+                    <span>New Lead</span>
+                    <span class="stage-count">3</span>
+                </div>
+                <div class="lead-card-mini draggable" draggable="true" ondragstart="drag(event)" id="lead-1">
+                    <h4>Hotel Royal</h4>
+                    <p>Source: Google Maps</p>
+                </div>
+                <div class="lead-card-mini draggable" draggable="true" ondragstart="drag(event)" id="lead-2">
+                    <h4>The Mint</h4>
+                    <p>Referral: Agent A</p>
+                </div>
+                <div class="lead-card-mini draggable" draggable="true" ondragstart="drag(event)" id="lead-3">
+                    <h4>Vista Stay</h4>
+                    <p>Inbound Call</p>
+                </div>
+            </div>
+
+            <!-- Stage: Contacted -->
+            <div class="pipeline-stage" ondrop="drop(event)" ondragover="allowDrop(event)" id="stage-contacted">
+                <div class="stage-header">
+                    <span>Contacted</span>
+                    <span class="stage-count">1</span>
+                </div>
+                <div class="lead-card-mini draggable" draggable="true" ondragstart="drag(event)" id="lead-4">
+                    <h4>Hotel Leela</h4>
+                    <p>Call Sched: Tomorrow</p>
+                </div>
+            </div>
+
+            <!-- Stage: Meeting -->
+            <div class="pipeline-stage" ondrop="drop(event)" ondragover="allowDrop(event)" id="stage-meeting">
+                <div class="stage-header">
+                    <span>Meeting</span>
+                    <span class="stage-count">2</span>
+                </div>
+                <div class="lead-card-mini draggable" draggable="true" ondragstart="drag(event)" id="lead-5"
+                    style="border-left: 2px solid var(--accent);">
+                    <h4>Sunshine Res.</h4>
+                    <p>Inventory Captured</p>
+                </div>
+                <div class="lead-card-mini draggable" draggable="true" ondragstart="drag(event)" id="lead-6"
+                    style="border-left: 2px solid var(--accent);">
+                    <h4>Metro Inn</h4>
+                    <p>Demo Given</p>
+                </div>
+            </div>
+
+            <!-- Stage: Proposal -->
+            <div class="pipeline-stage" ondrop="drop(event)" ondragover="allowDrop(event)" id="stage-proposal">
+                <div class="stage-header">
+                    <span>Proposal</span>
+                    <span class="stage-count">1</span>
+                </div>
+                <div class="lead-card-mini draggable" draggable="true" ondragstart="drag(event)" id="lead-7"
+                    style="border-left: 2px solid var(--warning);">
+                    <h4>Grand Plaza</h4>
+                    <p>Agreement Sent</p>
+                </div>
+            </div>
+
+            <!-- Stage: Negotiation -->
+            <div class="pipeline-stage" ondrop="drop(event)" ondragover="allowDrop(event)" id="stage-negotiation">
+                <div class="stage-header">
+                    <span>Negotiation</span>
+                    <span class="stage-count">0</span>
+                </div>
+            </div>
+
+            <!-- Stage: Won -->
+            <div class="pipeline-stage" ondrop="drop(event)" ondragover="allowDrop(event)" id="stage-won">
+                <div class="stage-header">
+                    <span style="color: var(--success);">Closed Won</span>
+                    <span class="stage-count">0</span>
+                </div>
+            </div>
+            <!-- Stage: Lost -->
+            <div class="pipeline-stage" ondrop="drop(event)" ondragover="allowDrop(event)" id="stage-lost">
+                <div class="stage-header">
+                    <span style="color: var(--danger);">Closed Lost</span>
+                    <span class="stage-count">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Room Inventory Captured -->
+        <div class="section-title mt-3">
+            <h3>Room Inventory <small style="font-weight:400; color:var(--text-muted);">(Last Visit)</small></h3>
+            <button class="btn btn-ghost btn-sm" style="color: var(--accent);"><i class="fas fa-plus"></i> Add</button>
+        </div>
+        <!-- Room Inventory Capture (Smart) -->
+        <div class="section-title mt-3">
+            <h3>Room Inventory Capture</h3>
+        </div>
+        <div class="card p-3 mb-3">
+            <div class="grid grid-cols-2 gap-3 mb-3">
+                <div class="input-group">
+                    <label class="text-xs text-muted">Total Rooms</label>
+                    <input type="number" class="form-input bg-input p-2 rounded w-full border border-gray-700"
+                        id="invTotal" placeholder="0">
+                </div>
+                <div class="input-group">
+                    <label class="text-xs text-muted">Occupied</label>
+                    <input type="number" class="form-input bg-input p-2 rounded w-full border border-gray-700"
+                        id="invOcc" placeholder="0">
+                </div>
+                <div class="input-group">
+                    <label class="text-xs text-muted">Avg. Price (₹)</label>
+                    <input type="number" class="form-input bg-input p-2 rounded w-full border border-gray-700"
+                        id="invPrice" placeholder="2500">
+                </div>
+                <div class="input-group">
+                    <label class="text-xs text-muted">Season Factor</label>
+                    <select class="form-input bg-input p-2 rounded w-full border border-gray-700" id="invSeason">
+                        <option value="1.2">Peak (1.2x)</option>
+                        <option value="1.0" selected>Normal (1.0x)</option>
+                        <option value="0.8">Low (0.8x)</option>
+                    </select>
+                </div>
+            </div>
+            <button class="btn btn-ghost btn-sm w-full border-dashed border-gray-600 mb-2">
+                <i class="fas fa-camera mr-2"></i> Photo Capture (Front Desk Sheet)
+            </button>
+            <button class="btn btn-primary btn-sm w-full" onclick="calculateRevenueScore()">Update Inventory &
+                Score</button>
+        </div>
+
+        <!-- Daily Visit Logs -->
+        <div class="section-title mt-3">
+            <h3>Daily Visit Logs</h3>
+        </div>
+
+        <!-- Log Entry 1 -->
+        <!-- Smart Visit Logs -->
+        <div class="section-title mt-3">
+            <h3>Smart Daily Logs</h3>
+            <span class="text-xs text-warning"><i class="fas fa-exclamation-circle"></i> 2 Missed Follow-ups</span>
+        </div>
+
+        <div class="card p-3 mb-4">
+            <h4 class="text-sm mb-3">Log New Visit</h4>
+            <div class="flex flex-col gap-3">
+                <div class="input-group">
+                    <select class="form-input bg-input p-2 rounded w-full border border-gray-700">
+                        <option value="" disabled selected>Select Hotel / Lead...</option>
+                        <option>Sunshine Residency</option>
+                        <option>Hotel Royal</option>
+                        <option>The Mint</option>
+                    </select>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <select class="form-input bg-input p-2 rounded w-full border border-gray-700">
+                        <option selected>Demo Given</option>
+                        <option>Negotiation</option>
+                        <option>Follow-up</option>
+                        <option>Closed Deal</option>
+                    </select>
+                    <select class="form-input bg-input p-2 rounded w-full border border-gray-700">
+                        <option selected>Interested</option>
+                        <option>Need Time</option>
+                        <option>Not Interested</option>
+                    </select>
+                </div>
+                <div class="flex items-center gap-2">
+                    <input type="text" placeholder="Next Follow-up Date" onfocus="(this.type='date')"
+                        class="form-input bg-input p-2 rounded w-full border border-gray-700">
+                    <button class="btn btn-ghost btn-icon border border-gray-700"><i
+                            class="fas fa-microphone"></i></button>
+                    <button class="btn btn-ghost btn-icon border border-gray-700"><i
+                            class="fas fa-map-marker-alt text-accent"></i></button>
+                </div>
+                <button class="btn btn-secondary w-full">Save Visit Log</button>
+            </div>
+        </div>
+
+        <div class="visit-log-item">
+            <div class="visit-status status-positive">
+                <i class="fas fa-check"></i>
+            </div>
+            <div style="flex: 1;">
+                <h4 style="font-size: 0.9rem;">Sunshine Residency</h4>
+                <p style="font-size: 0.75rem;">Inventory captured (24 rooms). Owner positive.</p>
+                <div style="display: flex; gap: 6px; margin-top: 4px;">
+                    <span class="badge badge-info" style="font-size: 0.6rem; padding: 2px 6px;">Hot Lead</span>
+                    <span class="badge badge-warning" style="font-size: 0.6rem; padding: 2px 6px;">Next: Feb 22</span>
+                </div>
+            </div>
+            <div class="text-right">
+                <div style="font-size: 0.8rem; font-weight: 700;">10:00 AM</div>
+                <i class="fas fa-microphone-alt text-muted" style="font-size: 0.8rem; margin-top: 4px;"></i>
+            </div>
+        </div>
+
+    </main>
+
+    <nav class="bottom-nav sales-nav">
+        <a href="dashboard.html" class="bnav-item">
+            <i class="fas fa-home bnav-icon"></i>
+            <span class="bnav-label">Home</span>
+        </a>
+        <a href="onboarding.html" class="bnav-item" data-module="onboarding">
+            <i class="fas fa-plus-circle bnav-icon"></i>
+            <span class="bnav-label">Onboard</span>
+        </a>
+        <a href="tracking.html" class="bnav-item active" data-module="tracking">
+            <i class="fas fa-map-marker-alt bnav-icon"></i>
+            <span class="bnav-label">Tracking</span>
+        </a>
+        <a href="targets.html" class="bnav-item" data-module="targets">
+            <i class="fas fa-award bnav-icon"></i>
+            <span class="bnav-label">Incentives</span>
+        </a>
+    </nav>
+
+    <script src="../assets/js/salesteam.js"></script>
+</body>
+
+</html>

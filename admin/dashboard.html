@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Master Dashboard — TRACKINN</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar sidebar-admin">
+        <a href="../index.html" class="sidebar-logo">
+            <div class="slogo-icon"><i class="fas fa-shield-halved"></i></div>
+            <div class="slogo-text">TRACKINN<em>.</em> <small class="slogo-sub">ADMIN PANEL</small></div>
+        </a>
+
+        <div class="hotel-badge">
+            <div class="hotel-badge-avatar">HQ</div>
+            <div class="hotel-badge-info">
+                <div class="hotel-badge-name">Corporate HQ</div>
+                <div class="hotel-badge-plan">Central Control</div>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-section-label">Main Business</div>
+            <a href="dashboard.html" class="nav-item active"><div class="nav-icon"><i class="fas fa-chart-pie"></i></div><div class="nav-label">Master Dashboard</div></a>
+            <a href="hotels.html" class="nav-item"><div class="nav-icon"><i class="fas fa-hotel"></i></div><div class="nav-label">Manage Hotels</div></a>
+            <a href="users.html" class="nav-item"><div class="nav-icon"><i class="fas fa-users"></i></div><div class="nav-label">Manage Travellers</div></a>
+            
+            <div class="nav-section-label">Finance</div>
+            <a href="commissions.html" class="nav-item"><div class="nav-icon"><i class="fas fa-coins"></i></div><div class="nav-label">Commission Engine</div></a>
+
+            <div class="nav-section-label">Intelligence</div>
+            <a href="intelligence.html" class="nav-item"><div class="nav-icon"><i class="fas fa-brain"></i></div><div class="nav-label">Data Intelligence</div></a>
+            <a href="compliance.html" class="nav-item"><div class="nav-icon"><i class="fas fa-file-contract"></i></div><div class="nav-label">Compliance & Risk</div></a>
+
+            <div class="nav-section-label">Operations</div>
+            <a href="sales-team.html" class="nav-item"><div class="nav-icon"><i class="fas fa-briefcase"></i></div><div class="nav-label">Sales Team</div></a>
+            <a href="support.html" class="nav-item"><div class="nav-icon"><i class="fas fa-headset"></i></div><div class="nav-label">Support Desk</div></a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button class="sidebar-toggle">
+                <i class="fas fa-angle-left toggle-icon"></i>
+                <span>Collapse Sidebar</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Overlay -->
+    <div class="sidebar-overlay"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Topbar -->
+        <header class="topbar">
+            <button class="topbar-mobile-menu"><i class="fas fa-bars"></i></button>
+            <div class="topbar-title">Master Dashboard <span>Company-wide performance overview</span></div>
+            <div class="topbar-actions">
+                <div class="topbar-date">February 19, 2026</div>
+                <button class="topbar-btn"><i class="fas fa-bell"></i><span class="notif-dot"></span></button>
+                <div class="topbar-profile">
+                    <div class="profile-avatar">S</div>
+                    <div class="profile-info"><strong>Super Admin</strong><span>System Owner</span></div>
+                </div>
+            </div>
+        </header>
+
+        <div class="page-wrapper">
+            <!-- KPI Grid -->
+            <div class="admin-overview-grid mb-3">
+                <div class="kpi-card kpi-cyan">
+                    <div class="kpi-label">Total Rooms Onboarded</div>
+                    <div class="kpi-value">12,482</div>
+                    <div class="kpi-trend"><span class="up"><i class="fas fa-arrow-up"></i> 14%</span> vs last month
+                    </div>
+                    <i class="fas fa-hotel kpi-icon"></i>
+                </div>
+                <div class="kpi-card kpi-purple">
+                    <div class="kpi-label">Live GMV (Monthly)</div>
+                    <div class="kpi-value">₹4.2 Cr</div>
+                    <div class="kpi-trend"><span class="up"><i class="fas fa-arrow-up"></i> 8.2%</span> platform volume
+                    </div>
+                    <i class="fas fa-money-bill-wave kpi-icon"></i>
+                </div>
+                <div class="kpi-card kpi-green">
+                    <div class="kpi-label">Commission Earned</div>
+                    <div class="kpi-value">₹42.1 L</div>
+                    <div class="kpi-trend"><span class="up"><i class="fas fa-arrow-up"></i> 10%</span> yield average
+                    </div>
+                    <i class="fas fa-coins kpi-icon"></i>
+                </div>
+                <div class="kpi-card kpi-orange">
+                    <div class="kpi-label">Active Hotels</div>
+                    <div class="kpi-value">842</div>
+                    <div class="kpi-trend">Across 24 States</div>
+                    <i class="fas fa-map-marked-alt kpi-icon"></i>
+                </div>
+            </div>
+
+            <!-- Main Dashboard Area -->
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h4>State Occupancy Heatmap</h4>
+                        <div class="flex gap-1">
+                            <select class="form-control" style="padding: 4px 8px; font-size: 0.8rem;">
+                                <option>Top 10 States</option>
+                                <option>All States</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="heatmap-container">
+                        <!-- Heatmap dots placeholder -->
+                        <div class="heatmap-point" style="top: 40%; left: 30%;"></div>
+                        <div class="heatmap-point" style="top: 60%; left: 50%; opacity: 0.8;"></div>
+                        <div class="heatmap-point" style="top: 70%; left: 20%; opacity: 0.6;"></div>
+                        <div class="heatmap-point" style="top: 30%; left: 70%; opacity: 0.4;"></div>
+                        <div class="flex items-center justify-center h-full">
+                            <p class="text-muted">Interactive Map Rendering...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h4>Business Distribution</h4>
+                    </div>
+                    <div class="chart-placeholder" style="height: 300px;"></div>
+                    <div class="mt-2">
+                        <div class="flex items-center justify-between mb-1" style="font-size: 0.85rem;">
+                            <span>Luxury Segment</span>
+                            <strong>42%</strong>
+                        </div>
+                        <div class="progress-bar-wrap mb-1" style="height: 4px;">
+                            <div class="progress-bar-fill" style="width: 42%; background: var(--accent);"></div>
+                        </div>
+                        <div class="flex items-center justify-between mb-1" style="font-size: 0.85rem;">
+                            <span>Budget Hotels</span>
+                            <strong>58%</strong>
+                        </div>
+                        <div class="progress-bar-wrap" style="height: 4px;">
+                            <div class="progress-bar-fill" style="width: 58%; background: var(--secondary);"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="charts-grid" style="grid-template-columns: 2fr 1fr; margin-top: 24px;">
+                <!-- Recent Registrations -->
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h4>Recent Registrations</h4>
+                        <button class="btn btn-sm btn-outline">View All</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover" style="width:100%; text-align:left; font-size:0.9rem;">
+                            <thead>
+                                <tr style="border-bottom:1px solid var(--border); color:var(--text-muted);">
+                                    <th style="padding:10px;">Entity</th>
+                                    <th>Type</th>
+                                    <th>Location</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding:10px;"><strong>Hotel Royal Orchid</strong></td>
+                                    <td><span class="badge badge-info">Hotel</span></td>
+                                    <td>Bangalore</td>
+                                    <td><span class="badge badge-warning">Pending KYC</span></td>
+                                    <td>Today, 10:30 AM</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:10px;"><strong>Rahul Sharma</strong></td>
+                                    <td><span class="badge badge-purple">Traveller</span></td>
+                                    <td>Mumbai</td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                    <td>Today, 09:15 AM</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:10px;"><strong>Amit Verma</strong></td>
+                                    <td><span class="badge badge-purple">Traveller</span></td>
+                                    <td>Delhi</td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                    <td>Yesterday</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:10px;"><strong>Seaside Resort</strong></td>
+                                    <td><span class="badge badge-info">Hotel</span></td>
+                                    <td>Goa</td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                    <td>Yesterday</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- System Health -->
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h4>System Health</h4>
+                        <div class="badge badge-success">Healthy</div>
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:16px;">
+                        <div>
+                            <div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:6px;">
+                                <span>Server Load (AWS)</span>
+                                <span style="color:var(--success);">24%</span>
+                            </div>
+                            <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:24%; background:var(--success);"></div></div>
+                        </div>
+                        <div>
+                            <div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:6px;">
+                                <span>Database Connections</span>
+                                <span style="color:var(--info);">428 / 1000</span>
+                            </div>
+                            <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:42%; background:var(--info);"></div></div>
+                        </div>
+                        <div>
+                            <div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:6px;">
+                                <span>Storage Usage (S3)</span>
+                                <span style="color:var(--warning);">68%</span>
+                            </div>
+                            <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:68%; background:var(--warning);"></div></div>
+                        </div>
+                        <div style="margin-top:10px; padding:12px; background:var(--bg-input); border-radius:8px; display:flex; gap:12px; align-items:center;">
+                             <div style="width:8px; height:8px; border-radius:50%; background:var(--success); box-shadow:0 0 8px var(--success);"></div>
+                             <div style="font-size:0.8rem;">All systems operational. Last backup: 2 hours ago.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title">
+                <h3>Live Activity Feed</h3>
+            </div>
+            <div class="alert-item animate-fade">
+                <div class="alert-icon" style="background: var(--success-bg); color: var(--success);"><i
+                        class="fas fa-plus"></i></div>
+                <div class="alert-body">
+                    <strong>New Hotel Onboarded</strong>
+                    <span>"The Grand Palace" (Jaipur) just went live with 45 rooms.</span>
+                </div>
+                <div class="alert-time">2 mins ago</div>
+            </div>
+            <div class="alert-item animate-fade" style="animation-delay: 0.1s;">
+                <div class="alert-icon" style="background: var(--warning-bg); color: var(--warning);"><i
+                        class="fas fa-exclamation-triangle"></i></div>
+                <div class="alert-body">
+                    <strong>Incomplete KYC Alert</strong>
+                    <span>"City Stay Hotel" (Delhi) documents rejected by compliance.</span>
+                </div>
+                <div class="alert-time">15 mins ago</div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../assets/js/admin.js"></script>
+</body>
+
+</html>

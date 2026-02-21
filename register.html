@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register Your Hotel — TRACKINN</title>
+  <meta name="description" content="Register your hotel on TRACKINN and start managing bookings, check-ins, billing and staff from one dashboard." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <style>
+    body { min-height: 100vh; background: var(--bg-dark); display: flex; align-items: flex-start; justify-content: center; padding: 40px 20px; }
+    .auth-bg { position: fixed; inset: 0; background: radial-gradient(ellipse 80% 70% at 30% 40%, rgba(26,35,126,0.35) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 80% 60%, rgba(0,188,212,0.12) 0%, transparent 60%); pointer-events: none; }
+    .reg-container { position: relative; z-index: 1; width: 100%; max-width: 700px; }
+    .auth-logo { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 28px; font-family: var(--font-display); font-size: 1.8rem; font-weight: 800; }
+    .auth-logo .logo-icon { width: 44px; height: 44px; background: linear-gradient(135deg, var(--accent), var(--secondary)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; }
+    .auth-logo span em { font-style: normal; background: linear-gradient(135deg, var(--accent), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .reg-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 40px; box-shadow: var(--shadow-lg); }
+    .reg-header { margin-bottom: 32px; }
+    .reg-header h1 { font-size: 1.7rem; margin-bottom: 6px; }
+    .reg-header p { font-size: 0.9rem; color: var(--text-muted); }
+    .section-divider { display: flex; align-items: center; gap: 12px; margin: 24px 0 20px; }
+    .section-divider span { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); white-space: nowrap; }
+    .section-divider::before, .section-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .input-group { position: relative; }
+    .input-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 0.95rem; color: var(--text-muted); pointer-events: none; }
+    .input-group .form-control { padding-left: 42px; }
+    .plan-selector { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 4px; }
+    .plan-opt { padding: 16px 12px; border: 1.5px solid var(--border); border-radius: var(--radius-md); cursor: pointer; transition: var(--transition-fast); text-align: center; position: relative; }
+    .plan-opt input { position: absolute; opacity: 0; }
+    .plan-opt:hover { border-color: var(--border-accent); }
+    .plan-opt.selected { border-color: var(--accent); background: rgba(0,188,212,0.07); }
+    .plan-opt .plan-emoji { font-size: 1.5rem; display: block; margin-bottom: 6px; }
+    .plan-opt .plan-title { font-size: 0.85rem; font-weight: 700; color: var(--text-primary); display: block; }
+    .plan-opt .plan-cost { font-size: 0.75rem; color: var(--text-muted); display: block; margin-top: 2px; }
+    .plan-opt.selected .plan-title { color: var(--accent); }
+    .agree-row { display: flex; align-items: flex-start; gap: 10px; font-size: 0.865rem; color: var(--text-secondary); margin-bottom: 24px; }
+    .agree-row input { margin-top: 3px; accent-color: var(--accent); flex-shrink: 0; }
+    .agree-row a { color: var(--accent); }
+    .auth-footer { text-align: center; margin-top: 20px; font-size: 0.875rem; color: var(--text-muted); }
+    .auth-footer a { color: var(--accent); font-weight: 600; }
+    .back-link { display: flex; align-items: center; justify-content: center; gap: 6px; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px; transition: var(--transition-fast); }
+    .back-link:hover { color: var(--accent); }
+    .perks-strip { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; margin-bottom: 24px; }
+    .perk { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--text-secondary); }
+    .perk span { color: var(--success); font-size: 0.9rem; }
+    @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } .plan-selector { grid-template-columns: 1fr; } .reg-card { padding: 24px 18px; } }
+  </style>
+</head>
+<body>
+  <div class="auth-bg"></div>
+  <div class="reg-container">
+    <a href="index.html" class="back-link">← Back to TRACKINN.com</a>
+    <div class="auth-logo">
+      <div class="logo-icon">🏨</div>
+      <span>TRACK<em>INN</em></span>
+    </div>
+
+    <div class="perks-strip">
+      <div class="perk"><span>✓</span> 3-Month Free Trial</div>
+      <div class="perk"><span>✓</span> No Credit Card Needed</div>
+      <div class="perk"><span>✓</span> Setup in 30 Minutes</div>
+      <div class="perk"><span>✓</span> Free Onboarding Support</div>
+    </div>
+
+    <div class="reg-card">
+      <div class="reg-header">
+        <h1>Register Your Hotel 🏨</h1>
+        <p>Create your TRACKINN account and start managing your hotel smarter today.</p>
+      </div>
+
+      <form id="registerForm" onsubmit="handleRegister(event)">
+        <!-- Owner Details -->
+        <div class="section-divider"><span>👤 Owner / Manager Details</span></div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Full Name *</label>
+            <div class="input-group">
+              <span class="input-icon">👤</span>
+              <input type="text" class="form-control" placeholder="Rajesh Kumar" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Mobile Number *</label>
+            <div class="input-group">
+              <span class="input-icon">📱</span>
+              <input type="tel" class="form-control" placeholder="+91 98765 43210" required />
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address *</label>
+          <div class="input-group">
+            <span class="input-icon">✉️</span>
+            <input type="email" class="form-control" placeholder="owner@yourhotel.com" required />
+          </div>
+        </div>
+
+        <!-- Hotel Details -->
+        <div class="section-divider"><span>🏨 Hotel Details</span></div>
+        <div class="form-group">
+          <label class="form-label">Hotel Name *</label>
+          <div class="input-group">
+            <span class="input-icon">🏨</span>
+            <input type="text" class="form-control" placeholder="Grand Palace Hotel" required />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">City *</label>
+            <div class="input-group">
+              <span class="input-icon">📍</span>
+              <input type="text" class="form-control" placeholder="Mumbai" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">State *</label>
+            <div class="input-group">
+              <span class="input-icon">🗺️</span>
+              <select class="form-control" required>
+                <option value="">Select State</option>
+                <option>Maharashtra</option><option>Delhi</option><option>Karnataka</option>
+                <option>Tamil Nadu</option><option>Rajasthan</option><option>Gujarat</option>
+                <option>Uttar Pradesh</option><option>West Bengal</option><option>Goa</option>
+                <option>Kerala</option><option>Madhya Pradesh</option><option>Telangana</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Number of Rooms *</label>
+            <div class="input-group">
+              <span class="input-icon">🛏</span>
+              <input type="number" class="form-control" placeholder="25" min="1" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Hotel Type *</label>
+            <div class="input-group">
+              <span class="input-icon">🏷️</span>
+              <select class="form-control" required>
+                <option value="">Select Type</option>
+                <option>Budget Hotel</option>
+                <option>Boutique Hotel</option>
+                <option>Business Hotel</option>
+                <option>Guest House</option>
+                <option>Hostel</option>
+                <option>Resort</option>
+                <option>3-Star / 4-Star / 5-Star</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">GST Number (Optional)</label>
+          <div class="input-group">
+            <span class="input-icon">📄</span>
+            <input type="text" class="form-control" placeholder="22AAAAA0000A1Z5" maxlength="15" />
+          </div>
+        </div>
+
+        <!-- Plan Selection -->
+        <div class="section-divider"><span>💎 Choose Your Plan</span></div>
+        <div class="plan-selector" id="planSelector">
+          <label class="plan-opt" onclick="selectPlan(this)">
+            <input type="radio" name="plan" value="starter" />
+            <span class="plan-emoji">🚀</span>
+            <span class="plan-title">Starter</span>
+            <span class="plan-cost">Free Forever</span>
+          </label>
+          <label class="plan-opt selected" onclick="selectPlan(this)">
+            <input type="radio" name="plan" value="growth" checked />
+            <span class="plan-emoji">📈</span>
+            <span class="plan-title">Growth</span>
+            <span class="plan-cost">₹2,499/mo (3 months free)</span>
+          </label>
+          <label class="plan-opt" onclick="selectPlan(this)">
+            <input type="radio" name="plan" value="enterprise" />
+            <span class="plan-emoji">🏆</span>
+            <span class="plan-title">Enterprise</span>
+            <span class="plan-cost">₹5,999/mo</span>
+          </label>
+        </div>
+
+        <!-- Password -->
+        <div class="section-divider"><span>🔐 Set Password</span></div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Password *</label>
+            <div class="input-group">
+              <span class="input-icon">🔒</span>
+              <input type="password" id="regPassword" class="form-control" placeholder="Min. 8 characters" required minlength="8" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Confirm Password *</label>
+            <div class="input-group">
+              <span class="input-icon">🔒</span>
+              <input type="password" id="regConfirm" class="form-control" placeholder="Repeat password" required />
+            </div>
+          </div>
+        </div>
+
+        <!-- Terms -->
+        <div class="agree-row">
+          <input type="checkbox" id="terms" required />
+          <label for="terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>. I understand that TRACKINN will use my hotel data to provide the service.</label>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-full" style="justify-content:center;font-size:1rem;padding:16px;">
+          🚀 Create My Hotel Account
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        Already have an account? <a href="login.html">Sign In</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function selectPlan(el) {
+      document.querySelectorAll('.plan-opt').forEach(p => p.classList.remove('selected'));
+      el.classList.add('selected');
+    }
+
+    function handleRegister(e) {
+      e.preventDefault();
+      const pwd = document.getElementById('regPassword').value;
+      const confirm = document.getElementById('regConfirm').value;
+      if (pwd !== confirm) {
+        alert('Passwords do not match. Please try again.');
+        return;
+      }
+      const btn = e.target.querySelector('button[type="submit"]');
+      btn.innerHTML = '⏳ Setting up your hotel...';
+      btn.disabled = true;
+      setTimeout(() => {
+        window.location.href = 'owner/dashboard.html';
+      }, 1500);
+    }
+  </script>
+</body>
+</html>

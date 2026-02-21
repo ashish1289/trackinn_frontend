@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — TRACKINN Hotel Management</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/main.css" />
+  <link rel="stylesheet" href="../assets/css/dashboard.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+  <!-- Sidebar Overlay -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeMobileSidebar()"></div>
+
+  <!-- ========== SIDEBAR ========== -->
+  <aside class="sidebar" id="sidebar">
+    <a href="dashboard.html" class="sidebar-logo">
+      <div class="slogo-icon">🏨</div>
+      <div class="slogo-text">TRACK<em>INN<span class="slogo-sub">Hotel Manager</span></em></div>
+    </a>
+
+    <div class="hotel-badge">
+      <div class="hotel-badge-avatar">🏢</div>
+      <div class="hotel-badge-info">
+        <div class="hotel-badge-name">Grand Palace Hotel</div>
+        <div class="hotel-badge-plan">⭐ Growth Plan</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Overview</div>
+      <a href="dashboard.html" class="nav-item active" data-tooltip="Dashboard">
+        <span class="nav-icon">📊</span>
+        <span class="nav-label">Dashboard</span>
+      </a>
+
+      <div class="nav-section-label">Operations</div>
+      <a href="checkin.html" class="nav-item" data-tooltip="Check-in/out">
+        <span class="nav-icon">🛎</span>
+        <span class="nav-label">Check-in / Check-out</span>
+      </a>
+      <a href="rooms.html" class="nav-item" data-tooltip="Rooms"><span class="nav-icon">🛏</span><span class="nav-label">Room Management</span></a>
+      <a href="room-detail.html" class="nav-item" data-tooltip="All Rooms (Grid & Detail)"><span class="nav-icon">🔍</span><span class="nav-label">All Rooms (Live View)</span></a>
+      <a href="bookings.html" class="nav-item" data-tooltip="Bookings">
+        <span class="nav-icon">📅</span>
+        <span class="nav-label">Bookings</span>
+        <span class="nav-badge">3</span>
+      </a>
+
+      <div class="nav-section-label">Finance</div>
+      <a href="billing.html" class="nav-item" data-tooltip="Billing">
+        <span class="nav-icon">💳</span>
+        <span class="nav-label">Billing & Accounting</span>
+      </a>
+
+      <div class="nav-section-label">Team</div>
+      <a href="staff.html" class="nav-item" data-tooltip="Staff">
+        <span class="nav-icon">👥</span>
+        <span class="nav-label">Staff Management</span>
+      </a>
+
+      <div class="nav-section-label">Insights</div>
+      <a href="analytics.html" class="nav-item" data-tooltip="Analytics">
+        <span class="nav-icon">🤖</span>
+        <span class="nav-label">Analytics & AI</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="sidebar-toggle" onclick="toggleSidebar()">
+        <span class="toggle-icon">◀</span>
+        <span class="nav-label">Collapse Menu</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ========== TOPBAR ========== -->
+  <header class="topbar" id="topbar">
+    <button class="topbar-mobile-menu" onclick="toggleSidebar()">☰</button>
+    <div class="topbar-title">
+      Dashboard
+      <span id="topbarDate">Loading...</span>
+    </div>
+    <div class="topbar-actions">
+      <div class="topbar-date" id="topbarDateDesktop"></div>
+      <a href="#" class="topbar-btn" title="Search">🔍</a>
+      <a href="#" class="topbar-btn" title="Notifications" onclick="openModal('notifModal')">
+        🔔
+        <span class="notif-dot"></span>
+      </a>
+      <a href="#" class="topbar-btn" title="Settings">⚙️</a>
+      <div class="topbar-profile" onclick="openModal('profileModal')">
+        <div class="profile-avatar">RK</div>
+        <div class="profile-info">
+          <strong>Rajesh Kumar</strong>
+          <span>Hotel Manager</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <main class="main-content" id="mainContent">
+    <div class="page-wrapper">
+
+      <!-- Page Header -->
+      <div class="page-header">
+        <div class="page-header-left">
+          <h1>Good morning, Rajesh 👋</h1>
+          <p>Here's what's happening at Grand Palace Hotel today.</p>
+        </div>
+        <div class="page-header-actions">
+          <a href="checkin.html" class="btn btn-primary btn-sm">🛎 New Check-in</a>
+          <a href="bookings.html" class="btn btn-outline btn-sm">📅 New Booking</a>
+        </div>
+      </div>
+
+      <!-- Sarai Compliance Badge -->
+      <div class="compliance-card">
+        <div class="compliance-dot"></div>
+        <div class="compliance-text">
+          <strong>✅ Sarai API — All Compliant</strong>
+          <span>All guest records submitted to Sarai. Last sync: 5 minutes ago. No pending submissions.</span>
+        </div>
+        <div class="compliance-status">
+          <span class="badge badge-success">Healthy</span>
+        </div>
+      </div>
+
+      <!-- KPI Cards -->
+      <div class="kpi-grid">
+        <div class="kpi-card kpi-cyan">
+          <span class="kpi-icon">🛎</span>
+          <div class="kpi-label">Today's Check-ins</div>
+          <div class="kpi-value">28</div>
+          <div class="kpi-trend"><span class="up">↑ 12%</span> vs yesterday</div>
+        </div>
+        <div class="kpi-card kpi-purple">
+          <span class="kpi-icon">🚪</span>
+          <div class="kpi-label">Today's Check-outs</div>
+          <div class="kpi-value">21</div>
+          <div class="kpi-trend"><span class="up">↑ 8%</span> vs yesterday</div>
+        </div>
+        <div class="kpi-card kpi-green">
+          <span class="kpi-icon">🛏</span>
+          <div class="kpi-label">Occupancy Rate</div>
+          <div class="kpi-value">87<small style="font-size:1rem;">%</small></div>
+          <div class="kpi-trend"><span class="up">↑ 5pts</span> this week</div>
+        </div>
+        <div class="kpi-card kpi-green">
+          <span class="kpi-icon">💰</span>
+          <div class="kpi-label">Revenue Today</div>
+          <div class="kpi-value">₹84K</div>
+          <div class="kpi-trend"><span class="up">↑ 18%</span> vs yesterday</div>
+        </div>
+        <div class="kpi-card kpi-purple">
+          <span class="kpi-icon">📈</span>
+          <div class="kpi-label">Revenue MTD</div>
+          <div class="kpi-value">₹12.4L</div>
+          <div class="kpi-trend"><span class="up">↑ 22%</span> vs last month</div>
+        </div>
+        <div class="kpi-card kpi-orange">
+          <span class="kpi-icon">⏳</span>
+          <div class="kpi-label">Pending Payments</div>
+          <div class="kpi-value">₹28K</div>
+          <div class="kpi-trend"><span style="color:var(--warning);">⚠️</span> 5 invoices due</div>
+        </div>
+        <div class="kpi-card kpi-cyan">
+          <span class="kpi-icon">📅</span>
+          <div class="kpi-label">New Bookings Today</div>
+          <div class="kpi-value">14</div>
+          <div class="kpi-trend"><span class="up">↑ 3</span> from App</div>
+        </div>
+        <div class="kpi-card kpi-red">
+          <span class="kpi-icon">🔔</span>
+          <div class="kpi-label">Active Alerts</div>
+          <div class="kpi-value">3</div>
+          <div class="kpi-trend"><span style="color:var(--danger);">1 critical</span>, 2 warnings</div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="quick-actions">
+        <a href="checkin.html" class="quick-action-btn"><span class="qa-icon">🛎</span> Walk-in Check-in</a>
+        <a href="bookings.html" class="quick-action-btn"><span class="qa-icon">📅</span> Create Booking</a>
+        <a href="billing.html" class="quick-action-btn"><span class="qa-icon">🧾</span> Generate Invoice</a>
+        <a href="rooms.html" class="quick-action-btn"><span class="qa-icon">🛏</span> View Rooms</a>
+        <a href="staff.html" class="quick-action-btn"><span class="qa-icon">👥</span> Assign Staff</a>
+        <a href="analytics.html" class="quick-action-btn"><span class="qa-icon">📊</span> View Reports</a>
+      </div>
+
+      <!-- Charts Row -->
+      <div class="charts-grid">
+        <div class="chart-container">
+          <div class="chart-header">
+            <h4>Revenue Trend</h4>
+            <div style="display:flex;gap:8px;">
+              <div class="tabs-nav" style="margin-bottom:0;padding:2px;background:var(--bg-input);">
+                <button class="tab-btn active" style="padding:4px 12px;font-size:0.75rem;" onclick="updateRevenueChart('weekly', this)">Weekly</button>
+                <button class="tab-btn" style="padding:4px 12px;font-size:0.75rem;" onclick="updateRevenueChart('monthly', this)">Monthly</button>
+                <button class="tab-btn" style="padding:4px 12px;font-size:0.75rem;" onclick="updateRevenueChart('yearly', this)">Yearly</button>
+              </div>
+            </div>
+          </div>
+          <div style="height:220px;">
+            <canvas id="revenueChart"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-container">
+          <div class="chart-header"><h4>Booking Sources</h4></div>
+          <div style="height:220px;">
+            <canvas id="sourceChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Row: Alerts + Room Status -->
+      <div style="display:grid;grid-template-columns:1fr 1.2fr;gap:20px;">
+
+        <!-- Alerts -->
+        <div class="chart-container">
+          <div class="chart-header">
+            <h4>🔔 Alerts & Notifications</h4>
+            <span class="badge badge-danger">3 New</span>
+          </div>
+          <div class="alert-item">
+            <div class="alert-icon" style="background:var(--danger-bg);">🔴</div>
+            <div class="alert-body">
+              <strong>Payment Overdue — Room 301</strong>
+              <span>Mr. Arjun Patel · ₹8,400 due since 2 days</span>
+            </div>
+            <div class="alert-time">10 min ago</div>
+          </div>
+          <div class="alert-item">
+            <div class="alert-icon" style="background:var(--warning-bg);">🟡</div>
+            <div class="alert-body">
+              <strong>Room 205 — Maintenance Required</strong>
+              <span>AC not working. Reported by housekeeping.</span>
+            </div>
+            <div class="alert-time">45 min ago</div>
+          </div>
+          <div class="alert-item">
+            <div class="alert-icon" style="background:var(--info-bg);">🔵</div>
+            <div class="alert-body">
+              <strong>Sarai Submission Due</strong>
+              <span>3 guest records pending Sarai auto-submit.</span>
+            </div>
+            <div class="alert-time">1 hr ago</div>
+          </div>
+          <div class="alert-item">
+            <div class="alert-icon" style="background:var(--success-bg);">🟢</div>
+            <div class="alert-body">
+              <strong>New Booking — TrackInn App</strong>
+              <span>Priya Mehta · Room 302 · Check-in tomorrow</span>
+            </div>
+            <div class="alert-time">2 hr ago</div>
+          </div>
+        </div>
+
+        <!-- Room Status Grid -->
+        <!-- Guest Reviews (Replaces Room Status) -->
+        <div class="chart-container">
+          <div class="chart-header">
+            <h4>⭐ Recent Guest Reviews</h4>
+            <div style="text-align:right;">
+               <div style="font-size:1.4rem;font-weight:800;color:var(--accent);">4.9<small style="font-size:0.9rem;color:var(--text-muted);">/5</small></div>
+               <div style="font-size:0.75rem;color:var(--text-muted);">based on 128 reviews</div>
+            </div>
+          </div>
+          <div class="review-list" style="display:flex;flex-direction:column;gap:16px;">
+             <!-- R1 -->
+             <div style="display:flex;gap:12px;border-bottom:1px solid var(--border);padding-bottom:12px;">
+                <div style="width:40px;height:40px;border-radius:50%;background:var(--bg-input);display:flex;align-items:center;justify-content:center;font-size:1.2rem;">👨‍💼</div>
+                <div>
+                   <div style="font-size:0.9rem;font-weight:700;">Amit Mehra <span style="font-size:0.7rem;color:var(--text-muted);font-weight:400;"> • Room 302</span></div>
+                   <div style="color:#ffc107;font-size:0.8rem;margin-bottom:4px;">★★★★★</div>
+                   <div style="font-size:0.85rem;color:var(--text-muted);line-height:1.4;">"Absolutely loved the swift check-in via the app! Room was pristine and service was top-notch."</div>
+                </div>
+             </div>
+             <!-- R2 -->
+             <div style="display:flex;gap:12px;">
+                <div style="width:40px;height:40px;border-radius:50%;background:var(--bg-input);display:flex;align-items:center;justify-content:center;font-size:1.2rem;">👩‍💻</div>
+                <div>
+                   <div style="font-size:0.9rem;font-weight:700;">Sarah Jenkins <span style="font-size:0.7rem;color:var(--text-muted);font-weight:400;"> • Room 204</span></div>
+                   <div style="color:#ffc107;font-size:0.8rem;margin-bottom:4px;">★★★★★</div>
+                   <div style="font-size:0.85rem;color:var(--text-muted);line-height:1.4;">"Great experience. The digital invoice feature is a lifesaver for business trips. Highly recommend!"</div>
+                </div>
+             </div>
+          </div>
+          <div style="margin-top:16px;text-align:center;">
+             <button class="btn btn-sm btn-outline" style="width:100%;">View All 128 Reviews</button>
+          </div>
+        </div>
+
+      </div><!-- end bottom row -->
+
+      <!-- Today's Activity Table -->
+      <div class="chart-container" style="margin-top:20px;">
+        <div class="chart-header">
+          <h4>📋 Today's Guest Activity</h4>
+          <a href="checkin.html" class="btn btn-outline btn-sm">View All</a>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Guest Name</th>
+                <th>Room</th>
+                <th>Type</th>
+                <th>Check-in</th>
+                <th>Check-out</th>
+                <th>Status</th>
+                <th>Amount</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Rajesh Kumar Sharma</strong></td>
+                <td>101</td>
+                <td><span class="badge badge-info">Walk-in</span></td>
+                <td>09:30 AM</td>
+                <td>Tomorrow</td>
+                <td><span class="badge badge-success">Checked In</span></td>
+                <td>₹3,200</td>
+                <td><a href="checkin.html" class="btn btn-sm btn-outline" style="padding:4px 10px;">View</a></td>
+              </tr>
+              <tr>
+                <td><strong>Priya Mehta</strong></td>
+                <td>302</td>
+                <td><span class="badge badge-primary">TrackInn App</span></td>
+                <td>11:00 AM</td>
+                <td>+2 nights</td>
+                <td><span class="badge badge-success">Checked In</span></td>
+                <td>₹8,400</td>
+                <td><a href="checkin.html" class="btn btn-sm btn-outline" style="padding:4px 10px;">View</a></td>
+              </tr>
+              <tr>
+                <td><strong>Ankit Verma</strong></td>
+                <td>204</td>
+                <td><span class="badge badge-warning">Corporate</span></td>
+                <td>02:00 PM</td>
+                <td>+3 nights</td>
+                <td><span class="badge badge-info">Expected</span></td>
+                <td>₹12,600</td>
+                <td><a href="checkin.html" class="btn btn-sm btn-primary" style="padding:4px 10px;">Check In</a></td>
+              </tr>
+              <tr>
+                <td><strong>Sunita Joshi</strong></td>
+                <td>105</td>
+                <td><span class="badge badge-info">Walk-in</span></td>
+                <td>Yesterday</td>
+                <td>Today 12 PM</td>
+                <td><span class="badge badge-danger">Check-out Due</span></td>
+                <td>₹2,800</td>
+                <td><a href="checkin.html" class="btn btn-sm btn-primary" style="padding:4px 10px;">Check Out</a></td>
+              </tr>
+              <tr>
+                <td><strong>Mohammed Yusuf</strong></td>
+                <td>201</td>
+                <td><span class="badge badge-primary">TrackInn App</span></td>
+                <td>04:00 PM</td>
+                <td>+1 night</td>
+                <td><span class="badge badge-info">Expected</span></td>
+                <td>₹4,500</td>
+                <td><a href="checkin.html" class="btn btn-sm btn-outline" style="padding:4px 10px;">Prepare</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div><!-- end page-wrapper -->
+  </main>
+
+  <!-- Notification Modal -->
+  <div class="modal-overlay" id="notifModal">
+    <div class="modal" style="max-width:400px;">
+      <div class="modal-header">
+        <h4>🔔 Notifications</h4>
+        <button class="modal-close" onclick="closeModal('notifModal')">✕</button>
+      </div>
+      <div class="alert-item"><div class="alert-icon" style="background:var(--danger-bg);">🔴</div><div class="alert-body"><strong>Payment Overdue</strong><span>Room 301 · ₹8,400 due</span></div></div>
+      <div class="alert-item"><div class="alert-icon" style="background:var(--warning-bg);">🟡</div><div class="alert-body"><strong>Maintenance Alert</strong><span>Room 205 AC issue reported</span></div></div>
+      <div class="alert-item"><div class="alert-icon" style="background:var(--success-bg);">🟢</div><div class="alert-body"><strong>New Booking</strong><span>App · Priya Mehta · Room 302</span></div></div>
+    </div>
+  </div>
+
+  <!-- Profile Modal -->
+  <div class="modal-overlay" id="profileModal">
+    <div class="modal" style="max-width:380px;">
+      <div class="modal-header">
+        <h4>👤 My Profile</h4>
+        <button class="modal-close" onclick="closeModal('profileModal')">✕</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;padding:16px;background:var(--bg-input);border-radius:12px;border:1px solid var(--border);">
+        <div class="profile-avatar" style="width:52px;height:52px;font-size:1.2rem;">RK</div>
+        <div><strong style="display:block;">Rajesh Kumar</strong><span style="font-size:0.82rem;color:var(--text-muted);">Hotel Manager · Growth Plan</span><div style="margin-top:4px;"><span class="badge badge-success" style="font-size:0.7rem;">Active</span></div></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <a href="#" class="quick-action-btn" style="padding:12px 16px;">⚙️ Account Settings</a>
+        <a href="#" class="quick-action-btn" style="padding:12px 16px;">🏨 Hotel Profile</a>
+        <a href="#" class="quick-action-btn" style="padding:12px 16px;">💎 Upgrade Plan</a>
+        <a href="../login.html" class="quick-action-btn" style="padding:12px 16px;color:var(--danger);">🚪 Sign Out</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="../assets/js/dashboard.js"></script>
+  <script>
+    // Initialize Charts
+    // Revenue Data Sets
+    const revDataWeekly = {
+      labels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+      data: [12000, 15000, 11000, 18000, 24000, 32000, 28000]
+    };
+    const revDataMonthly = {
+      labels: ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30'],
+      data: [32000,41000,38000,55000,49000,62000,71000,58000,44000,67000,73000,80000,48000,52000,61000,74000,68000,82000,77000,91000,85000,93000,78000,88000,95000,102000,96000,88000,97000,84000]
+    };
+    const revDataYearly = {
+      labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+      data: [8.5, 9.2, 11.4, 10.1, 12.8, 14.2, 13.5, 15.1, 14.8, 16.2, 18.5, 22.4].map(k => k * 100000) // Converted to Lakhs
+    };
+
+    let revenueChartInstance;
+
+    function renderRevenueChart(labels, data) {
+      if(revenueChartInstance) {
+        revenueChartInstance.destroy();
+      }
+      // Re-create chart
+      revenueChartInstance = initBarChart('revenueChart', labels, data);
+    }
+
+    function updateRevenueChart(period, btn) {
+      // Update Active State
+      const container = btn.parentElement;
+      container.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      if(period === 'weekly') {
+        renderRevenueChart(revDataWeekly.labels, revDataWeekly.data);
+      } else if(period === 'monthly') {
+        renderRevenueChart(revDataMonthly.labels, revDataMonthly.data);
+      } else if(period === 'yearly') {
+        renderRevenueChart(revDataYearly.labels, revDataYearly.data);
+      }
+    }
+
+    // Default: Weekly (or Monthly as preferred)
+    // Let's default to Weekly as it's cleaner for demo
+    renderRevenueChart(revDataWeekly.labels, revDataWeekly.data);
+
+    initDoughnutChart('sourceChart',
+      ['TrackInn App', 'Walk-in', 'Direct', 'Corporate'],
+      [65, 20, 10, 5],
+      ['#7c4dff','#00bcd4','#29b6f6','#f44336']
+    );
+  </script>
+</body>
+</html>

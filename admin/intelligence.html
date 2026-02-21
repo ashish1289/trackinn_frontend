@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Intelligence — TRACKINN</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <aside class="sidebar sidebar-admin">
+        <a href="../index.html" class="sidebar-logo">
+            <div class="slogo-icon"><i class="fas fa-shield-halved"></i></div>
+            <div class="slogo-text">TRACKINN<em>.</em> <small class="slogo-sub">ADMIN PANEL</small></div>
+        </a>
+
+        <div class="hotel-badge">
+            <div class="hotel-badge-avatar">HQ</div>
+            <div class="hotel-badge-info">
+                <div class="hotel-badge-name">Corporate HQ</div>
+                <div class="hotel-badge-plan">Central Control</div>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-section-label">Main Business</div>
+            <a href="dashboard.html" class="nav-item"><div class="nav-icon"><i class="fas fa-chart-pie"></i></div><div class="nav-label">Master Dashboard</div></a>
+            <a href="hotels.html" class="nav-item"><div class="nav-icon"><i class="fas fa-hotel"></i></div><div class="nav-label">Manage Hotels</div></a>
+            <a href="users.html" class="nav-item"><div class="nav-icon"><i class="fas fa-users"></i></div><div class="nav-label">Manage Travellers</div></a>
+            
+            <div class="nav-section-label">Finance</div>
+            <a href="commissions.html" class="nav-item"><div class="nav-icon"><i class="fas fa-coins"></i></div><div class="nav-label">Commission Engine</div></a>
+
+            <div class="nav-section-label">Intelligence</div>
+            <a href="intelligence.html" class="nav-item active"><div class="nav-icon"><i class="fas fa-brain"></i></div><div class="nav-label">Data Intelligence</div></a>
+            <a href="compliance.html" class="nav-item"><div class="nav-icon"><i class="fas fa-file-contract"></i></div><div class="nav-label">Compliance & Risk</div></a>
+
+            <div class="nav-section-label">Operations</div>
+            <a href="sales-team.html" class="nav-item"><div class="nav-icon"><i class="fas fa-briefcase"></i></div><div class="nav-label">Sales Team</div></a>
+            <a href="support.html" class="nav-item"><div class="nav-icon"><i class="fas fa-headset"></i></div><div class="nav-label">Support Desk</div></a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button class="sidebar-toggle">
+                <i class="fas fa-angle-left toggle-icon"></i>
+                <span>Collapse Sidebar</span>
+            </button>
+        </div>
+    </aside>
+
+    <div class="sidebar-overlay"></div>
+
+    <main class="main-content">
+        <header class="topbar">
+            <button class="topbar-mobile-menu"><i class="fas fa-bars"></i></button>
+            <div class="topbar-title">Data Intelligence <span>AI-driven market insights</span></div>
+            <div class="topbar-actions">
+                <div class="topbar-date">February 20, 2026</div>
+                <div class="topbar-profile"><div class="profile-avatar">S</div><div class="profile-info"><strong>Super Admin</strong></div></div>
+            </div>
+        </header>
+
+        <div class="page-wrapper">
+            <div class="kpi-grid">
+                <div class="card">
+                    <h4>Dynamic Pricing AI</h4>
+                    <div class="flex items-center gap-2 mt-2">
+                        <span class="badge badge-info">Active</span>
+                        <p style="font-size: 0.8rem;">Adjusting prices for 124 hotels</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <h4>Market Pulse</h4>
+                    <p style="font-size: 1.2rem; font-weight: 800; color: var(--success);">+4.5%</p>
+                    <p style="font-size: 0.75rem; color: var(--text-muted);">Occupancy trend vs last week</p>
+                </div>
+                <div class="card">
+                    <h4>Fraud Flags</h4>
+                    <p style="font-size: 1.2rem; font-weight: 800; color: var(--danger);">12</p>
+                    <p style="font-size: 0.75rem; color: var(--text-muted);">Suspicious bookings detected</p>
+                </div>
+            </div>
+
+            <div class="charts-grid mt-3">
+                <div class="card">
+                    <h4 class="mb-3">City Performance Analysis</h4>
+                    <div class="table-wrapper">
+                        <table class="data-table intel-table">
+                            <thead>
+                                <tr>
+                                    <th>City</th>
+                                    <th>Hotels</th>
+                                    <th>Avg. Occupancy</th>
+                                    <th>GMV</th>
+                                    <th>Market Health</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Delhi NCR</strong></td>
+                                    <td>142</td>
+                                    <td>82%</td>
+                                    <td>₹85L</td>
+                                    <td><span class="rank-up"><i class="fas fa-caret-up"></i> Stable</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Mumbai</strong></td>
+                                    <td>88</td>
+                                    <td>78%</td>
+                                    <td>₹72L</td>
+                                    <td><span class="rank-up"><i class="fas fa-caret-up"></i> Rising</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Bangalore</strong></td>
+                                    <td>65</td>
+                                    <td>64%</td>
+                                    <td>₹45L</td>
+                                    <td><span class="rank-down" style="color: var(--warning);"><i
+                                                class="fas fa-caret-down"></i> Saturated</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4 class="mb-3">Fraud Detection Log</h4>
+                    <div class="alert-item" style="border-left: 3px solid var(--danger);">
+                        <div class="alert-body">
+                            <strong>Multiple Booking Reversal</strong>
+                            <span style="font-size: 0.75rem;">IP: 192.168.1.1 — Reversing 4 bookings in 10s.</span>
+                        </div>
+                    </div>
+                    <div class="alert-item" style="border-left: 3px solid var(--warning);">
+                        <div class="alert-body">
+                            <strong>Velocity Alert</strong>
+                            <span style="font-size: 0.75rem;">Hotel ID 842 — Unusual check-in frequency.</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-outline btn-sm w-full mt-2">Run Audit Sweep</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../assets/js/admin.js"></script>
+</body>
+
+</html>

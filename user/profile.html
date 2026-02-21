@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>My Profile — TRACKINN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/main.css" />
+  <link rel="stylesheet" href="../assets/css/user.css" />
+  <style>
+    html, body { height: 100%; }
+    .app-shell { display:flex; flex-direction:column; min-height:100vh; background:var(--bg-dark); }
+    .app-body  { display:flex; flex:1; min-height:0; }
+    @media (max-width:1023px) { .app-body { padding-bottom:72px; } }
+
+    /* ── Profile Hero ── */
+    .profile-hero {
+      background: linear-gradient(135deg, rgba(0,188,212,0.1), rgba(124,77,255,0.08));
+      border: 1px solid rgba(0,188,212,0.15);
+      border-radius: var(--radius-xl);
+      padding: 24px 20px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .profile-avatar {
+      width: 76px; height: 76px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--secondary));
+      font-weight: 900; font-size: 1.8rem; color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 12px;
+      border: 3px solid rgba(0,188,212,0.4);
+    }
+    .hero-name   { font-size: 1.15rem; font-weight: 800; margin-bottom: 4px; }
+    .hero-email  { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 4px; }
+    .hero-phone  { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 12px; }
+    .hero-badges { display:flex; align-items:center; justify-content:center; gap:6px; flex-wrap:wrap; margin-bottom:16px; }
+    .hero-stats  { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+    .hero-stat-val  { font-size:1.1rem; font-weight:900; color:var(--accent); }
+    .hero-stat-lbl  { font-size:0.68rem; color:var(--text-muted); margin-top:1px; }
+
+    /* ── Business Toggle ── */
+    .biz-toggle-card {
+      background: var(--bg-card2); border:1px solid var(--border);
+      border-radius: var(--radius-lg); padding:16px; margin-bottom:16px;
+    }
+    .biz-toggle-row {
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+    }
+    .biz-toggle-label { font-size:0.9rem; font-weight:700; }
+    /* Toggle switch */
+    .toggle-switch { position:relative; display:inline-block; width:44px; height:26px; flex-shrink:0; }
+    .toggle-switch input { opacity:0; width:0; height:0; position:absolute; }
+    .toggle-knob {
+      position:absolute; cursor:pointer; inset:0;
+      background:var(--bg-input); border-radius:13px;
+      transition:0.3s; border:1px solid var(--border);
+    }
+    .toggle-knob::after {
+      content:''; position:absolute; left:3px; top:3px;
+      width:18px; height:18px; border-radius:50%;
+      background:#fff; transition:0.3s;
+    }
+    .toggle-switch input:checked ~ .toggle-knob { background:var(--accent); border-color:var(--accent); }
+    .toggle-switch input:checked ~ .toggle-knob::after { transform:translateX(18px); }
+    .biz-fields { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px; }
+    @media (max-width:400px) { .biz-fields { grid-template-columns:1fr; } }
+
+    /* ── Tabs ── */
+    .profile-tabs {
+      display:flex; gap:6px; overflow-x:auto;
+      scrollbar-width:none; padding:2px 0 10px;
+      margin-bottom:0;
+    }
+    .profile-tabs::-webkit-scrollbar { display:none; }
+    .ptab {
+      flex-shrink:0; padding:8px 14px;
+      background: var(--bg-card2); border:1.5px solid var(--border);
+      border-radius: var(--radius-full); font-size:0.78rem; font-weight:700;
+      color:var(--text-secondary); cursor:pointer; white-space:nowrap;
+      transition:var(--transition-fast);
+    }
+    .ptab.active { background:rgba(0,188,212,0.12); border-color:var(--accent); color:var(--accent); }
+    .tab-panel   { display:none; padding-top:16px; }
+    .tab-panel.active { display:block; }
+
+    /* ── Booking History ── */
+    .bh-item {
+      display:flex; align-items:flex-start; gap:12px;
+      padding:12px 0; border-bottom:1px solid var(--border);
+    }
+    .bh-item:last-child { border:none; }
+    .bh-icon {
+      width:42px; height:42px; border-radius:10px; flex-shrink:0;
+      background:linear-gradient(135deg,rgba(0,188,212,0.1),rgba(124,77,255,0.1));
+      display:flex; align-items:center; justify-content:center; font-size:1.2rem;
+    }
+    .bh-mid  { flex:1; min-width:0; }
+    .bh-name { font-size:0.85rem; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .bh-sub  { font-size:0.7rem; color:var(--text-muted); margin-top:2px; }
+    .bh-right{ text-align:right; flex-shrink:0; }
+    .bh-amt  { font-size:0.8rem; font-weight:700; margin-top:4px; }
+
+    /* ── Saved Hotels ── */
+    .saved-card {
+      background:var(--bg-card2); border:1px solid var(--border);
+      border-radius:var(--radius-md); padding:12px 14px;
+      display:flex; align-items:center; gap:12px; margin-bottom:10px;
+    }
+    .saved-card:last-child { margin-bottom:0; }
+    .saved-img {
+      width:50px; height:50px; border-radius:10px; flex-shrink:0;
+      background:linear-gradient(135deg,rgba(0,188,212,0.1),rgba(124,77,255,0.1));
+      display:flex; align-items:center; justify-content:center; font-size:1.4rem;
+    }
+    .saved-mid { flex:1; min-width:0; }
+    .saved-name { font-size:0.85rem; font-weight:700; }
+    .saved-sub  { font-size:0.7rem; color:var(--text-muted); margin-top:2px; }
+    .saved-actions { display:flex; flex-direction:column; gap:6px; flex-shrink:0; }
+
+    /* ── GST Invoices (mobile-friendly cards) ── */
+    .invoice-card {
+      background:var(--bg-card2); border:1px solid var(--border);
+      border-radius:var(--radius-md); padding:14px 16px;
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      margin-bottom:10px;
+    }
+    .invoice-card:last-child { margin-bottom:0; }
+    .invoice-id   { font-size:0.78rem; font-weight:700; color:var(--accent); }
+    .invoice-meta { font-size:0.7rem; color:var(--text-muted); margin-top:2px; }
+    .invoice-amt  { font-size:0.9rem; font-weight:800; }
+
+    /* ── Settings ── */
+    .settings-item {
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 0; border-bottom:1px solid var(--border); cursor:pointer;
+      transition:var(--transition-fast);
+    }
+    .settings-item:hover { opacity:0.8; }
+    .settings-item:last-child { border:none; }
+    .settings-item-left { display:flex; align-items:center; gap:10px; font-size:0.9rem; font-weight:600; }
+    .settings-icon {
+      width:34px; height:34px; border-radius:9px;
+      display:flex; align-items:center; justify-content:center; font-size:1rem;
+      flex-shrink:0;
+    }
+    .s-caret { font-size:1.1rem; color:var(--text-muted); }
+    
+    /* ── Scanner Animation ── */
+    .scanner-container {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-md);
+    }
+    .scanner-line {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--accent);
+      box-shadow: 0 0 4px var(--accent);
+      animation: scan 2s linear infinite;
+      display: none;
+      z-index: 10;
+    }
+    @keyframes scan {
+      0% { top: 0; opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { top: 100%; opacity: 0; }
+    }
+    
+    /* ── Static Aadhar Card ── */
+    .aadhar-card {
+      width: 280px; height: 170px;
+      background: #fdfdfd;
+      border-radius: 8px;
+      padding: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      position: relative;
+      display: none; /* Hidden by default */
+      flex-direction: column;
+      border: 1px solid #e0e0e0;
+    }
+    .ac-header { display:flex; align-items:center; gap:8px; margin-bottom:12px; border-bottom:1px solid #eee; padding-bottom:6px; }
+    .ac-logo { width:20px; filter:grayscale(100%); opacity:0.6; }
+    .ac-title { font-size:0.55rem; font-weight:700; color:#333; text-transform:uppercase; letter-spacing:0.5px; }
+    .ac-body { display:flex; gap:12px; }
+    .ac-photo { width:60px; height:70px; background:#ddd; border-radius:4px; flex-shrink:0; overflow:hidden; }
+    .ac-details { flex:1; display:flex; flex-direction:column; gap:3px; }
+    .ac-field { font-size:0.5rem; color:#666; }
+    .ac-val { font-size:0.6rem; font-weight:700; color:#000; }
+    .ac-number { font-size:0.9rem; font-weight:700; letter-spacing:1px; text-align:center; margin-top:12px; border-top:1px solid #f0f0f0; padding-top:6px; }
+  </style>
+</head>
+<body>
+<div class="app-shell">
+
+  <!-- ── HEADER ── -->
+  <header class="user-header">
+    <a href="dashboard.html" class="user-header-logo">
+      <div class="logo-dot">🏨</div>TRACK<em>INN</em>
+    </a>
+    <div class="user-header-actions">
+      <button class="user-icon-btn" onclick="openModal('editProfileModal')" title="Edit Profile">✏️</button>
+      <a href="profile.html" class="user-avatar-btn">AM</a>
+    </div>
+  </header>
+
+  <div class="app-body">
+
+    <!-- ── DESKTOP SIDEBAR ── -->
+    <nav class="user-sidebar">
+      <div style="padding:0 4px 16px;font-size:0.7rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:0.6px;">Menu</div>
+      <a href="dashboard.html" class="user-sidebar-item"><span class="user-sidebar-icon">🏠</span>Home</a>
+      <a href="search.html"    class="user-sidebar-item"><span class="user-sidebar-icon">🔍</span>Search Hotels</a>
+      <a href="my-bookings.html"   class="user-sidebar-item"><span class="user-sidebar-icon">📅</span>My Bookings</a>
+      <a href="rewards.html"   class="user-sidebar-item"><span class="user-sidebar-icon">🎁</span>Rewards</a>
+      <a href="tourism.html"   class="user-sidebar-item"><span class="user-sidebar-icon">🗺️</span>Explore</a>
+      <a href="profile.html"   class="user-sidebar-item active"><span class="user-sidebar-icon">👤</span>Profile</a>
+    </nav>
+
+    <!-- ── MAIN CONTENT ── -->
+    <div class="user-page-area">
+      <div class="user-page">
+
+        <!-- Profile Hero -->
+        <div class="profile-hero">
+          <div class="profile-avatar">AM</div>
+          <div class="hero-name">Amit Mehra</div>
+          <div class="hero-email">amit.mehra@email.com</div>
+          <div class="hero-phone">+91 98765 43210</div>
+          <div class="hero-badges">
+            <span class="tier-badge tier-bronze">🥉 Bronze</span>
+            <span class="badge badge-info" style="font-size:0.72rem;">📅 Jan 2025</span>
+          </div>
+          <div class="hero-stats">
+            <div><div class="hero-stat-val">7</div><div class="hero-stat-lbl">Total Stays</div></div>
+            <div><div class="hero-stat-val">1,240</div><div class="hero-stat-lbl">TrackPoints</div></div>
+            <div><div class="hero-stat-val">₹3.2K</div><div class="hero-stat-lbl">Total Saved</div></div>
+          </div>
+        </div>
+
+        <!-- Business Traveler Toggle -->
+        <div class="biz-toggle-card">
+          <div class="biz-toggle-row">
+            <div class="biz-toggle-label">💼 Business Traveler</div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="bizToggle"
+                     onchange="document.getElementById('bizDetails').style.display=this.checked?'block':'none'">
+              <span class="toggle-knob"></span>
+            </label>
+          </div>
+          <div id="bizDetails" style="display:none;">
+            <div class="biz-fields">
+              <div class="form-group" style="margin-bottom:0;">
+                <label class="form-label">Company Name</label>
+                <input class="form-control" placeholder="ABC Technologies" />
+              </div>
+              <div class="form-group" style="margin-bottom:0;">
+                <label class="form-label">GSTIN</label>
+                <input class="form-control" placeholder="27AADPG1234Q1ZL" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Tabs ── -->
+        <div class="profile-tabs" role="tablist">
+          <button class="ptab active" onclick="switchPTab(this,'history')">📅 Bookings</button>
+          <button class="ptab" onclick="switchPTab(this,'identity')">🆔 Identity</button>
+          <button class="ptab" onclick="switchPTab(this,'saved')">❤️ Saved</button>
+          <button class="ptab" onclick="switchPTab(this,'invoices')">🧾 Invoices</button>
+          <button class="ptab" onclick="switchPTab(this,'settings')">⚙️ Settings</button>
+        </div>
+
+        <!-- ── Booking History ── -->
+        <div id="tab-history" class="tab-panel active">
+          <div style="background:var(--bg-card2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:4px 16px;">
+            <div class="bh-item">
+              <div class="bh-icon">🛕</div>
+              <div class="bh-mid">
+                <div class="bh-name">The Taj Residency, Varanasi</div>
+                <div class="bh-sub">Feb 22–24 · 2 nights · Deluxe Room</div>
+              </div>
+              <div class="bh-right">
+                <span class="badge badge-success" style="font-size:0.62rem;">Confirmed</span>
+                <div class="bh-amt">₹5,652</div>
+              </div>
+            </div>
+            <div class="bh-item">
+              <div class="bh-icon">🌴</div>
+              <div class="bh-mid">
+                <div class="bh-name">Sunrise Beach Resort, Goa</div>
+                <div class="bh-sub">Jan 3–6 · 3 nights · Sea View Suite</div>
+              </div>
+              <div class="bh-right">
+                <span class="badge badge-info" style="font-size:0.62rem;">Completed</span>
+                <div class="bh-amt">₹9,600</div>
+              </div>
+            </div>
+            <div class="bh-item">
+              <div class="bh-icon">🏨</div>
+              <div class="bh-mid">
+                <div class="bh-name">Grand Palace Hotel, Delhi</div>
+                <div class="bh-sub">Nov 10–12 · 2 nights · Standard</div>
+              </div>
+              <div class="bh-right">
+                <span class="badge badge-danger" style="font-size:0.62rem;">Cancelled</span>
+                <div class="bh-amt" style="color:var(--text-muted);">Refunded</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Identity Verification ── -->
+        <div id="tab-identity" class="tab-panel">
+          <div style="background:var(--bg-card2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;text-align:center;">
+            
+            <div id="kycStatus" style="margin-bottom:24px;">
+              <div style="font-size:3rem;margin-bottom:8px;">🛡️</div>
+              <h3 style="margin-bottom:8px;">Identity Verification</h3>
+              <p style="color:var(--text-muted);font-size:0.9rem;max-width:300px;margin:0 auto 16px;">
+                Scan your Aadhar Card to enable express check-ins and add guests easily.
+              </p>
+            </div>
+
+            <!-- Scanner / Upload Area -->
+            <div id="uploadArea">
+
+              <!-- Capture Method Tabs -->
+              <div style="display:flex;gap:8px;justify-content:center;margin-bottom:20px;">
+                <button class="btn btn-sm btn-primary" id="tabCamera" onclick="switchCaptureMode('camera')">📷 Camera</button>
+                <button class="btn btn-sm btn-outline" id="tabUpload" onclick="switchCaptureMode('upload')">📁 Upload File</button>
+                <button class="btn btn-sm btn-outline" id="tabDemo" onclick="switchCaptureMode('demo')">🆔 Demo ID</button>
+              </div>
+
+              <!-- Camera Mode -->
+              <div id="cameraMode">
+                <div class="scanner-container" style="width:100%;max-width:320px;height:220px;background:#000;border:2px solid var(--border);margin:0 auto 16px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;">
+                  <video id="cameraFeed" autoplay playsinline style="width:100%;height:100%;object-fit:cover;display:none;"></video>
+                  <canvas id="cameraCanvas" style="display:none;width:100%;height:100%;object-fit:cover;"></canvas>
+                  <div id="cameraPlaceholder" style="color:#fff;text-align:center;">
+                    <div style="font-size:2rem;">📷</div>
+                    <div style="font-size:0.8rem;margin-top:8px;">Click below to start camera</div>
+                  </div>
+                  <div id="camScannerLine" class="scanner-line"></div>
+                </div>
+                <div style="display:flex;gap:10px;justify-content:center;">
+                  <button class="btn btn-outline" id="btnStartCam" onclick="startCamera()">Start Camera</button>
+                  <button class="btn btn-primary" id="btnCapture" onclick="captureAndScan()" disabled>Scan & Verify</button>
+                </div>
+              </div>
+
+              <!-- Upload Mode -->
+              <div id="uploadMode" style="display:none;">
+                <div class="scanner-container" style="width:100%;max-width:320px;height:220px;background:#f8f9fa;border:2px dashed var(--border);margin:0 auto 16px;display:flex;align-items:center;justify-content:center;position:relative;cursor:pointer;" onclick="document.getElementById('fileAadhar').click()">
+                  <div id="uploadIcon" style="text-align:center;">
+                    <div style="font-size:2.5rem;margin-bottom:8px;">�</div>
+                    <div style="font-size:0.85rem;font-weight:600;color:var(--text-muted);">Click to Upload Aadhar</div>
+                    <div style="font-size:0.7rem;color:var(--text-muted);">JPG, PNG or PDF accepted</div>
+                  </div>
+                  <img id="uploadPreview" style="width:100%;height:100%;object-fit:contain;display:none;" />
+                  <div id="uploadScannerLine" class="scanner-line"></div>
+                </div>
+                <input type="file" id="fileAadhar" hidden accept="image/*,application/pdf" onchange="handleFileUpload(this)" />
+                <div style="display:flex;gap:10px;justify-content:center;">
+                  <button class="btn btn-primary" id="btnScanUpload" onclick="scanUploadedFile()" disabled>Scan & Verify</button>
+                </div>
+              </div>
+
+              <!-- Demo Mode -->
+              <div id="demoMode" style="display:none;">
+                <div class="scanner-container" style="width:100%;max-width:320px;height:220px;background:#f8f9fa;border:2px dashed var(--border);margin:0 auto 16px;display:flex;align-items:center;justify-content:center;position:relative;">
+                  <div id="uploadPlaceholder" style="text-align:center;">
+                    <div style="font-size:2rem;margin-bottom:8px;opacity:0.5;">📷</div>
+                    <div style="font-size:0.85rem;font-weight:600;color:var(--text-muted);">Load Demo Aadhar</div>
+                  </div>
+                  <div id="demoIdCard" class="aadhar-card">
+                    <div class="ac-header">
+                      <div style="font-size:1.2rem;">🇮🇳</div>
+                      <div>
+                        <div class="ac-title">Government of India</div>
+                        <div class="ac-title" style="font-size:0.45rem;color:#666;">Unique Identification Authority of India</div>
+                      </div>
+                    </div>
+                    <div class="ac-body">
+                      <div class="ac-photo">
+                        <div style="width:100%;height:100%;background:#ccc;display:flex;align-items:end;justify-content:center;color:#fff;font-size:3rem;line-height:1;">👤</div>
+                      </div>
+                      <div class="ac-details">
+                        <div><div class="ac-field">Name</div><div class="ac-val">Amit Mehra</div></div>
+                        <div><div class="ac-field">DOB</div><div class="ac-val">01/01/1990</div></div>
+                        <div><div class="ac-field">Gender</div><div class="ac-val">Male</div></div>
+                      </div>
+                    </div>
+                    <div class="ac-number">4589 1234 5678</div>
+                  </div>
+                  <div id="scannerLine" class="scanner-line"></div>
+                </div>
+                <div style="display:flex;gap:10px;justify-content:center;">
+                  <button class="btn btn-outline" id="btnLoadDemo" onclick="loadDemoID()">Load Demo ID</button>
+                  <button class="btn btn-primary" onclick="startScanning()" id="btnScan" disabled>Scan & Verify</button>
+                </div>
+              </div>
+
+              <div style="margin-top:16px;font-size:0.75rem;color:var(--text-muted);">
+                🔒 Your Aadhar data is encrypted and stored securely.
+              </div>
+            </div>
+
+            <!-- Scanning Status Message -->
+            <div id="scanningStatus" style="display:none;margin-top:20px;">
+              <div style="font-weight:700;color:var(--accent);">Scanning in progress...</div>
+              <div style="font-size:0.8rem;color:var(--text-muted);">Analysing hologram and secure QR code</div>
+            </div>
+
+            <!-- Verified Result -->
+            <div id="verifiedResult" style="display:none;text-align:left;max-width:360px;margin:0 auto;">
+              <div style="background:rgba(0,200,83,0.1);border:1px solid var(--success);border-radius:var(--radius-md);padding:12px;display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+                <div style="color:var(--success);font-size:1.2rem;">✅</div>
+                <div>
+                  <div style="font-weight:700;color:var(--success);">Verification Successful</div>
+                  <div style="font-size:0.75rem;">Your identity has been verified.</div>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">Name on Card</label>
+                <input class="form-control" id="kycName" value="Amit Mehra" readonly />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Aadhar Number</label>
+                <input class="form-control" id="kycNumber" value="XXXX-XXXX-XXXX" readonly style="letter-spacing:1px;font-family:monospace;" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Gender / DOB</label>
+                <div style="display:flex;gap:10px;">
+                  <input class="form-control" id="kycGender" value="Male" readonly />
+                  <input class="form-control" id="kycDob" value="01-01-1990" readonly />
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ── Saved Hotels ── -->
+        <div id="tab-saved" class="tab-panel">
+          <div class="saved-card">
+            <div class="saved-img">🏯</div>
+            <div class="saved-mid">
+              <div class="saved-name">Nadesar Palace</div>
+              <div class="saved-sub">Varanasi · ⭐ 4.9 · ₹18,000/night</div>
+            </div>
+            <div class="saved-actions">
+              <a href="hotel-detail.html" class="btn btn-primary btn-sm">Book</a>
+              <button class="btn btn-ghost btn-sm" onclick="showToast('💔 Removed!')">Remove</button>
+            </div>
+          </div>
+          <div class="saved-card">
+            <div class="saved-img">🏔️</div>
+            <div class="saved-mid">
+              <div class="saved-name">The Mall Road Retreat</div>
+              <div class="saved-sub">Manali · ⭐ 4.6 · ₹4,200/night</div>
+            </div>
+            <div class="saved-actions">
+              <a href="hotel-detail.html" class="btn btn-primary btn-sm">Book</a>
+              <button class="btn btn-ghost btn-sm" onclick="showToast('💔 Removed!')">Remove</button>
+            </div>
+          </div>
+          <div class="saved-card">
+            <div class="saved-img">🌴</div>
+            <div class="saved-mid">
+              <div class="saved-name">Beachside Villas Goa</div>
+              <div class="saved-sub">Goa · ⭐ 4.8 · ₹6,500/night</div>
+            </div>
+            <div class="saved-actions">
+              <a href="hotel-detail.html" class="btn btn-primary btn-sm">Book</a>
+              <button class="btn btn-ghost btn-sm" onclick="showToast('💔 Removed!')">Remove</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── GST Invoices (card layout for mobile) ── -->
+        <div id="tab-invoices" class="tab-panel">
+          <div class="invoice-card">
+            <div>
+              <div class="invoice-id">TRK-2402220</div>
+              <div class="invoice-meta">Taj Residency · Feb 22, 2026</div>
+            </div>
+            <div style="text-align:right;">
+              <div class="invoice-amt">₹5,652</div>
+              <button class="btn btn-primary btn-sm" style="margin-top:6px;font-size:0.72rem;padding:6px 14px;"
+                      onclick="showToast('📄 Invoice downloaded!')">📄 PDF</button>
+            </div>
+          </div>
+          <div class="invoice-card">
+            <div>
+              <div class="invoice-id">TRK-2401031</div>
+              <div class="invoice-meta">Sunrise Beach Resort · Jan 3, 2026</div>
+            </div>
+            <div style="text-align:right;">
+              <div class="invoice-amt">₹10,500</div>
+              <button class="btn btn-primary btn-sm" style="margin-top:6px;font-size:0.72rem;padding:6px 14px;"
+                      onclick="showToast('📄 Invoice downloaded!')">📄 PDF</button>
+            </div>
+          </div>
+          <div class="invoice-card">
+            <div>
+              <div class="invoice-id">TRK-2312251</div>
+              <div class="invoice-meta">Heritage Grand · Dec 25, 2025</div>
+            </div>
+            <div style="text-align:right;">
+              <div class="invoice-amt">₹9,600</div>
+              <button class="btn btn-primary btn-sm" style="margin-top:6px;font-size:0.72rem;padding:6px 14px;"
+                      onclick="showToast('📄 Invoice downloaded!')">📄 PDF</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Settings ── -->
+        <div id="tab-settings" class="tab-panel">
+          <div style="background:var(--bg-card2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:4px 16px;">
+            <div class="settings-item" onclick="openModal('editProfileModal')">
+              <div class="settings-item-left">
+                <div class="settings-icon" style="background:rgba(0,188,212,0.1);">👤</div>Edit Profile
+              </div>
+              <span class="s-caret">›</span>
+            </div>
+            <div class="settings-item" onclick="showToast('🔒 Password reset link sent!')">
+              <div class="settings-item-left">
+                <div class="settings-icon" style="background:rgba(124,77,255,0.1);">🔒</div>Change Password
+              </div>
+              <span class="s-caret">›</span>
+            </div>
+            <div class="settings-item">
+              <div class="settings-item-left">
+                <div class="settings-icon" style="background:rgba(255,193,7,0.1);">🔔</div>Notifications
+              </div>
+              <span class="s-caret">›</span>
+            </div>
+            <div class="settings-item">
+              <div class="settings-item-left">
+                <div class="settings-icon" style="background:rgba(0,200,83,0.1);">💳</div>Saved Payments
+              </div>
+              <span class="s-caret">›</span>
+            </div>
+            <div class="settings-item">
+              <div class="settings-item-left">
+                <div class="settings-icon" style="background:rgba(255,111,0,0.1);">🌍</div>Language &amp; Region
+              </div>
+              <span class="s-caret">›</span>
+            </div>
+            <div class="settings-item" onclick="if(confirm('Sign out?'))window.location='../login.html'">
+              <div class="settings-item-left">
+                <div class="settings-icon" style="background:rgba(244,67,54,0.1);">🚪</div>
+                <span style="color:var(--danger);">Sign Out</span>
+              </div>
+              <span class="s-caret" style="color:var(--danger);">›</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="height:24px;"></div>
+      </div>
+    </div><!-- /user-page-area -->
+
+  </div><!-- /app-body -->
+
+  <!-- ── BOTTOM NAV ── -->
+  <nav class="bottom-nav">
+    <a href="dashboard.html" class="bnav-item"><span class="bnav-icon">🏠</span><span class="bnav-label">Home</span></a>
+    <a href="search.html"    class="bnav-item"><span class="bnav-icon">🔍</span><span class="bnav-label">Search</span></a>
+    <a href="my-bookings.html"   class="bnav-item"><span class="bnav-icon">📅</span><span class="bnav-label">Bookings</span></a>
+    <a href="rewards.html"   class="bnav-item"><span class="bnav-icon">🎁</span><span class="bnav-label">Rewards</span></a>
+    <a href="profile.html"   class="bnav-item active"><span class="bnav-icon">👤</span><span class="bnav-label">Profile</span></a>
+  </nav>
+
+</div><!-- /app-shell -->
+
+<!-- Edit Profile Modal -->
+<div class="modal-overlay" id="editProfileModal">
+  <div class="modal" style="max-width:420px;">
+    <div class="modal-header">
+      <h4>✏️ Edit Profile</h4>
+      <button class="modal-close" onclick="closeModal('editProfileModal')">✕</button>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div class="form-group" style="margin-bottom:0;">
+        <label class="form-label">First Name</label>
+        <input class="form-control" value="Amit" />
+      </div>
+      <div class="form-group" style="margin-bottom:0;">
+        <label class="form-label">Last Name</label>
+        <input class="form-control" value="Mehra" />
+      </div>
+      <div class="form-group" style="margin-bottom:0;grid-column:1/-1;">
+        <label class="form-label">Email</label>
+        <input class="form-control" value="amit.mehra@email.com" />
+      </div>
+      <div class="form-group" style="margin-bottom:0;grid-column:1/-1;">
+        <label class="form-label">Mobile</label>
+        <input class="form-control" value="+91 98765 43210" />
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:20px;">
+      <button class="btn btn-ghost" style="flex:1;" onclick="closeModal('editProfileModal')">Cancel</button>
+      <button class="btn btn-primary" style="flex:1;"
+              onclick="closeModal('editProfileModal');showToast('✅ Profile updated!')">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<script src="../assets/js/user.js"></script>
+<script>
+  // ── Profile Tab Switcher ──
+  function switchPTab(btn, id) {
+    document.querySelectorAll('.ptab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+
+    // Stop camera if leaving identity tab
+    if (id !== 'identity') stopCamera();
+  }
+
+  // ── Capture Mode Switcher ──
+  function switchCaptureMode(mode) {
+    document.getElementById('cameraMode').style.display = mode === 'camera' ? 'block' : 'none';
+    document.getElementById('uploadMode').style.display = mode === 'upload' ? 'block' : 'none';
+    document.getElementById('demoMode').style.display = mode === 'demo' ? 'block' : 'none';
+    // Update button styles
+    ['tabCamera','tabUpload','tabDemo'].forEach(id => {
+      document.getElementById(id).className = 'btn btn-sm btn-outline';
+    });
+    const modeMap = { camera:'tabCamera', upload:'tabUpload', demo:'tabDemo' };
+    document.getElementById(modeMap[mode]).className = 'btn btn-sm btn-primary';
+    if (mode !== 'camera') stopCamera();
+  }
+
+  // ── Camera Mode ──
+  let cameraStream = null;
+  function startCamera() {
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+      .then(stream => {
+        cameraStream = stream;
+        const video = document.getElementById('cameraFeed');
+        video.srcObject = stream;
+        video.style.display = 'block';
+        document.getElementById('cameraPlaceholder').style.display = 'none';
+        document.getElementById('btnStartCam').style.display = 'none';
+        document.getElementById('btnCapture').disabled = false;
+        showToast('📷 Camera started — position Aadhar card in frame');
+      })
+      .catch(err => {
+        showToast('⚠️ Camera access denied. Use Upload or Demo mode.');
+      });
+  }
+
+  function stopCamera() {
+    if (cameraStream) {
+      cameraStream.getTracks().forEach(t => t.stop());
+      cameraStream = null;
+    }
+  }
+
+  function captureAndScan() {
+    const video = document.getElementById('cameraFeed');
+    const canvas = document.getElementById('cameraCanvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    ctx.drawImage(video, 0, 0);
+    video.style.display = 'none';
+    canvas.style.display = 'block';
+    stopCamera();
+    // Show scanning animation
+    document.getElementById('camScannerLine').style.display = 'block';
+    document.getElementById('scanningStatus').style.display = 'block';
+    document.getElementById('btnCapture').disabled = true;
+    document.getElementById('btnCapture').textContent = 'Scanning...';
+    setTimeout(() => completeVerification(), 2500);
+  }
+
+  // ── Upload Mode ──
+  function handleFileUpload(input) {
+    if (!input.files || !input.files[0]) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+      const preview = document.getElementById('uploadPreview');
+      preview.src = e.target.result;
+      preview.style.display = 'block';
+      document.getElementById('uploadIcon').style.display = 'none';
+      document.getElementById('btnScanUpload').disabled = false;
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+
+  function scanUploadedFile() {
+    document.getElementById('uploadScannerLine').style.display = 'block';
+    document.getElementById('scanningStatus').style.display = 'block';
+    document.getElementById('btnScanUpload').disabled = true;
+    document.getElementById('btnScanUpload').textContent = 'Scanning...';
+    setTimeout(() => completeVerification(), 2500);
+  }
+
+  // ── Demo Mode ──
+  function loadDemoID() {
+    document.getElementById('uploadPlaceholder').style.display = 'none';
+    const card = document.getElementById('demoIdCard');
+    card.style.display = 'flex';
+    card.style.opacity = '0';
+    card.style.transition = 'opacity 0.3s ease';
+    setTimeout(() => card.style.opacity = '1', 50);
+    document.getElementById('btnLoadDemo').style.display = 'none';
+    document.getElementById('btnScan').disabled = false;
+  }
+
+  function startScanning() {
+    document.getElementById('scannerLine').style.display = 'block';
+    document.getElementById('scanningStatus').style.display = 'block';
+    document.getElementById('btnScan').disabled = true;
+    document.getElementById('btnScan').textContent = 'Scanning...';
+    setTimeout(() => completeVerification(), 2500);
+  }
+
+  // ── Shared Completion ──
+  function completeVerification() {
+    // Hide scanning UI
+    ['scannerLine','camScannerLine','uploadScannerLine'].forEach(id => {
+      const el = document.getElementById(id);
+      if(el) el.style.display = 'none';
+    });
+    document.getElementById('scanningStatus').style.display = 'none';
+    document.getElementById('uploadArea').style.display = 'none';
+
+    // Show verified result
+    document.getElementById('verifiedResult').style.display = 'block';
+
+    // Save mock data
+    const mockAadhar = '4589 1234 5678';
+    document.getElementById('kycNumber').value = mockAadhar;
+    document.getElementById('kycName').value = 'Amit Mehra';
+    localStorage.setItem('userAadhar', mockAadhar);
+    localStorage.setItem('userAadharName', 'Amit Mehra');
+    localStorage.setItem('userKycStatus', 'verified');
+
+    showToast('✅ Identity Verified Successfully!');
+  }
+
+  // ── On Load ──
+  window.addEventListener('DOMContentLoaded', () => {
+    // Default to Camera mode
+    switchCaptureMode('camera');
+    // If already verified, show the success state directly
+    if (localStorage.getItem('userKycStatus') === 'verified') {
+      document.getElementById('uploadArea').style.display = 'none';
+      document.getElementById('verifiedResult').style.display = 'block';
+      document.getElementById('kycNumber').value = localStorage.getItem('userAadhar') || '4589 1234 5678';
+      document.getElementById('kycName').value = localStorage.getItem('userAadharName') || 'Amit Mehra';
+    }
+  });
+</script>
+</body>
+</html>

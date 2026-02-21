@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Check-in / Check-out — TRACKINN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/main.css" />
+  <link rel="stylesheet" href="../assets/css/dashboard.css" />
+  <style>
+    .signature-pad { background: rgba(255,255,255,0.04); border: 2px dashed var(--border-accent); border-radius: var(--radius-md); width: 100%; height: 120px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 0.9rem; cursor: pointer; transition: var(--transition-fast); }
+    .signature-pad:hover { background: rgba(0,188,212,0.05); border-color: var(--accent); }
+    .id-scan-area { background: rgba(255,255,255,0.03); border: 2px dashed var(--border); border-radius: var(--radius-md); padding: 32px; text-align: center; cursor: pointer; transition: var(--transition-fast); }
+    .id-scan-area:hover { border-color: var(--accent); background: rgba(0,188,212,0.05); }
+    .guest-row { display: flex; align-items: center; gap: 14px; padding: 14px; background: var(--bg-input); border: 1px solid var(--border); border-radius: var(--radius-md); cursor: pointer; transition: var(--transition-fast); margin-bottom: 8px; }
+    .guest-row:hover { border-color: var(--accent); }
+    .success-badge { display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:var(--success-bg);border:1px solid rgba(0,200,83,0.3);border-radius:var(--radius-full);color:var(--success);font-size:0.85rem;font-weight:600; }
+  </style>
+</head>
+<body>
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeMobileSidebar()"></div>
+  <aside class="sidebar" id="sidebar">
+    <a href="dashboard.html" class="sidebar-logo">
+      <div class="slogo-icon">🏨</div>
+      <div class="slogo-text">TRACK<em>INN<span class="slogo-sub">Hotel Manager</span></em></div>
+    </a>
+    <div class="hotel-badge">
+      <div class="hotel-badge-avatar">🏢</div>
+      <div class="hotel-badge-info">
+        <div class="hotel-badge-name">Grand Palace Hotel</div>
+        <div class="hotel-badge-plan">⭐ Growth Plan</div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Overview</div>
+      <a href="dashboard.html" class="nav-item" data-tooltip="Dashboard"><span class="nav-icon">📊</span><span class="nav-label">Dashboard</span></a>
+      <div class="nav-section-label">Operations</div>
+      <a href="checkin.html" class="nav-item active" data-tooltip="Check-in/out"><span class="nav-icon">🛎</span><span class="nav-label">Check-in / Check-out</span></a>
+      <a href="rooms.html" class="nav-item" data-tooltip="Rooms"><span class="nav-icon">🛏</span><span class="nav-label">Room Management</span></a>
+      <a href="room-detail.html" class="nav-item" data-tooltip="All Rooms (Grid & Detail)"><span class="nav-icon">🔍</span><span class="nav-label">All Rooms (Live View)</span></a>
+      <a href="bookings.html" class="nav-item" data-tooltip="Bookings"><span class="nav-icon">📅</span><span class="nav-label">Bookings</span><span class="nav-badge">3</span></a>
+      <div class="nav-section-label">Finance</div>
+      <a href="billing.html" class="nav-item" data-tooltip="Billing"><span class="nav-icon">💳</span><span class="nav-label">Billing & Accounting</span></a>
+      <div class="nav-section-label">Team</div>
+      <a href="staff.html" class="nav-item" data-tooltip="Staff"><span class="nav-icon">👥</span><span class="nav-label">Staff Management</span></a>
+      <div class="nav-section-label">Insights</div>
+      <a href="analytics.html" class="nav-item" data-tooltip="Analytics"><span class="nav-icon">🤖</span><span class="nav-label">Analytics & AI</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="sidebar-toggle" onclick="toggleSidebar()"><span class="toggle-icon">◀</span><span class="nav-label">Collapse Menu</span></button>
+    </div>
+  </aside>
+
+  <header class="topbar" id="topbar">
+    <button class="topbar-mobile-menu" onclick="toggleSidebar()">☰</button>
+    <div class="topbar-title">Check-in / Check-out<span id="topbarDate"></span></div>
+    <div class="topbar-actions">
+      <a href="#" class="topbar-btn">🔔<span class="notif-dot"></span></a>
+      <div class="topbar-profile" onclick="window.location.href='dashboard.html'"><div class="profile-avatar">RK</div><div class="profile-info"><strong>Rajesh Kumar</strong><span>Hotel Manager</span></div></div>
+    </div>
+  </header>
+
+  <main class="main-content" id="mainContent">
+    <div class="page-wrapper">
+      <div class="page-header">
+        <div class="page-header-left"><h1>🛎 Check-in / Check-out</h1><p>Sarai-integrated guest management. Guest data auto-submitted on check-in.</p></div>
+        <div class="page-header-actions">
+          <button class="btn btn-primary" onclick="openModal('checkinModal')">➕ New Walk-in Check-in</button>
+          <button class="btn btn-outline" onclick="openModal('checkoutModal')">🚪 Process Check-out</button>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="kpi-grid" style="grid-template-columns:repeat(auto-fill,minmax(180px,1fr));">
+        <div class="kpi-card kpi-green"><span class="kpi-icon">🛎</span><div class="kpi-label">Today's Check-ins</div><div class="kpi-value">28</div></div>
+        <div class="kpi-card kpi-purple"><span class="kpi-icon">🚪</span><div class="kpi-label">Check-outs</div><div class="kpi-value">21</div></div>
+        <div class="kpi-card kpi-orange"><span class="kpi-icon">⏰</span><div class="kpi-label">Due Check-outs</div><div class="kpi-value">4</div></div>
+        <div class="kpi-card kpi-cyan"><span class="kpi-icon">🕐</span><div class="kpi-label">Expected Arrivals</div><div class="kpi-value">11</div></div>
+        <div class="kpi-card kpi-green"><span class="kpi-icon">✅</span><div class="kpi-label">Sarai Submitted</div><div class="kpi-value">28</div></div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="tabs-nav">
+        <button class="tab-btn active" onclick="switchTab('checkins')">🛎 Checked-in Guests</button>
+        <button class="tab-btn" onclick="switchTab('arrivals')">📅 Expected Arrivals</button>
+        <button class="tab-btn" onclick="switchTab('dueout')">⏰ Due Check-outs</button>
+        <button class="tab-btn" onclick="switchTab('history')">📜 History</button>
+      </div>
+
+      <!-- Checked-in Guests -->
+      <div class="tab-panel active" id="tab-checkins">
+        <div class="filter-bar">
+          <input type="text" class="form-control search-input" placeholder="🔍 Search guest by name, room or booking ID..." />
+          <select class="form-control" style="width:auto;"><option>All Rooms</option><option>100s</option><option>200s</option><option>300s</option></select>
+          <select class="form-control" style="width:auto;"><option>All Sources</option><option>Walk-in</option><option>OTA</option><option>Corporate</option></select>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead><tr><th>Guest Name</th><th>Room</th><th>Phone</th><th>ID Type</th><th>Sarai</th><th>Check-in</th><th>Check-out</th><th>Amount</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Rajesh Kumar Sharma</strong></td><td>101</td><td>+91 98765 43210</td><td><span class="badge badge-info">Aadhaar</span></td><td><span class="badge badge-success">✅ Submitted</span></td><td>Today 9:30 AM</td><td>Tomorrow</td><td>₹3,200</td><td><div style="display:flex;gap:6px;"><button class="btn btn-sm btn-outline" onclick="openModal('guestDetailModal')" style="padding:4px 10px;">View</button><button class="btn btn-sm btn-primary" onclick="openModal('checkoutModal')" style="padding:4px 10px;">Check-out</button></div></td></tr>
+              <tr><td><strong>Priya Mehta</strong></td><td>302</td><td>+91 87654 32109</td><td><span class="badge badge-info">Aadhaar</span></td><td><span class="badge badge-success">✅ Submitted</span></td><td>Today 11:00 AM</td><td>Feb 21</td><td>₹8,400</td><td><div style="display:flex;gap:6px;"><button class="btn btn-sm btn-outline" onclick="openModal('guestDetailModal')" style="padding:4px 10px;">View</button><button class="btn btn-sm btn-outline" style="padding:4px 10px;">Invoice</button></div></td></tr>
+              <tr><td><strong>Mohammed Yusuf</strong></td><td>201</td><td>+91 76543 21098</td><td><span class="badge badge-warning">Passport</span></td><td><span class="badge badge-success">✅ Submitted</span></td><td>Today 4:15 PM</td><td>Tomorrow</td><td>₹4,500</td><td><div style="display:flex;gap:6px;"><button class="btn btn-sm btn-outline" style="padding:4px 10px;">View</button><button class="btn btn-sm btn-primary" onclick="openModal('checkoutModal')" style="padding:4px 10px;">Check-out</button></div></td></tr>
+              <tr><td><strong>Sunita Joshi</strong></td><td>105</td><td>+91 65432 10987</td><td><span class="badge badge-info">Aadhaar</span></td><td><span class="badge badge-success">✅ Submitted</span></td><td>Yesterday 3 PM</td><td>Today 12 PM</td><td>₹2,800</td><td><div style="display:flex;gap:6px;"><button class="btn btn-sm btn-outline" style="padding:4px 10px;">View</button><button class="btn btn-sm btn-danger" style="background:var(--danger);color:#fff;padding:4px 10px;">⚠️ Overdue</button></div></td></tr>
+              <tr><td><strong>Amit Sharma</strong></td><td>203</td><td>+91 54321 09876</td><td><span class="badge badge-info">Aadhaar</span></td><td><span class="badge badge-success">✅ Submitted</span></td><td>Today 1:00 PM</td><td>Feb 22</td><td>₹6,750</td><td><div style="display:flex;gap:6px;"><button class="btn btn-sm btn-outline" style="padding:4px 10px;">View</button><button class="btn btn-sm btn-outline" style="padding:4px 10px;">Invoice</button></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Expected Arrivals -->
+      <div class="tab-panel" id="tab-arrivals">
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead><tr><th>Guest Name</th><th>Room</th><th>Booking Source</th><th>ETA</th><th>Nights</th><th>Amount</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Ankit Verma</strong></td><td>204</td><td><span class="badge badge-warning">Corporate</span></td><td>Today 2:00 PM</td><td>3</td><td>₹12,600</td><td><button class="btn btn-sm btn-primary" onclick="openModal('checkinModal')" style="padding:4px 10px;">🛎 Check In</button></td></tr>
+              <tr><td><strong>Riya Kapoor</strong></td><td>306</td><td><span class="badge badge-primary">MMT</span></td><td>Today 5:00 PM</td><td>2</td><td>₹7,200</td><td><button class="btn btn-sm btn-primary" onclick="openModal('checkinModal')" style="padding:4px 10px;">🛎 Check In</button></td></tr>
+              <tr><td><strong>InfoSys Ltd.</strong></td><td>201-205</td><td><span class="badge badge-warning">Corporate</span></td><td>Tomorrow</td><td>5</td><td>₹42,000</td><td><button class="btn btn-sm btn-outline" style="padding:4px 10px;">Prepare Rooms</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Due Check-outs -->
+      <div class="tab-panel" id="tab-dueout">
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead><tr><th>Guest Name</th><th>Room</th><th>Due Time</th><th>Extra Hours</th><th>Total Bill</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Sunita Joshi</strong></td><td>105</td><td style="color:var(--danger);">Today 12:00 PM</td><td style="color:var(--warning);">+2 hr</td><td>₹2,800 + ₹400</td><td><button class="btn btn-sm btn-primary" onclick="openModal('checkoutModal')" style="padding:4px 10px;">Settle & Check-out</button></td></tr>
+              <tr><td><strong>Ram Bahadur</strong></td><td>106</td><td style="color:var(--warning);">Today 11:00 AM</td><td style="color:var(--warning);">+4 hr</td><td>₹1,800 + ₹800</td><td><button class="btn btn-sm btn-primary" style="padding:4px 10px;">Settle & Check-out</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- History -->
+      <div class="tab-panel" id="tab-history">
+        <div class="filter-bar">
+          <input type="date" class="form-control" style="width:auto;" value="2026-02-19" />
+          <input type="date" class="form-control" style="width:auto;" value="2026-02-19" />
+          <button class="btn btn-outline btn-sm">🔍 Filter</button>
+          <button class="btn btn-ghost btn-sm">📤 Export</button>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead><tr><th>Guest</th><th>Room</th><th>Check-in</th><th>Check-out</th><th>Nights</th><th>Amount</th><th>Invoice</th></tr></thead>
+            <tbody>
+              <tr><td>Vikram Singh</td><td>101</td><td>Feb 17</td><td>Feb 19</td><td>2</td><td>₹6,400</td><td><button class="btn btn-sm btn-outline" style="padding:4px 10px;">📄 View</button></td></tr>
+              <tr><td>Kavita Reddy</td><td>203</td><td>Feb 16</td><td>Feb 18</td><td>2</td><td>₹9,800</td><td><button class="btn btn-sm btn-outline" style="padding:4px 10px;">📄 View</button></td></tr>
+              <tr><td>Sandeep Kumar</td><td>305</td><td>Feb 15</td><td>Feb 18</td><td>3</td><td>₹14,400</td><td><button class="btn btn-sm btn-outline" style="padding:4px 10px;">📄 View</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- NEW CHECK-IN MODAL -->
+  <div class="modal-overlay" id="checkinModal">
+    <div class="modal" style="max-width:640px;">
+      <div class="modal-header"><h4>🛎 New Check-in</h4><button class="modal-close" onclick="closeModal('checkinModal')">✕</button></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div class="form-group"><label class="form-label">Guest Full Name *</label><input class="form-control" placeholder="Rajesh Kumar Sharma" /></div>
+        <div class="form-group"><label class="form-label">Mobile Number *</label><input class="form-control" placeholder="+91 98765 43210" /></div>
+        <div class="form-group"><label class="form-label">ID Type</label><select class="form-control"><option>Aadhaar Card</option><option>PAN Card</option><option>Passport</option><option>Driving License</option><option>Voter ID</option></select></div>
+        <div class="form-group"><label class="form-label">ID Number *</label><input class="form-control" placeholder="XXXX-XXXX-1234" /></div>
+        <div class="form-group"><label class="form-label">Assign Room *</label><select class="form-control"><option>103 — Standard AC (₹1,800/n)</option><option>206 — Deluxe AC (₹2,800/n)</option><option>304 — Suite (₹5,200/n)</option></select></div>
+        <div class="form-group"><label class="form-label">Check-out Date *</label><input type="date" class="form-control" /></div>
+        <div class="form-group"><label class="form-label">Number of Guests</label><input type="number" class="form-control" value="1" min="1" /></div>
+        <div class="form-group"><label class="form-label">Payment Mode</label><select class="form-control"><option>Cash</option><option>UPI</option><option>Card</option><option>Credit</option></select></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">ID Scan</label>
+        <div class="id-scan-area">
+          <div style="font-size:2rem;margin-bottom:8px;">📷</div>
+          <div style="font-size:0.9rem;font-weight:600;">Click to upload ID / Scan Aadhaar QR</div>
+          <div style="font-size:0.78rem;color:var(--text-muted);margin-top:4px;">Accepts JPG, PNG, PDF</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Digital Signature</label>
+        <div class="signature-pad">✍️ Click here for guest to sign digitally</div>
+      </div>
+      <div class="success-badge" style="margin-bottom:16px;">✅ Sarai data will be auto-submitted on check-in</div>
+      <div style="display:flex;gap:12px;justify-content:flex-end;">
+        <button class="btn btn-ghost" onclick="closeModal('checkinModal')">Cancel</button>
+        <button class="btn btn-primary" onclick="handleCheckin()">🛎 Confirm Check-in & Submit Sarai</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHECKOUT MODAL -->
+  <div class="modal-overlay" id="checkoutModal">
+    <div class="modal" style="max-width:520px;">
+      <div class="modal-header"><h4>🚪 Check-out Settlement</h4><button class="modal-close" onclick="closeModal('checkoutModal')">✕</button></div>
+      <div style="background:var(--bg-input);border-radius:12px;border:1px solid var(--border);padding:16px;margin-bottom:16px;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:10px;"><strong>Rajesh Kumar Sharma</strong><span class="badge badge-info">Room 101</span></div>
+        <div style="display:flex;flex-direction:column;gap:6px;font-size:0.875rem;">
+          <div style="display:flex;justify-content:space-between;"><span style="color:var(--text-muted);">Room charges (2 nights)</span><span>₹3,600</span></div>
+          <div style="display:flex;justify-content:space-between;"><span style="color:var(--text-muted);">Extra services</span><span>₹450</span></div>
+          <div style="display:flex;justify-content:space-between;"><span style="color:var(--text-muted);">GST (12%)</span><span>₹486</span></div>
+          <div class="divider"></div>
+          <div style="display:flex;justify-content:space-between;font-weight:700;font-size:1rem;"><span>Total Amount</span><span style="color:var(--accent);">₹4,536</span></div>
+          <div style="display:flex;justify-content:space-between;"><span style="color:var(--success);">Advance Paid</span><span style="color:var(--success);">- ₹2,000</span></div>
+          <div style="display:flex;justify-content:space-between;font-weight:700;color:var(--warning);"><span>Balance Due</span><span>₹2,536</span></div>
+        </div>
+      </div>
+      <div class="form-group"><label class="form-label">Payment Mode</label><select class="form-control"><option>Cash</option><option>UPI</option><option>Card</option></select></div>
+      <div class="form-group"><label class="form-label">Additional Notes</label><textarea class="form-control" rows="2" placeholder="Any notes..."></textarea></div>
+      <div style="display:flex;gap:12px;justify-content:flex-end;">
+        <button class="btn btn-ghost" onclick="closeModal('checkoutModal')">Cancel</button>
+        <button class="btn btn-outline btn-sm" onclick="closeModal('checkoutModal')">🧾 Preview Invoice</button>
+        <button class="btn btn-primary" onclick="closeModal('checkoutModal');alert('Checkout complete! GST Invoice generated.')">✅ Confirm & Generate Invoice</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Guest Detail Modal -->
+  <div class="modal-overlay" id="guestDetailModal">
+    <div class="modal" style="max-width:480px;">
+      <div class="modal-header"><h4>👤 Guest Details</h4><button class="modal-close" onclick="closeModal('guestDetailModal')">✕</button></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:0.875rem;">
+        <div style="background:var(--bg-input);border-radius:8px;padding:12px;border:1px solid var(--border);"><div style="color:var(--text-muted);font-size:0.75rem;margin-bottom:4px;">Guest Name</div><strong>Rajesh Kumar Sharma</strong></div>
+        <div style="background:var(--bg-input);border-radius:8px;padding:12px;border:1px solid var(--border);"><div style="color:var(--text-muted);font-size:0.75rem;margin-bottom:4px;">Room</div><strong>101 — Standard AC</strong></div>
+        <div style="background:var(--bg-input);border-radius:8px;padding:12px;border:1px solid var(--border);"><div style="color:var(--text-muted);font-size:0.75rem;margin-bottom:4px;">Mobile</div><strong>+91 98765 43210</strong></div>
+        <div style="background:var(--bg-input);border-radius:8px;padding:12px;border:1px solid var(--border);"><div style="color:var(--text-muted);font-size:0.75rem;margin-bottom:4px;">ID Type</div><strong>Aadhaar Card</strong></div>
+        <div style="background:var(--bg-input);border-radius:8px;padding:12px;border:1px solid var(--border);"><div style="color:var(--text-muted);font-size:0.75rem;margin-bottom:4px;">Check-in</div><strong>Today, 9:30 AM</strong></div>
+        <div style="background:var(--bg-input);border-radius:8px;padding:12px;border:1px solid var(--border);"><div style="color:var(--text-muted);font-size:0.75rem;margin-bottom:4px;">Check-out</div><strong>Feb 20, 12:00 PM</strong></div>
+        <div style="background:var(--success-bg);border:1px solid rgba(0,200,83,0.3);border-radius:8px;padding:12px;grid-column:span 2;"><div style="color:var(--success);font-size:0.78rem;font-weight:700;">✅ Sarai Status</div><span style="color:var(--success);font-size:0.85rem;">Submitted successfully at 9:32 AM</span></div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:16px;">
+        <button class="btn btn-outline btn-sm" style="flex:1;justify-content:center;">🧾 View Invoice</button>
+        <button class="btn btn-primary btn-sm" onclick="openModal('checkoutModal');closeModal('guestDetailModal')" style="flex:1;justify-content:center;">🚪 Check Out</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../assets/js/dashboard.js"></script>
+  <script>
+    function handleCheckin() {
+      closeModal('checkinModal');
+      setTimeout(() => alert('✅ Check-in successful! Guest data submitted to Sarai API automatically.'), 300);
+    }
+  </script>
+</body>
+</html>
