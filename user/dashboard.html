@@ -7,7 +7,8 @@
   <meta name="description" content="Book hotels, earn TrackPoints, and manage your trips on TRACKINN." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../assets/css/main.css" />
+  <script src="../assets/js/theme.js"></script>
+    <link rel="stylesheet" href="../assets/css/main.css" />
   <link rel="stylesheet" href="../assets/css/user.css" />
   <style>
     /* Page-level layout override so sidebar + content sit side by side */
@@ -39,6 +40,7 @@
       TRACK<em>INN</em>
     </a>
     <div class="user-header-actions">
+        <button class="user-icon-btn theme-toggle-btn" onclick="toggleTheme()"><i class="fas fa-sun"></i></button>
       <a href="search.html" class="user-icon-btn" title="Search">🔍</a>
       <a href="#" class="user-icon-btn" title="Notifications"
          onclick="event.preventDefault(); openModal('notifsModal')">

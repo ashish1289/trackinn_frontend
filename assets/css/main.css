@@ -71,6 +71,31 @@
   --topbar-height: 64px;
 }
 
+/* Light Theme Overrides */
+:root.light-theme, .light-theme {
+  /* Backgrounds */
+  --bg-dark: #f0f4f8;
+  --bg-darker: #e2e8f0;
+  --bg-card: #ffffff;
+  --bg-card2: #f8fafc;
+  --bg-glass: rgba(255, 255, 255, 0.85);
+  --bg-input: rgba(0, 0, 0, 0.04);
+
+  /* Text */
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+
+  /* Borders */
+  --border: rgba(0, 0, 0, 0.08);
+  --border-accent: rgba(0, 188, 212, 0.4);
+}
+
+/* Smooth Transitions */
+body, .card, .user-header, .bottom-nav, .user-page, .sidebar, .topbar, .main-content, .kpi-card, .chart-container, .alert-item, .compliance-card, .room-tile, .quick-action-btn, textarea, input, select {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease !important;
+}
+
 /* ---- Reset ---- */
 *,
 *::before,

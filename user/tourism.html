@@ -6,7 +6,8 @@
   <title>Tourism & Add-ons — TRACKINN</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../assets/css/main.css" />
+  <script src="../assets/js/theme.js"></script>
+    <link rel="stylesheet" href="../assets/css/main.css" />
   <link rel="stylesheet" href="../assets/css/user.css" />
   <style>
     .temple-card { background:linear-gradient(135deg,rgba(255,111,0,0.08),rgba(244,67,54,0.06)); border:1px solid rgba(255,111,0,0.2); border-radius:var(--radius-lg); padding:16px; cursor:pointer; transition:var(--transition-fast); }
@@ -41,6 +42,7 @@
   <header class="user-header">
     <a href="dashboard.html" class="user-header-logo"><div class="logo-dot">🏨</div>TRACK<em>INN</em></a>
     <div class="user-header-actions">
+        <button class="user-icon-btn theme-toggle-btn" onclick="toggleTheme()"><i class="fas fa-sun"></i></button>
       <a href="profile.html" class="user-avatar-btn">AM</a>
     </div>
   </header>

@@ -6,7 +6,8 @@
   <title>Bookings — TRACKINN</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../assets/css/main.css" />
+  <script src="../assets/js/theme.js"></script>
+    <link rel="stylesheet" href="../assets/css/main.css" />
   <link rel="stylesheet" href="../assets/css/dashboard.css" />
 </head>
 <body>
@@ -47,6 +48,7 @@
     <button class="topbar-mobile-menu" onclick="toggleSidebar()">☰</button>
     <div class="topbar-title">Booking Management<span id="topbarDate"></span></div>
     <div class="topbar-actions">
+        <button class="topbar-btn theme-toggle-btn" onclick="toggleTheme()" data-tooltip="Switch Theme"><i class="fas fa-sun"></i></button>
       <a href="#" class="topbar-btn">🔔<span class="notif-dot"></span></a>
       <div class="topbar-profile"><div class="profile-avatar">RK</div><div class="profile-info"><strong>Rajesh Kumar</strong><span>Hotel Manager</span></div></div>
     </div>

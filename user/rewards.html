@@ -6,7 +6,8 @@
   <title>Rewards & Points — TRACKINN</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../assets/css/main.css" />
+  <script src="../assets/js/theme.js"></script>
+    <link rel="stylesheet" href="../assets/css/main.css" />
   <link rel="stylesheet" href="../assets/css/user.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
@@ -35,7 +36,8 @@
 
   <header class="user-header">
     <a href="dashboard.html" class="user-header-logo"><div class="logo-dot">🏨</div>TRACK<em>INN</em></a>
-    <div class="user-header-actions"><a href="profile.html" class="user-avatar-btn">AM</a></div>
+    <div class="user-header-actions">
+        <button class="user-icon-btn theme-toggle-btn" onclick="toggleTheme()"><i class="fas fa-sun"></i></button><a href="profile.html" class="user-avatar-btn">AM</a></div>
   </header>
 
   <div style="display:flex;flex:1;">
@@ -56,7 +58,7 @@
         <div class="reward-hero">
           <div class="reward-ring-wrap">
             <svg width="140" height="140" viewBox="0 0 140 140">
-              <circle cx="70" cy="70" r="58" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="12"/>
+              <circle cx="70" cy="70" r="58" fill="none" stroke="currentColor" stroke-width="12" style="opacity: 0.1;" />
               <circle cx="70" cy="70" r="58" fill="none" stroke="url(#grad)" stroke-width="12" stroke-dasharray="364" stroke-dashoffset="66" stroke-linecap="round"/>
               <defs><linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#00bcd4"/><stop offset="100%" stop-color="#7c4dff"/></linearGradient></defs>
             </svg>
@@ -212,8 +214,8 @@
         responsive: true, maintainAspectRatio: false,
         plugins: { legend: { display: false } },
         scales: {
-          x: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#6b7280', font: { size: 11 } } },
-          y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#6b7280', font: { size: 11 } } }
+          x: { grid: { color: 'rgba(128,128,128,0.1)' }, ticks: { color: '#6b7280', font: { size: 11 } } },
+          y: { grid: { color: 'rgba(128,128,128,0.1)' }, ticks: { color: '#6b7280', font: { size: 11 } } }
         }
       }
     });

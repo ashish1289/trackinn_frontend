@@ -6,16 +6,17 @@
   <title>Room Live View — TRACKINN</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../assets/css/main.css" />
+  <script src="../assets/js/theme.js"></script>
+    <link rel="stylesheet" href="../assets/css/main.css" />
   <link rel="stylesheet" href="../assets/css/dashboard.css" />
   <style>
-    body { overflow: hidden; background: #060917; }
+    body { overflow: hidden; background: var(--bg-dark); }
     .app-body { display: flex; height: 100vh; overflow: hidden; position: relative; }
 
     /* GRID VIEW (Initial State) */
     .grid-view-container {
       position: absolute; top:0; left:0; width:100%; height:100%; z-index: 10;
-      background: #060917;
+      background: var(--bg-dark);
       display: flex; flex-direction: column;
       padding: 20px 24px;
       overflow-y: auto;
@@ -171,6 +172,7 @@
       <button class="topbar-mobile-menu" onclick="toggleSidebar()">☰</button>
       <div class="topbar-title">🔍 Room Status Overview <span id="topbarDate"></span></div>
       <div class="topbar-actions">
+        <button class="topbar-btn theme-toggle-btn" onclick="toggleTheme()" data-tooltip="Switch Theme"><i class="fas fa-sun"></i></button>
         <a href="rooms.html" class="btn btn-outline btn-sm">🛏 Room Config</a>
         <div class="topbar-profile"><div class="profile-avatar">RK</div><div class="profile-info"><strong>Rajesh Kumar</strong><span>Manager</span></div></div>
       </div>

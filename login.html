@@ -7,7 +7,8 @@
   <meta name="description" content="Login to your TRACKINN account. Hotel owners, guests, sales team and admins can login here." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/main.css" />
+  <script src="assets/js/theme.js"></script>
+    <link rel="stylesheet" href="assets/css/main.css" />
   <style>
     body { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: var(--bg-dark); overflow-y: auto; padding: 24px 16px; box-sizing: border-box; }
     .auth-bg {
@@ -138,6 +139,7 @@
   </style>
 </head>
 <body>
+  <button class="theme-toggle-btn" onclick="toggleTheme()" style="position: absolute; top: 20px; right: 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 50%; width: 44px; height: 44px; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; z-index: 100; box-shadow: var(--shadow-sm);"><i class="fas fa-sun"></i></button>
   <div class="auth-bg"></div>
   <div class="auth-grid"></div>
 

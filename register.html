@@ -7,7 +7,8 @@
   <meta name="description" content="Register your hotel on TRACKINN and start managing bookings, check-ins, billing and staff from one dashboard." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/main.css" />
+  <script src="assets/js/theme.js"></script>
+    <link rel="stylesheet" href="assets/css/main.css" />
   <style>
     body { min-height: 100vh; background: var(--bg-dark); display: flex; align-items: flex-start; justify-content: center; padding: 40px 20px; }
     .auth-bg { position: fixed; inset: 0; background: radial-gradient(ellipse 80% 70% at 30% 40%, rgba(26,35,126,0.35) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 80% 60%, rgba(0,188,212,0.12) 0%, transparent 60%); pointer-events: none; }
@@ -49,6 +50,7 @@
   </style>
 </head>
 <body>
+  <button class="theme-toggle-btn" onclick="toggleTheme()" style="position: absolute; top: 20px; right: 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 50%; width: 44px; height: 44px; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; z-index: 100; box-shadow: var(--shadow-sm);"><i class="fas fa-sun"></i></button>
   <div class="auth-bg"></div>
   <div class="reg-container">
     <a href="index.html" class="back-link">← Back to TRACKINN.com</a>

@@ -208,7 +208,7 @@
   left: var(--sidebar-width);
   right: 0;
   height: var(--topbar-height);
-  background: rgba(8,11,26,0.9);
+  background: var(--bg-glass);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
   display: flex;
