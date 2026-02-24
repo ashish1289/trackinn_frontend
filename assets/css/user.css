@@ -150,6 +150,15 @@
   .user-sidebar-item:hover { background: var(--bg-card2); color: var(--text-primary); }
   .user-sidebar-item.active { background: rgba(0,188,212,0.1); color: var(--accent); border: 1px solid rgba(0,188,212,0.2); }
   .user-sidebar-icon { font-size: 1.1rem; }
+  .user-sidebar-logout {
+    margin-top: auto;
+    color: var(--danger) !important;
+  }
+  .user-sidebar-logout:hover {
+    background: rgba(244, 67, 54, 0.1) !important;
+    border-color: rgba(244, 67, 54, 0.3) !important;
+    color: var(--danger) !important;
+  }
 }
 @media (max-width: 1023px) {
   .user-sidebar { display: none; }
