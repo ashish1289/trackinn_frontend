@@ -134,7 +134,21 @@
 
     @media (max-width: 480px) {
       .auth-card { padding: 24px 20px; }
-      .role-grid { grid-template-columns: 1fr 1fr; }
+      .role-grid { grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 20px; }
+      .role-card { padding: 12px 8px; }
+      .role-icon { font-size: 1.4rem; }
+    }
+    @media (max-width: 360px) {
+      body { padding: 12px 8px; }
+      .auth-container { padding: 10px; }
+      .auth-card { padding: 20px 14px; border-radius: var(--radius-lg); }
+      .auth-logo { margin-bottom: 24px; font-size: 1.5rem; }
+      .role-name { font-size: 0.75rem; }
+      .role-desc { font-size: 0.65rem; }
+      .form-control { font-size: 0.9rem; }
+      .auth-title { font-size: 1.25rem; }
+      .auth-subtitle { font-size: 0.8rem; margin-bottom: 20px; }
+      .divider-text { margin: 16px 0; }
     }
   </style>
 </head>
