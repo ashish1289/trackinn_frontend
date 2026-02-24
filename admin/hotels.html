@@ -33,8 +33,10 @@
             <div class="nav-section-label">Intelligence</div>
             <a href="intelligence.html" class="nav-item"><div class="nav-icon"><i class="fas fa-brain"></i></div><div class="nav-label">Data Intelligence</div></a>
             <a href="compliance.html" class="nav-item"><div class="nav-icon"><i class="fas fa-file-contract"></i></div><div class="nav-label">Compliance & Risk</div></a>
+            <a href="suspect_list.html" class="nav-item"><div class="nav-icon"><i class="fas fa-user-secret"></i></div><div class="nav-label">Suspect List</div></a>
 
             <div class="nav-section-label">Operations</div>
+            <a href="send_alert.html" class="nav-item"><div class="nav-icon"><i class="fas fa-paper-plane"></i></div><div class="nav-label">Send Alert</div></a>
             <a href="sales-team.html" class="nav-item"><div class="nav-icon"><i class="fas fa-briefcase"></i></div><div class="nav-label">Sales Team</div></a>
             <a href="support.html" class="nav-item"><div class="nav-icon"><i class="fas fa-headset"></i></div><div class="nav-label">Support Desk</div></a>
         </nav>
@@ -62,32 +64,36 @@
 
         <div class="page-wrapper">
             <!-- KPIs -->
-            <div class="admin-overview-grid mb-3" style="grid-template-columns: repeat(4, 1fr);">
+            <div class="admin-overview-grid mb-3" style="grid-template-columns: repeat(5, 1fr);">
                 <div class="kpi-card kpi-cyan"><div class="kpi-label">Total Hotels</div><div class="kpi-value">842</div></div>
                 <div class="kpi-card kpi-green"><div class="kpi-label">Active</div><div class="kpi-value">810</div></div>
+                <div class="kpi-card kpi-purple"><div class="kpi-label">Foreign Guests Today</div><div class="kpi-value">14 <span style="font-size:1rem;">🌐</span></div></div>
                 <div class="kpi-card kpi-orange"><div class="kpi-label">Pending KYC</div><div class="kpi-value">24</div></div>
                 <div class="kpi-card kpi-red"><div class="kpi-label">Suspended</div><div class="kpi-value">8</div></div>
             </div>
 
             <!-- Filters -->
             <div class="filter-bar" style="background:var(--bg-card); padding:16px; border-radius:12px; margin-bottom:24px; border:1px solid var(--border);">
-                <div class="flex gap-2">
-                    <input type="text" class="form-control" placeholder="Search by Name, City, or ID..." style="width:300px;">
-                    <select class="form-control" style="width:150px;"><option>All Status</option><option>Active</option><option>Pending</option><option>Suspended</option></select>
-                    <select class="form-control" style="width:150px;"><option>All Cities</option><option>Bangalore</option><option>Delhi</option><option>Mumbai</option></select>
+                <div class="flex gap-2" style="flex-wrap: wrap;">
+                    <input type="text" class="form-control" placeholder="Search by Name, City, or ID..." style="width:300px; max-width:100%;">
+                    <select class="form-control" style="width:150px; max-width:100%;"><option>All Status</option><option>Active</option><option>Pending</option><option>Suspended</option></select>
+                    <select class="form-control" style="width:150px; max-width:100%;"><option>All Cities</option><option>Bhubaneswar</option><option>Cuttack</option><option>Puri</option></select>
+                    <select class="form-control" style="width:160px; max-width:100%;"><option>All Guests</option><option>Has Foreign Guests</option></select>
                 </div>
                 <button class="btn btn-primary"><i class="fas fa-download"></i> Export CSV</button>
             </div>
 
             <!-- Hotel Grid -->
-            <div class="table-container" style="background:var(--bg-card); border-radius:12px; border:1px solid var(--border); overflow:hidden;">
-                <table class="table" style="width:100%; border-collapse:collapse;">
+            <div class="table-container" style="background:var(--bg-card); border-radius:12px; border:1px solid var(--border); overflow-x:auto;">
+                <table class="table" style="width:100%; border-collapse:collapse; min-width: 1100px;">
                     <thead style="background:var(--bg-input); border-bottom:1px solid var(--border);">
                         <tr>
                             <th style="padding:16px; text-align:left;">Hotel Name</th>
                             <th style="padding:16px; text-align:left;">Location</th>
-                            <th style="padding:16px; text-align:left;">Owner</th>
                             <th style="padding:16px; text-align:left;">Rooms</th>
+                            <th style="padding:16px; text-align:left;">Today's Check-ins</th>
+                            <th style="padding:16px; text-align:left;">Today's Check-outs</th>
+                            <th style="padding:16px; text-align:left;">Foreign Guests</th>
                             <th style="padding:16px; text-align:left;">Revenue (MTD)</th>
                             <th style="padding:16px; text-align:left;">Status</th>
                             <th style="padding:16px; text-align:left;">Actions</th>
@@ -97,14 +103,16 @@
                         <tr style="border-bottom:1px solid var(--border);">
                             <td style="padding:16px;">
                                 <div style="font-weight:600;">Grand Palace Hotel</div>
-                                <div style="font-size:0.8rem; color:var(--text-muted);">ID: HTL-2024-001</div>
+                                <div style="font-size:0.8rem; color:var(--text-muted);">Rajesh Kumar</div>
                             </td>
-                            <td style="padding:16px;">Bangalore</td>
-                            <td style="padding:16px;">Rajesh Kumar</td>
+                            <td style="padding:16px;">Bhubaneswar</td>
                             <td style="padding:16px;">48</td>
+                            <td style="padding:16px; font-weight:600;"><span style="color:var(--success);">↑ 12</span></td>
+                            <td style="padding:16px; font-weight:600;"><span style="color:var(--danger);">↓ 4</span></td>
+                            <td style="padding:16px; font-weight:600;">3 <span style="font-size:1.1rem; color:var(--accent);">🌐</span></td>
                             <td style="padding:16px; color:var(--success); font-weight:600;">₹12.4 L</td>
                             <td style="padding:16px;"><span class="badge badge-success">Active</span></td>
-                            <td style="padding:16px;">
+                            <td style="padding:16px; white-space:nowrap;">
                                 <button class="btn btn-sm btn-outline" onclick="openModal('hotelActionModal')">Manage</button>
                                 <a href="../owner/dashboard.html" target="_blank" class="btn btn-sm btn-ghost" style="color:var(--accent);">Ghost Login <i class="fas fa-external-link-alt"></i></a>
                             </td>
@@ -112,28 +120,32 @@
                         <tr style="border-bottom:1px solid var(--border);">
                             <td style="padding:16px;">
                                 <div style="font-weight:600;">City Stay Inn</div>
-                                <div style="font-size:0.8rem; color:var(--text-muted);">ID: HTL-2024-045</div>
+                                <div style="font-size:0.8rem; color:var(--text-muted);">Amit Singh</div>
                             </td>
-                            <td style="padding:16px;">Delhi</td>
-                            <td style="padding:16px;">Amit Singh</td>
+                            <td style="padding:16px;">Cuttack</td>
                             <td style="padding:16px;">22</td>
+                            <td style="padding:16px; font-weight:600;"><span style="color:var(--success);">↑ 6</span></td>
+                            <td style="padding:16px; font-weight:600;"><span style="color:var(--danger);">↓ 2</span></td>
+                            <td style="padding:16px; font-weight:600; color:var(--text-muted);">0</td>
                             <td style="padding:16px; color:var(--success); font-weight:600;">₹4.8 L</td>
                             <td style="padding:16px;"><span class="badge badge-warning">Pending KYC</span></td>
-                            <td style="padding:16px;">
+                            <td style="padding:16px; white-space:nowrap;">
                                 <button class="btn btn-sm btn-primary">Review KYC</button>
                             </td>
                         </tr>
                         <tr style="border-bottom:1px solid var(--border); opacity:0.7;">
                             <td style="padding:16px;">
                                 <div style="font-weight:600;">Seaview Resort</div>
-                                <div style="font-size:0.8rem; color:var(--text-muted);">ID: HTL-2023-882</div>
+                                <div style="font-size:0.8rem; color:var(--text-muted);">Robert D'Souza</div>
                             </td>
-                            <td style="padding:16px;">Goa</td>
-                            <td style="padding:16px;">Robert D'Souza</td>
+                            <td style="padding:16px;">Puri</td>
                             <td style="padding:16px;">15</td>
+                            <td style="padding:16px; color:var(--text-muted);">-</td>
+                            <td style="padding:16px; color:var(--text-muted);">-</td>
+                            <td style="padding:16px; color:var(--text-muted);">-</td>
                             <td style="padding:16px; color:var(--text-muted);">₹0</td>
                             <td style="padding:16px;"><span class="badge badge-danger">Suspended</span></td>
-                            <td style="padding:16px;">
+                            <td style="padding:16px; white-space:nowrap;">
                                 <button class="btn btn-sm btn-outline">Unsuspend</button>
                             </td>
                         </tr>

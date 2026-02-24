@@ -592,3 +592,22 @@ select.form-control option {
     padding: 10px 12px;
   }
 }
+
+@media (max-width: 480px) {
+  .modal {
+    padding: 16px;
+    border-radius: var(--radius-lg);
+  }
+  h1 { font-size: 1.5rem; }
+  h2 { font-size: 1.3rem; }
+  h3 { font-size: 1.1rem; }
+  .btn { padding: 10px 18px; font-size: 0.85rem; }
+}
+
+@media (max-width: 360px) {
+  .card { padding: 12px; }
+  .modal { padding: 14px; }
+  .btn { width: 100%; justify-content: center; }
+  .data-table th, .data-table td { padding: 8px 10px; font-size: 0.8rem; }
+  h1 { font-size: 1.35rem; }
+}
