@@ -100,7 +100,7 @@
               </div>
               
               <!-- Identity Field -->
-              <div class="form-group" style="margin-bottom:0;grid-column:1/-1;">
+              <div class="form-group" style="margin-bottom:0;">
                 <label class="form-label" style="display:flex;justify-content:space-between;align-items:center;">
                   <span>Aadhar Number <span style="color:var(--danger);">*</span></span>
                   <span id="aadhaarVerifiedBadge" style="color:var(--success);font-size:0.7rem;display:none;">✅ Verified</span>
@@ -109,7 +109,17 @@
                   <input class="form-control" id="g1_aadhar" placeholder="XXXX-XXXX-XXXX" style="letter-spacing:1px;font-family:monospace;flex:1;" />
                   <button id="g1_captureBtn" class="btn btn-outline btn-sm" style="display:none;white-space:nowrap;" onclick="openGuestAadharScanner(document.getElementById('g1_aadhar'))">📷 Scan</button>
                 </div>
-                <div style="font-size:0.7rem;color:var(--text-muted);margin-top:4px;">Govt ID mandatory for all guests.</div>
+                <div style="font-size:0.7rem;color:var(--text-muted);margin-top:4px;">Govt ID mandatory for check-in.</div>
+              </div>
+
+              <!-- Selfie Field -->
+              <div class="form-group" style="margin-bottom:0;">
+                <label class="form-label">Guest Photo (Selfie) <span style="color:var(--danger);">*</span></label>
+                <div style="display:flex;gap:8px;">
+                  <button class="btn btn-outline btn-sm" style="flex:1;justify-content:center;border-style:dashed;" onclick="document.getElementById('g1_selfie').click()">📷 Upload Selfie</button>
+                  <input type="file" id="g1_selfie" accept="image/*" capture="user" style="display:none;" onchange="this.previousElementSibling.textContent = '✅ Photo Added'; this.previousElementSibling.className = 'btn btn-primary btn-sm'; this.previousElementSibling.style.borderStyle = 'solid';">
+                </div>
+                <div style="font-size:0.7rem;color:var(--text-muted);margin-top:4px;">For express app check-in verification.</div>
               </div>
             </div>
           </div>
@@ -395,13 +405,20 @@
             <span style="color:var(--danger);cursor:pointer;" onclick="this.parentElement.parentElement.remove()">✕ Remove</span>
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-            <div class="form-group" style="margin-bottom:0;"><label class="form-label">Full Name</label><input class="form-control" placeholder="Guest Name" /></div>
-            <div class="form-group" style="margin-bottom:0;grid-column:1/-1;">
+            <div class="form-group" style="margin-bottom:0;grid-column:1/-1;"><label class="form-label">Full Name</label><input class="form-control" placeholder="Guest Name" /></div>
+            <div class="form-group" style="margin-bottom:0;">
               <label class="form-label" style="display:flex;justify-content:space-between;align-items:center;">
                 <span>Aadhar Number <span style="color:var(--danger);">*</span></span>
                 <button class="btn btn-sm btn-outline" style="font-size:0.65rem;padding:3px 8px;" onclick="openGuestAadharScanner(this.parentElement.parentElement.querySelector('input[type=text]'))">📷 Scan</button>
               </label>
-              <input class="form-control" type="text" placeholder="XXXX-XXXX-XXXX (Required)" style="font-family:monospace;letter-spacing:1px;" />
+              <input class="form-control" type="text" placeholder="XXXX-XXXX-XXXX" style="font-family:monospace;letter-spacing:1px;" />
+            </div>
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label">Guest Selfie <span style="color:var(--danger);">*</span></label>
+              <div style="display:flex;gap:8px;">
+                <button class="btn btn-outline btn-sm" style="flex:1;justify-content:center;border-style:dashed;" onclick="this.nextElementSibling.click()">📷 Upload</button>
+                <input type="file" accept="image/*" capture="user" style="display:none;" onchange="this.previousElementSibling.textContent = '✅ Added'; this.previousElementSibling.className = 'btn btn-primary btn-sm'; this.previousElementSibling.style.borderStyle = 'solid';">
+              </div>
             </div>
           </div>
         </div>

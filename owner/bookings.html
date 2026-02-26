@@ -110,7 +110,7 @@
                 <td><span class="badge badge-warning">Pending Request</span></td>
                 <td>
                    <div style="display:flex;gap:4px;">
-                     <button class="btn btn-sm btn-primary" onclick="acceptBooking(this)" style="padding:4px 10px;">✅ Accept</button>
+                     <button class="btn btn-sm btn-primary" onclick="reviewAppBooking(this, 'Amit Mehra', 'TRK-2402220')" style="padding:4px 10px;">✅ Review & Accept</button>
                      <button class="btn btn-sm btn-outline" style="padding:4px 10px;color:var(--danger);">❌ Reject</button>
                    </div>
                 </td>
@@ -240,6 +240,47 @@
     </div>
   </div>
 
+  <!-- Review App Booking Verification Modal -->
+  <div class="modal-overlay" id="reviewAppBookingModal">
+    <div class="modal" style="max-width:550px;">
+      <div class="modal-header">
+        <h4>🔍 Review App Booking Identity</h4>
+        <button class="modal-close" onclick="closeModal('reviewAppBookingModal')">✕</button>
+      </div>
+      <div style="margin-bottom:16px;">
+        <div style="font-size:0.9rem;color:var(--text-muted);margin-bottom:4px;">Booking ID: <strong id="revBookingId" style="color:var(--text);">TRK-000</strong></div>
+        <div style="font-weight:600;font-size:1.1rem;" id="revGuestName">Amit Mehra</div>
+        <div style="font-size:0.85rem;color:var(--text-muted);">Source: <span class="badge badge-primary" style="font-size:0.7rem;">TrackInn App</span></div>
+      </div>
+      
+      <div style="background:var(--bg-input);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:20px;">
+        <div style="font-size:0.85rem;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:6px;">
+          <span>📋 GUEST UPLOADS</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div>
+            <div style="font-size:0.75rem;color:var(--text-muted);margin-bottom:6px;">Aadhaar Number</div>
+            <div style="height:120px;background:#eef2f6;border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;">
+              <div style="position:absolute;inset:0;background:url('https://upload.wikimedia.org/wikipedia/en/thumb/c/cf/Aadhaar_Logo.svg/1200px-Aadhaar_Logo.svg.png') no-repeat center center / contain;opacity:0.1;"></div>
+              <strong style="font-family:monospace;font-size:1rem;color:#333;z-index:1;">7213 5678 9012</strong>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:0.75rem;color:var(--text-muted);margin-bottom:6px;">Guest Photo</div>
+            <div style="height:120px;background:var(--bg-card);border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+              <div style="font-size:3rem;opacity:0.8;">👤</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px;">
+        <button class="btn btn-ghost" onclick="closeModal('reviewAppBookingModal')">Cancel</button>
+        <button class="btn btn-primary" onclick="proceedToAssignRoom()">Approve Identity & Assign Room</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Assign Room Modal (New) -->
   <div class="modal-overlay" id="assignRoomModal">
     <div class="modal" style="max-width:500px;">
@@ -298,6 +339,18 @@
 
     function acceptBooking(btn) {
       pendingBookingBtn = btn;
+      openModal('assignRoomModal');
+    }
+
+    function reviewAppBooking(btn, name, bookingId) {
+      pendingBookingBtn = btn;
+      document.getElementById('revGuestName').textContent = name;
+      document.getElementById('revBookingId').textContent = bookingId;
+      openModal('reviewAppBookingModal');
+    }
+
+    function proceedToAssignRoom() {
+      closeModal('reviewAppBookingModal');
       openModal('assignRoomModal');
     }
 

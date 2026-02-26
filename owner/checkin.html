@@ -122,7 +122,7 @@
             <thead><tr><th>Guest Name</th><th>Room</th><th>Booking Source</th><th>ETA</th><th>Nights</th><th>Amount</th><th>Action</th></tr></thead>
             <tbody>
               <tr><td><strong>Ankit Verma</strong></td><td>204</td><td><span class="badge badge-warning">Corporate</span></td><td>Today 2:00 PM</td><td>3</td><td>₹12,600</td><td><button class="btn btn-sm btn-primary" onclick="openModal('checkinModal')" style="padding:4px 10px;">🛎 Check In</button></td></tr>
-              <tr><td><strong>Riya Kapoor</strong></td><td>306</td><td><span class="badge badge-primary">MMT</span></td><td>Today 5:00 PM</td><td>2</td><td>₹7,200</td><td><button class="btn btn-sm btn-primary" onclick="openModal('checkinModal')" style="padding:4px 10px;">🛎 Check In</button></td></tr>
+              <tr><td><strong>Riya Kapoor</strong></td><td>306</td><td><span class="badge badge-primary">TrackInn App</span></td><td>Today 5:00 PM</td><td>2</td><td>₹7,200</td><td><button class="btn btn-sm btn-primary" style="background:var(--accent);border:none;" onclick="openAppCheckin('Riya Kapoor', '306')" style="padding:4px 10px;">📱 App Check In</button></td></tr>
               <tr><td><strong>InfoSys Ltd.</strong></td><td>201-205</td><td><span class="badge badge-warning">Corporate</span></td><td>Tomorrow</td><td>5</td><td>₹42,000</td><td><button class="btn btn-sm btn-outline" style="padding:4px 10px;">Prepare Rooms</button></td></tr>
             </tbody>
           </table>
@@ -186,9 +186,11 @@
           <div style="font-size:0.78rem;color:var(--text-muted);margin-top:4px;">Accepts JPG, PNG, PDF</div>
         </div>
       </div>
-      <div class="form-group">
-        <label class="form-label">Digital Signature</label>
-        <div class="signature-pad">✍️ Click here for guest to sign digitally</div>
+      <div class="form-group" style="background:rgba(255,193,7,0.05);border:1px solid rgba(255,193,7,0.3);padding:12px;border-radius:8px;">
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;margin:0;">
+          <input type="checkbox" style="accent-color:var(--accent);" checked>
+          <span>Physical signature collected & ID verified *</span>
+        </label>
       </div>
       <div class="success-badge" style="margin-bottom:16px;">✅ Sarai data will be auto-submitted on check-in</div>
       <div style="display:flex;gap:12px;justify-content:flex-end;">
@@ -249,6 +251,47 @@
     function handleCheckin() {
       closeModal('checkinModal');
       setTimeout(() => alert('✅ Check-in successful! Guest data submitted to Sarai API automatically.'), 300);
+    }
+    function openAppCheckin(name, room) {
+      // Clear all fields first to simulate a fresh state
+      document.querySelectorAll('#checkinModal input').forEach(inp => { if(inp.type !== 'checkbox') inp.value = '' });
+      
+      // Auto-fill extracted data
+      const nameInput = document.querySelector('#checkinModal input[placeholder="Rajesh Kumar Sharma"]');
+      const idInput = document.querySelector('#checkinModal input[placeholder="XXXX-XXXX-1234"]');
+      const mobileInput = document.querySelector('#checkinModal input[placeholder="+91 98765 43210"]');
+      const checkoutInput = document.querySelector('#checkinModal input[type="date"]');
+      
+      if(nameInput) nameInput.value = name;
+      if(idInput) idInput.value = "7213-5678-9012"; // Mock auto-extracted Aadhaar
+      if(mobileInput) mobileInput.value = "+91 99887 76655";
+      
+      // Calculate check-out date (e.g. 2 days from today)
+      if(checkoutInput) {
+        let checkoutDate = new Date();
+        checkoutDate.setDate(checkoutDate.getDate() + 2);
+        checkoutInput.value = checkoutDate.toISOString().split('T')[0];
+      }
+      
+      // Show auto-extracted verification badges next to the fields
+      if(idInput && !idInput.nextElementSibling) {
+        idInput.insertAdjacentHTML('afterend', '<span class="badge badge-success" style="font-size:0.6rem;position:absolute;right:10px;top:10px;">✨ Auto-Extracted</span>');
+        idInput.parentElement.style.position = 'relative';
+      }
+      
+      // Select the correct room
+      const roomSelects = document.querySelectorAll('#checkinModal select'); 
+      const roomSelect = roomSelects[1]; // Index 1 is the Assign Room select in this modal structure
+      if(roomSelect) {
+         Array.from(roomSelect.options).forEach(opt => {
+           // Provide a more robust matching strategy that handles spaces and formatting
+           if(opt.text.includes(room) || opt.value.includes(room) || opt.text.startsWith(room)) {
+             roomSelect.value = opt.value;
+           }
+         });
+      }
+      
+      openModal('checkinModal');
     }
   </script>
 </body>
