@@ -1,0 +1,504 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payment Transfer to Admin â€” TRACKINN Owner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script src="../assets/js/theme.js"></script>
+  <link rel="stylesheet" href="../assets/css/main.css" />
+  <link rel="stylesheet" href="../assets/css/dashboard.css" />
+  <style>
+    /* â”€â”€ Transfer Page Styles â”€â”€ */
+    .transfer-grid { display: grid; grid-template-columns: 1fr 360px; gap: 24px; align-items: start; }
+    @media(max-width:1024px){ .transfer-grid { grid-template-columns: 1fr; } }
+
+    /* Summary Card (sticky) */
+    .transfer-summary { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; position: sticky; top: 80px; }
+    .ts-header { padding: 18px 20px; background: linear-gradient(135deg, #1a237e, #283593); display: flex; align-items: center; gap: 12px; }
+    .ts-header-icon { width: 44px; height: 44px; border-radius: 10px; background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; }
+    .ts-header-title { color: #fff; font-weight: 800; font-size: 0.95rem; }
+    .ts-header-sub { color: rgba(255,255,255,0.7); font-size: 0.78rem; margin-top: 2px; }
+    .ts-body { padding: 20px; }
+    .ts-line { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 0.875rem; }
+    .ts-line:last-child { border-bottom: none; }
+    .ts-label { color: var(--text-muted); }
+    .ts-val { font-weight: 700; color: var(--text-primary); }
+    .ts-total { padding: 16px 20px; background: linear-gradient(135deg, rgba(0,188,212,0.1), rgba(124,77,255,0.08)); border-top: 1px solid var(--border-accent); display: flex; justify-content: space-between; align-items: center; }
+    .ts-total-amt { font-size: 1.5rem; font-weight: 900; color: var(--accent); }
+    .ts-status { margin: 12px 20px; }
+
+    /* Balance box */
+    .balance-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 20px; }
+    .bal-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; }
+    .bal-item { flex: 1; min-width: 130px; }
+    .bal-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 4px; }
+    .bal-val { font-size: 1.4rem; font-weight: 900; }
+    .bal-note { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
+
+    /* Form card */
+    .form-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; margin-bottom: 20px; }
+    .form-card-title { font-size: 0.95rem; font-weight: 800; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; color: var(--text-primary); }
+    .form-card-title i { color: var(--accent); }
+
+    /* Amount Quick Buttons */
+    .amount-presets { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+    .amount-preset { padding: 6px 14px; border-radius: var(--radius-full); border: 1px solid var(--border-accent); background: rgba(0,188,212,0.06); color: var(--accent); font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: var(--transition-fast); }
+    .amount-preset:hover { background: rgba(0,188,212,0.15); }
+    .amount-preset.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    /* Upload area */
+    .upload-area { border: 2px dashed var(--border-accent); border-radius: var(--radius-md); padding: 28px 20px; text-align: center; cursor: pointer; transition: var(--transition); background: rgba(0,188,212,0.03); }
+    .upload-area:hover { background: rgba(0,188,212,0.08); border-color: var(--accent); }
+    .upload-area i { font-size: 2rem; color: var(--accent); margin-bottom: 10px; }
+    .upload-area p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px; }
+    .upload-area span { font-size: 0.78rem; color: var(--text-muted); }
+    .file-preview { display: none; align-items: center; gap: 12px; padding: 12px; background: var(--success-bg); border: 1px solid rgba(0,200,83,0.2); border-radius: var(--radius-md); margin-top: 10px; }
+
+    /* History */
+    .history-item { display: flex; gap: 14px; padding: 14px; border-bottom: 1px solid var(--border); align-items: flex-start; }
+    .history-item:last-child { border-bottom: none; }
+    .history-icon { width: 38px; height: 38px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+    .history-body { flex: 1; min-width: 0; }
+    .history-title { font-weight: 700; font-size: 0.88rem; }
+    .history-sub { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
+    .history-amt { font-weight: 800; font-size: 0.95rem; flex-shrink: 0; }
+
+    /* Submit button */
+    .submit-btn { width: 100%; padding: 16px; font-size: 1rem; font-weight: 800; border-radius: var(--radius-full); background: linear-gradient(135deg, var(--accent), var(--secondary)); color: #fff; border: none; cursor: pointer; box-shadow: 0 4px 24px rgba(0,188,212,0.3); display: flex; align-items: center; justify-content: center; gap: 10px; transition: var(--transition); }
+    .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,188,212,0.45); }
+
+    /* Approval flow */
+    .flow-steps { display: flex; gap: 0; margin: 20px 0; }
+    .flow-step { flex: 1; text-align: center; position: relative; }
+    .flow-step + .flow-step::before { content:''; position:absolute; left:0; top:16px; width:100%; height:2px; background:var(--border); z-index:0; transform:translateX(-50%); }
+    .flow-step-dot { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--border); background: var(--bg-card); display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; font-size: 0.75rem; font-weight: 800; position: relative; z-index: 1; transition: var(--transition); }
+    .flow-step.done .flow-step-dot { background: var(--success); border-color: var(--success); color: #fff; }
+    .flow-step.active .flow-step-dot { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: 0 0 0 5px rgba(0,188,212,0.2); }
+    .flow-step-label { font-size: 0.7rem; color: var(--text-muted); font-weight: 600; }
+    .flow-step.active .flow-step-label { color: var(--accent); }
+    .flow-step.done .flow-step-label { color: var(--success); }
+  </style>
+</head>
+<body>
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeMobileSidebar()"></div>
+  <aside class="sidebar" id="sidebar">
+    <a href="dashboard.html" class="sidebar-logo">
+      <div class="slogo-icon">🏨</div>
+      <div class="slogo-text">TRACK<em>INN<span class="slogo-sub">Hotel Manager</span></em></div>
+    </a>
+
+    <div class="hotel-badge">
+      <div class="hotel-badge-avatar">🏢</div>
+      <div class="hotel-badge-info">
+        <div class="hotel-badge-name">Grand Palace Hotel</div>
+        <div class="hotel-badge-plan">⭐ Growth Plan</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Overview</div>
+      <a href="dashboard.html" class="nav-item" data-tooltip="Dashboard">
+        <span class="nav-icon">📊</span>
+        <span class="nav-label">Dashboard</span>
+      </a>
+
+      <div class="nav-section-label">Operations</div>
+      <a href="checkin.html" class="nav-item" data-tooltip="Check-in/out">
+        <span class="nav-icon">🛎</span>
+        <span class="nav-label">Check-in / Check-out</span>
+      </a>
+      <a href="rooms.html" class="nav-item" data-tooltip="Rooms">
+        <span class="nav-icon">🛏</span>
+        <span class="nav-label">Room Management</span>
+      </a>
+      <a href="room-detail.html" class="nav-item" data-tooltip="All Rooms (Grid & Detail)">
+        <span class="nav-icon">🔍</span>
+        <span class="nav-label">All Rooms (Live View)</span>
+      </a>
+      <a href="bookings.html" class="nav-item" data-tooltip="Bookings">
+        <span class="nav-icon">📅</span>
+        <span class="nav-label">Bookings</span>
+        <span class="nav-badge">3</span>
+      </a>
+
+      <div class="nav-section-label">Finance</div>
+      <a href="billing.html" class="nav-item" data-tooltip="Billing">
+        <span class="nav-icon">💳</span>
+        <span class="nav-label">Billing & Accounting</span>
+      </a>
+      <a href="payment-transfer.html" class="nav-item active" data-tooltip="Payment Transfer">
+        <span class="nav-icon">🏦</span>
+        <span class="nav-label">Payment Transfer</span>
+      </a>
+
+      <div class="nav-section-label">Team</div>
+      <a href="staff.html" class="nav-item" data-tooltip="Staff">
+        <span class="nav-icon">👥</span>
+        <span class="nav-label">Staff Management</span>
+      </a>
+
+      <div class="nav-section-label">Insights</div>
+      <a href="analytics.html" class="nav-item" data-tooltip="Analytics">
+        <span class="nav-icon">🤖</span>
+        <span class="nav-label">Analytics & AI</span>
+      </a>
+      <a href="../login.html" class="nav-item nav-item-logout" data-tooltip="Logout">
+        <span class="nav-icon">🚪</span>
+        <span class="nav-label">Logout</span>
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="sidebar-toggle" onclick="toggleSidebar()">
+        <span class="toggle-icon">◀</span>
+        <span class="nav-label">Collapse Menu</span>
+      </button>
+    </div>
+  </aside>
+
+  <header class="topbar" id="topbar">
+    <button class="topbar-mobile-menu" onclick="toggleSidebar()">â˜°</button>
+    <div class="topbar-title">Payment Transfer to Admin<span id="topbarDate"></span></div>
+    <div class="topbar-actions">
+      <button class="topbar-btn theme-toggle-btn" onclick="toggleTheme()" data-tooltip="Switch Theme"></button>
+      <a href="#" class="topbar-btn">ðŸ””<span class="notif-dot"></span></a>
+      <div class="topbar-profile"><div class="profile-avatar">RK</div><div class="profile-info"><strong>Rajesh Kumar</strong><span>Hotel Manager</span></div></div>
+    </div>
+  </header>
+
+  <main class="main-content" id="mainContent">
+    <div class="page-wrapper">
+      <div class="page-header">
+        <div class="page-header-left">
+          <h1>ðŸ¦ Payment Transfer</h1>
+          <p>Submit settlement requests to TRACKINN Admin for withdrawal approval.</p>
+        </div>
+        <div class="page-header-actions">
+          <button class="btn btn-outline btn-sm" onclick="openModal('historyModal')"><i class="fas fa-history"></i> Transfer History</button>
+        </div>
+      </div>
+
+      <!-- Balance Overview -->
+      <div class="balance-box">
+        <div class="bal-row">
+          <div class="bal-item">
+            <div class="bal-label">ðŸ’° Wallet Balance</div>
+            <div class="bal-val" style="color:var(--success);">â‚¹2,84,600</div>
+            <div class="bal-note">Available to transfer</div>
+          </div>
+          <div class="bal-item">
+            <div class="bal-label">â³ Pending Transfers</div>
+            <div class="bal-val" style="color:var(--warning);">â‚¹42,000</div>
+            <div class="bal-note">2 requests under review</div>
+          </div>
+          <div class="bal-item">
+            <div class="bal-label">âœ… Settled (MTD)</div>
+            <div class="bal-val" style="color:var(--accent);">â‚¹8,40,000</div>
+            <div class="bal-note">As of March 7, 2026</div>
+          </div>
+          <div class="bal-item">
+            <div class="bal-label">ðŸ·ï¸ Platform Fee</div>
+            <div class="bal-val" style="color:var(--danger);">â‚¹28,400</div>
+            <div class="bal-note">10% commission deducted</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Approval Flow Visual -->
+      <div class="chart-container" style="padding:20px;margin-bottom:20px;">
+        <div style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);margin-bottom:16px;">How Transfer Works</div>
+        <div class="flow-steps">
+          <div class="flow-step done">
+            <div class="flow-step-dot">âœ“</div>
+            <div class="flow-step-label">Submit Request</div>
+          </div>
+          <div class="flow-step active">
+            <div class="flow-step-dot">2</div>
+            <div class="flow-step-label">Admin Review</div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-step-dot">3</div>
+            <div class="flow-step-label">Compliance Check</div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-step-dot">4</div>
+            <div class="flow-step-label">Bank Transfer</div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-step-dot">5</div>
+            <div class="flow-step-label">Credit Confirmed</div>
+          </div>
+        </div>
+        <div style="text-align:center;font-size:0.78rem;color:var(--text-muted);margin-top:8px;">Approved transfers are processed within <strong style="color:var(--accent);">2â€“3 business days</strong></div>
+      </div>
+
+      <div class="transfer-grid">
+        <!-- LEFT: Form -->
+        <div>
+          <!-- Transfer Amount -->
+          <div class="form-card">
+            <div class="form-card-title"><i class="fas fa-money-bill-wave"></i> Transfer Amount</div>
+            <div class="form-group">
+              <label class="form-label">Amount to Transfer (â‚¹)</label>
+              <input type="number" class="form-control" id="transferAmount" placeholder="Enter amount" min="1000" max="284600" oninput="updateSummary()" value="50000" style="font-size:1.2rem;font-weight:700;" />
+              <div style="font-size:0.78rem;color:var(--text-muted);margin-top:6px;">Min â‚¹1,000 Â· Max â‚¹2,84,600 available</div>
+            </div>
+            <div class="amount-presets">
+              <div class="amount-preset" onclick="setAmount(25000)">â‚¹25,000</div>
+              <div class="amount-preset active" onclick="setAmount(50000)">â‚¹50,000</div>
+              <div class="amount-preset" onclick="setAmount(100000)">â‚¹1,00,000</div>
+              <div class="amount-preset" onclick="setAmount(284600)">All (â‚¹2,84,600)</div>
+            </div>
+          </div>
+
+          <!-- Bank Details -->
+          <div class="form-card">
+            <div class="form-card-title"><i class="fas fa-university"></i> Bank Account Details</div>
+            <div class="form-group">
+              <label class="form-label">Account Holder Name</label>
+              <input type="text" class="form-control" value="Grand Palace Hotels Pvt Ltd" />
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+              <div class="form-group">
+                <label class="form-label">Bank Name</label>
+                <select class="form-control">
+                  <option selected>HDFC Bank</option>
+                  <option>SBI</option>
+                  <option>ICICI Bank</option>
+                  <option>Axis Bank</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">IFSC Code</label>
+                <input type="text" class="form-control" value="HDFC0001234" style="font-family:monospace;font-weight:700;" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Account Number</label>
+              <input type="text" class="form-control" value="50100 20394 8120" style="font-family:monospace;font-weight:700;" />
+            </div>
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label">Account Type</label>
+              <select class="form-control">
+                <option selected>Current Account</option>
+                <option>Savings Account</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Transfer Details -->
+          <div class="form-card">
+            <div class="form-card-title"><i class="fas fa-file-alt"></i> Transfer Details</div>
+            <div class="form-group">
+              <label class="form-label">Transfer Mode</label>
+              <select class="form-control">
+                <option selected>NEFT (2-3 Business Days)</option>
+                <option>RTGS (Same Day Â· â‚¹2L minimum)</option>
+                <option>IMPS (Instant Â· charges apply)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Purpose / Remarks</label>
+              <input type="text" class="form-control" placeholder="e.g. Monthly settlement Feb 2026" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Billing Period</label>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                <input type="date" class="form-control" value="2026-03-01" />
+                <input type="date" class="form-control" value="2026-03-07" />
+              </div>
+            </div>
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label">Attach Supporting Document</label>
+              <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <p>Drag & drop or click to upload</p>
+                <span>Bank statement, invoice, or GST report Â· Max 5 MB Â· PDF/JPG/PNG</span>
+              </div>
+              <input type="file" id="fileInput" style="display:none;" onchange="showFile(this)" />
+              <div class="file-preview" id="filePreview">
+                <i class="fas fa-file-pdf" style="color:var(--danger);font-size:1.3rem;"></i>
+                <span id="fileName" style="font-size:0.85rem;font-weight:600;flex:1;"></span>
+                <button class="btn btn-sm btn-ghost" onclick="clearFile()">âœ•</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- OTP Confirm -->
+          <div class="form-card">
+            <div class="form-card-title"><i class="fas fa-shield-alt"></i> Verify & Submit</div>
+            <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:16px;">An OTP will be sent to your registered mobile <strong>+91 98765â€¢â€¢â€¢â€¢â€¢</strong> to confirm this transfer request.</p>
+            <div style="display:flex;gap:10px;">
+              <input type="text" class="form-control" placeholder="Enter 6-digit OTP" maxlength="6" style="font-family:monospace;font-size:1.1rem;font-weight:700;letter-spacing:4px;" id="otpInput" />
+              <button class="btn btn-outline btn-sm" onclick="sendOTP()" style="white-space:nowrap;">Send OTP</button>
+            </div>
+            <div style="margin-top:20px;">
+              <label style="display:flex;align-items:flex-start;gap:10px;font-size:0.85rem;cursor:pointer;">
+                <input type="checkbox" id="termsCheck" style="margin-top:3px;" />
+                <span>I confirm this transfer request is accurate. I have read the <a href="#" style="color:var(--accent);">Settlement Policy</a> and agree to the terms.</span>
+              </label>
+            </div>
+            <button class="submit-btn" style="margin-top:20px;" onclick="submitTransfer()">
+              <i class="fas fa-paper-plane"></i> Submit Transfer Request
+            </button>
+          </div>
+        </div>
+
+        <!-- RIGHT: Summary -->
+        <div>
+          <div class="transfer-summary">
+            <div class="ts-header">
+              <div class="ts-header-icon">ðŸ“¤</div>
+              <div>
+                <div class="ts-header-title">Transfer Summary</div>
+                <div class="ts-header-sub">Review before submitting</div>
+              </div>
+            </div>
+            <div class="ts-body">
+              <div class="ts-line">
+                <span class="ts-label">Hotel</span>
+                <span class="ts-val">Grand Palace Hotel</span>
+              </div>
+              <div class="ts-line">
+                <span class="ts-label">Transfer Amount</span>
+                <span class="ts-val" id="summAmt">â‚¹50,000</span>
+              </div>
+              <div class="ts-line">
+                <span class="ts-label">Platform Fee (10%)</span>
+                <span class="ts-val" style="color:var(--danger);" id="summFee">âˆ’ â‚¹5,000</span>
+              </div>
+              <div class="ts-line">
+                <span class="ts-label">GST on Fee (18%)</span>
+                <span class="ts-val" style="color:var(--danger);" id="summGST">âˆ’ â‚¹900</span>
+              </div>
+              <div class="ts-line">
+                <span class="ts-label">Transfer Mode</span>
+                <span class="ts-val">NEFT</span>
+              </div>
+              <div class="ts-line">
+                <span class="ts-label">Estimated Credit</span>
+                <span class="ts-val">Mar 10, 2026</span>
+              </div>
+            </div>
+            <div class="ts-total">
+              <div>
+                <div style="font-size:0.75rem;color:var(--text-muted);font-weight:700;">Net Receivable</div>
+                <div style="font-size:0.72rem;color:var(--text-muted);">After deductions</div>
+              </div>
+              <div class="ts-total-amt" id="summNet">â‚¹44,100</div>
+            </div>
+            <div class="ts-status">
+              <div style="display:flex;align-items:center;gap:8px;padding:10px;background:var(--warning-bg);border:1px solid rgba(255,111,0,0.2);border-radius:var(--radius-md);font-size:0.8rem;color:var(--warning);font-weight:600;">
+                <i class="fas fa-clock"></i> Pending Admin Approval after submission
+              </div>
+            </div>
+            <div style="padding:14px 20px;">
+              <div style="font-size:0.75rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">Recent Transfers</div>
+              <div class="history-item" style="padding:0 0 12px;border-bottom:1px solid var(--border);margin-bottom:12px;">
+                <div class="history-icon" style="background:var(--success-bg);color:var(--success);">âœ“</div>
+                <div class="history-body">
+                  <div class="history-title">Feb Settlement</div>
+                  <div class="history-sub">Approved Â· Mar 2</div>
+                </div>
+                <div class="history-amt" style="color:var(--success);">â‚¹1,12,000</div>
+              </div>
+              <div class="history-item" style="padding:0 0 12px;border-bottom:1px solid var(--border);margin-bottom:12px;">
+                <div class="history-icon" style="background:var(--warning-bg);color:var(--warning);">â³</div>
+                <div class="history-body">
+                  <div class="history-title">Mid-Month</div>
+                  <div class="history-sub">Pending Â· Feb 25</div>
+                </div>
+                <div class="history-amt" style="color:var(--warning);">â‚¹42,000</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Transfer success modal -->
+  <div class="modal-overlay" id="successModal">
+    <div class="modal" style="max-width:400px;text-align:center;">
+      <div style="width:70px;height:70px;border-radius:50%;background:var(--success-bg);border:2px solid rgba(0,200,83,0.3);display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 20px;">ðŸ“¤</div>
+      <h4 style="margin-bottom:8px;">Request Submitted!</h4>
+      <p style="color:var(--text-muted);font-size:0.88rem;margin-bottom:20px;">Your transfer request for <strong id="modalAmt"></strong> has been sent to Admin for approval. You'll be notified within 24 hours.</p>
+      <div style="background:var(--bg-input);border-radius:var(--radius-md);padding:14px;margin-bottom:20px;font-size:0.82rem;">
+        <div style="display:flex;justify-content:space-between;"><span style="color:var(--text-muted);">Request ID</span><strong style="font-family:monospace;">TXF-260307-4921</strong></div>
+        <div style="display:flex;justify-content:space-between;margin-top:8px;"><span style="color:var(--text-muted);">Status</span><span class="badge badge-warning">Pending Approval</span></div>
+      </div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="closeModal('successModal')">Done</button>
+    </div>
+  </div>
+
+  <!-- History Modal -->
+  <div class="modal-overlay" id="historyModal">
+    <div class="modal" style="max-width:600px;">
+      <div class="modal-header"><h4>ðŸ“‹ Transfer History</h4><button class="modal-close" onclick="closeModal('historyModal')">âœ•</button></div>
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead><tr><th>Request ID</th><th>Date</th><th>Amount</th><th>Net</th><th>Status</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td><strong>TXF-260302-3812</strong></td><td>Mar 2</td><td>â‚¹1,12,000</td><td>â‚¹98,560</td><td><span class="badge badge-success">Approved</span></td><td><button class="btn btn-sm btn-outline" style="padding:4px 10px;">Receipt</button></td></tr>
+            <tr><td><strong>TXF-260225-2109</strong></td><td>Feb 25</td><td>â‚¹42,000</td><td>â‚¹36,960</td><td><span class="badge badge-warning">Pending</span></td><td><button class="btn btn-sm btn-outline" style="padding:4px 10px;">Track</button></td></tr>
+            <tr><td><strong>TXF-260201-1443</strong></td><td>Feb 1</td><td>â‚¹85,000</td><td>â‚¹74,800</td><td><span class="badge badge-success">Approved</span></td><td><button class="btn btn-sm btn-outline" style="padding:4px 10px;">Receipt</button></td></tr>
+            <tr><td><strong>TXF-260115-0882</strong></td><td>Jan 15</td><td>â‚¹60,000</td><td>â‚¹52,800</td><td><span class="badge badge-danger">Rejected</span></td><td><button class="btn btn-sm btn-outline" style="padding:4px 10px;">Details</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="../assets/js/dashboard.js"></script>
+  <script>
+    function updateSummary() {
+      const amt = parseFloat(document.getElementById('transferAmount').value) || 0;
+      const fee = amt * 0.1;
+      const gst = fee * 0.18;
+      const net = amt - fee - gst;
+      document.getElementById('summAmt').textContent = 'â‚¹' + amt.toLocaleString('en-IN');
+      document.getElementById('summFee').textContent = 'âˆ’ â‚¹' + fee.toLocaleString('en-IN', {maximumFractionDigits:0});
+      document.getElementById('summGST').textContent = 'âˆ’ â‚¹' + gst.toLocaleString('en-IN', {maximumFractionDigits:0});
+      document.getElementById('summNet').textContent = 'â‚¹' + net.toLocaleString('en-IN', {maximumFractionDigits:0});
+    }
+
+    function setAmount(val) {
+      document.getElementById('transferAmount').value = val;
+      document.querySelectorAll('.amount-preset').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+      updateSummary();
+    }
+
+    function sendOTP() {
+      alert('OTP sent to +91 98765â€¢â€¢â€¢â€¢â€¢. Valid for 5 minutes.');
+    }
+
+    function submitTransfer() {
+      const otp = document.getElementById('otpInput').value.trim();
+      const terms = document.getElementById('termsCheck').checked;
+      if(!terms) { alert('Please accept the terms to continue.'); return; }
+      if(otp.length !== 6) { alert('Please enter a valid 6-digit OTP.'); return; }
+      const amt = document.getElementById('summAmt').textContent;
+      document.getElementById('modalAmt').textContent = amt;
+      document.getElementById('successModal').classList.add('active');
+    }
+
+    function showFile(input) {
+      if(input.files && input.files[0]) {
+        document.getElementById('fileName').textContent = input.files[0].name;
+        document.getElementById('filePreview').style.display = 'flex';
+      }
+    }
+
+    function clearFile() {
+      document.getElementById('fileInput').value = '';
+      document.getElementById('filePreview').style.display = 'none';
+    }
+
+    updateSummary();
+  </script>
+</body>
+</html>
+

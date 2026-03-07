@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Secure Payment — TRACKINN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script src="../assets/js/theme.js"></script>
+  <link rel="stylesheet" href="../assets/css/main.css" />
+  <link rel="stylesheet" href="../assets/css/user.css" />
+  <style>
+    /* ── Payment Page Styles ── */
+    .pay-layout { display: grid; grid-template-columns: 1fr 380px; gap: 24px; align-items: start; }
+    @media(max-width:900px){ .pay-layout { grid-template-columns: 1fr; } }
+
+    /* Booking Summary Card */
+    .summary-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; position: sticky; top: 80px; }
+    .summary-header { padding: 20px 24px; background: linear-gradient(135deg, var(--primary) 0%, #1a3a8f 100%); display: flex; align-items: center; gap: 14px; }
+    .summary-hotel-img { width: 56px; height: 56px; border-radius: var(--radius-md); background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; flex-shrink: 0; }
+    .summary-hotel-name { font-weight: 800; font-size: 1rem; color: #fff; }
+    .summary-hotel-loc { font-size: 0.78rem; color: rgba(255,255,255,0.7); margin-top: 2px; }
+    .summary-body { padding: 20px 24px; }
+    .summary-line { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 0.88rem; }
+    .summary-line:last-child { border-bottom: none; }
+    .summary-label { color: var(--text-secondary); }
+    .summary-val { font-weight: 600; color: var(--text-primary); }
+    .summary-total { display: flex; justify-content: space-between; align-items: center; padding: 16px 24px; background: linear-gradient(135deg, rgba(0,188,212,0.1), rgba(124,77,255,0.1)); border-top: 1px solid var(--border-accent); }
+    .summary-total-label { font-weight: 700; font-size: 0.9rem; color: var(--text-secondary); }
+    .summary-total-amount { font-weight: 900; font-size: 1.5rem; color: var(--accent); }
+
+    /* Payment Methods */
+    .pay-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; margin-bottom: 16px; }
+    .pay-card-title { font-size: 1rem; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+    .pay-methods { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+    @media(max-width:500px){ .pay-methods { grid-template-columns: 1fr 1fr; } }
+    .pay-method-btn { padding: 14px 8px; border-radius: var(--radius-md); border: 2px solid var(--border); background: var(--bg-input); display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; transition: var(--transition); font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); }
+    .pay-method-btn i { font-size: 1.4rem; }
+    .pay-method-btn:hover { border-color: var(--border-accent); color: var(--accent); background: rgba(0,188,212,0.05); }
+    .pay-method-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(0,188,212,0.1); box-shadow: 0 0 0 3px rgba(0,188,212,0.15); }
+
+    /* UPI Section */
+    .upi-section { display: none; }
+    .upi-section.show { display: block; }
+    .upi-input-wrap { position: relative; }
+    .upi-input-wrap .upi-prefix { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 0.85rem; font-weight: 600; pointer-events: none; }
+    .upi-input-wrap input { padding-left: 42px; }
+    .upi-apps { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+    .upi-app { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: var(--radius-md); background: var(--bg-input); border: 1px solid var(--border); cursor: pointer; transition: var(--transition); font-size: 0.82rem; font-weight: 500; }
+    .upi-app:hover { border-color: var(--border-accent); background: rgba(0,188,212,0.05); }
+    .upi-app-icon { width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; background: rgba(255,255,255,0.08); }
+
+    /* Card Section */
+    .card-section { display: none; }
+    .card-section.show { display: block; }
+    .card-preview { background: linear-gradient(135deg, #1a237e 0%, #00bcd4 100%); border-radius: var(--radius-lg); padding: 24px; margin-bottom: 20px; color: #fff; position: relative; overflow: hidden; min-height: 140px; }
+    .card-preview::before { content: ''; position: absolute; top: -30px; right: -30px; width: 150px; height: 150px; border-radius: 50%; background: rgba(255,255,255,0.06); }
+    .card-preview::after { content: ''; position: absolute; bottom: -50px; right: 60px; width: 200px; height: 200px; border-radius: 50%; background: rgba(255,255,255,0.04); }
+    .card-chip { width: 36px; height: 28px; background: linear-gradient(135deg, #f5a623, #f8c471); border-radius: 4px; margin-bottom: 18px; }
+    .card-number-preview { font-size: 1.1rem; font-weight: 700; letter-spacing: 4px; margin-bottom: 14px; }
+    .card-meta { display: flex; justify-content: space-between; font-size: 0.78rem; opacity: 0.85; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    /* Wallet Section */
+    .wallet-section { display: none; }
+    .wallet-section.show { display: block; }
+    .wallet-options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .wallet-opt { padding: 16px; border-radius: var(--radius-md); border: 2px solid var(--border); background: var(--bg-input); cursor: pointer; transition: var(--transition); display: flex; align-items: center; gap: 12px; }
+    .wallet-opt:hover { border-color: var(--border-accent); background: rgba(0,188,212,0.05); }
+    .wallet-opt.selected { border-color: var(--accent); background: rgba(0,188,212,0.1); }
+    .wallet-icon { width: 40px; height: 40px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; background: rgba(255,255,255,0.08); flex-shrink: 0; }
+    .wallet-name { font-weight: 700; font-size: 0.88rem; }
+    .wallet-bal { font-size: 0.75rem; color: var(--success); font-weight: 600; }
+
+    /* Security Badge */
+    .secure-badge { display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: var(--success-bg); border: 1px solid rgba(0,200,83,0.2); border-radius: var(--radius-md); font-size: 0.82rem; color: var(--success); font-weight: 600; margin-top: 16px; }
+
+    /* Pay Button */
+    .pay-btn { width: 100%; padding: 18px; font-size: 1.05rem; font-weight: 800; border-radius: var(--radius-full); background: linear-gradient(135deg, var(--accent) 0%, var(--secondary) 100%); color: #fff; border: none; cursor: pointer; transition: var(--transition); box-shadow: 0 4px 24px rgba(0,188,212,0.35); display: flex; align-items: center; justify-content: center; gap: 10px; letter-spacing: 0.3px; }
+    .pay-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,188,212,0.48); }
+    .pay-btn:active { transform: scale(0.98); }
+
+    /* Promo */
+    .promo-wrap { display: flex; gap: 10px; }
+    .promo-wrap input { flex: 1; }
+    .promo-wrap button { flex-shrink: 0; white-space: nowrap; padding: 12px 18px; font-size: 0.875rem; }
+
+    /* Savings Row */
+    .savings-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; font-size: 0.85rem; color: var(--success); font-weight: 600; border-bottom: 1px solid var(--border); }
+  </style>
+</head>
+<body class="user-body">
+
+  <header class="user-header">
+    <a href="dashboard.html" class="user-header-logo"><div class="logo-dot">🏨</div>TRACK<em>INN</em></a>
+    <div class="user-header-actions">
+      <button class="user-icon-btn theme-toggle-btn" onclick="toggleTheme()"></button>
+      <a href="profile.html" class="user-avatar-btn">AM</a>
+    </div>
+  </header>
+
+  <div style="display:flex;flex:1;">
+    <nav class="user-sidebar">
+      <div style="padding:0 4px 16px;font-size:0.7rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:0.6px;">Menu</div>
+      <a href="dashboard.html" class="user-sidebar-item"><span class="user-sidebar-icon">🏠</span>Home</a>
+      <a href="search.html" class="user-sidebar-item"><span class="user-sidebar-icon">🔍</span>Search Hotels</a>
+      <a href="my-bookings.html" class="user-sidebar-item"><span class="user-sidebar-icon">📅</span>My Bookings</a>
+      <a href="rewards.html" class="user-sidebar-item"><span class="user-sidebar-icon">🎁</span>Rewards</a>
+      <a href="tourism.html" class="user-sidebar-item"><span class="user-sidebar-icon">🗺️</span>Explore</a>
+      <a href="profile.html" class="user-sidebar-item"><span class="user-sidebar-icon">👤</span>Profile</a>
+      <a href="../login.html" class="user-sidebar-item user-sidebar-logout"><span class="user-sidebar-icon">🚪</span>Logout</a>
+    </nav>
+
+    <div class="user-page-area">
+      <div class="user-page">
+        <!-- Breadcrumb -->
+        <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:var(--text-muted);margin-bottom:20px;">
+          <a href="my-bookings.html" style="color:var(--accent);">My Bookings</a>
+          <i class="fas fa-chevron-right" style="font-size:0.7rem;"></i>
+          <a href="booking.html" style="color:var(--accent);">Review Booking</a>
+          <i class="fas fa-chevron-right" style="font-size:0.7rem;"></i>
+          <span>Secure Payment</span>
+        </div>
+
+        <h1 style="font-size:1.4rem;font-weight:900;margin-bottom:6px;">🔐 Secure Checkout</h1>
+        <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:24px;">Complete your booking with a secure payment</p>
+
+        <div class="pay-layout">
+          <!-- LEFT: Payment Form -->
+          <div>
+            <!-- Method Selection -->
+            <div class="pay-card">
+              <div class="pay-card-title"><i class="fas fa-credit-card" style="color:var(--accent);"></i> Choose Payment Method</div>
+              <div class="pay-methods">
+                <div class="pay-method-btn active" id="btn-upi" onclick="selectMethod('upi')">
+                  <i class="fas fa-mobile-alt"></i> UPI
+                </div>
+                <div class="pay-method-btn" id="btn-card" onclick="selectMethod('card')">
+                  <i class="fas fa-credit-card"></i> Card
+                </div>
+                <div class="pay-method-btn" id="btn-wallet" onclick="selectMethod('wallet')">
+                  <i class="fas fa-wallet"></i> Wallet
+                </div>
+                <div class="pay-method-btn" id="btn-netbanking" onclick="selectMethod('netbanking')">
+                  <i class="fas fa-university"></i> Net Banking
+                </div>
+                <div class="pay-method-btn" id="btn-emi" onclick="selectMethod('emi')">
+                  <i class="fas fa-calendar-alt"></i> EMI
+                </div>
+                <div class="pay-method-btn" id="btn-cash" onclick="selectMethod('cash')">
+                  <i class="fas fa-money-bill-wave"></i> Pay at Hotel
+                </div>
+              </div>
+
+              <!-- UPI Section -->
+              <div class="upi-section show" id="sec-upi">
+                <label class="form-label">Enter UPI ID</label>
+                <div class="upi-input-wrap">
+                  <span class="upi-prefix">@</span>
+                  <input type="text" class="form-control" placeholder="yourname@upi" style="padding-left:34px;" />
+                </div>
+                <div style="margin-top:16px;">
+                  <div style="font-size:0.8rem;color:var(--text-muted);font-weight:600;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px;">Or pay with app</div>
+                  <div class="upi-apps">
+                    <div class="upi-app"><div class="upi-app-icon">🔵</div> Google Pay</div>
+                    <div class="upi-app"><div class="upi-app-icon">🟣</div> PhonePe</div>
+                    <div class="upi-app"><div class="upi-app-icon">🔴</div> Paytm</div>
+                    <div class="upi-app"><div class="upi-app-icon">🟡</div> BHIM</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card Section -->
+              <div class="card-section" id="sec-card">
+                <div class="card-preview">
+                  <div class="card-chip"></div>
+                  <div class="card-number-preview" id="cardNumPreview">•••• •••• •••• ••••</div>
+                  <div class="card-meta"><span id="cardHolderPreview">CARD HOLDER</span><span id="cardExpiryPreview">MM/YY</span></div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Card Number</label>
+                  <input type="text" class="form-control" placeholder="1234 5678 9012 3456" maxlength="19"
+                    oninput="formatCard(this)" onkeyup="updatePreview()" />
+                </div>
+                <div class="two-col">
+                  <div class="form-group">
+                    <label class="form-label">Card Holder Name</label>
+                    <input type="text" class="form-control" placeholder="As on card"
+                      oninput="document.getElementById('cardHolderPreview').textContent=this.value.toUpperCase()||'CARD HOLDER'" />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Expiry Date</label>
+                    <input type="text" class="form-control" placeholder="MM / YY" maxlength="7"
+                      oninput="formatExpiry(this);document.getElementById('cardExpiryPreview').textContent=this.value||'MM/YY'" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">CVV</label>
+                  <input type="password" class="form-control" placeholder="•••" maxlength="4" style="max-width:120px;" />
+                </div>
+                <label style="display:flex;align-items:center;gap:8px;font-size:0.85rem;cursor:pointer;">
+                  <input type="checkbox" checked /> Save card for future bookings
+                </label>
+              </div>
+
+              <!-- Wallet Section -->
+              <div class="wallet-section" id="sec-wallet">
+                <div class="wallet-options">
+                  <div class="wallet-opt selected" onclick="toggleWallet(this)">
+                    <div class="wallet-icon">💰</div>
+                    <div><div class="wallet-name">Paytm Wallet</div><div class="wallet-bal">₹1,240 available</div></div>
+                  </div>
+                  <div class="wallet-opt" onclick="toggleWallet(this)">
+                    <div class="wallet-icon">🟢</div>
+                    <div><div class="wallet-name">Amazon Pay</div><div class="wallet-bal">₹320 available</div></div>
+                  </div>
+                  <div class="wallet-opt" onclick="toggleWallet(this)">
+                    <div class="wallet-icon">🔵</div>
+                    <div><div class="wallet-name">MobiKwik</div><div class="wallet-bal">₹0 available</div></div>
+                  </div>
+                  <div class="wallet-opt" onclick="toggleWallet(this)">
+                    <div class="wallet-icon">🟠</div>
+                    <div><div class="wallet-name">Freecharge</div><div class="wallet-bal">₹88 available</div></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Net Banking -->
+              <div style="display:none;" id="sec-netbanking">
+                <label class="form-label">Select Your Bank</label>
+                <select class="form-control">
+                  <option>-- Select Bank --</option>
+                  <option>State Bank of India (SBI)</option>
+                  <option>HDFC Bank</option>
+                  <option>ICICI Bank</option>
+                  <option>Axis Bank</option>
+                  <option>Kotak Mahindra Bank</option>
+                  <option>Bank of Baroda</option>
+                  <option>Punjab National Bank</option>
+                  <option>Other</option>
+                </select>
+                <p style="margin-top:12px;font-size:0.82rem;color:var(--text-muted);">You will be redirected to your bank's secure portal to complete the payment.</p>
+              </div>
+
+              <!-- EMI -->
+              <div style="display:none;" id="sec-emi">
+                <label class="form-label">Select EMI Tenure</label>
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
+                  <div onclick="selectEmi(this)" style="padding:12px;border:2px solid var(--border);border-radius:var(--radius-md);cursor:pointer;text-align:center;transition:var(--transition);">
+                    <div style="font-weight:800;font-size:1rem;">3</div>
+                    <div style="font-size:0.75rem;color:var(--text-muted);">months</div>
+                    <div style="font-size:0.8rem;color:var(--accent);font-weight:600;margin-top:4px;">₹1,960/mo</div>
+                  </div>
+                  <div onclick="selectEmi(this)" style="padding:12px;border:2px solid var(--accent);border-radius:var(--radius-md);cursor:pointer;text-align:center;background:rgba(0,188,212,0.08);transition:var(--transition);">
+                    <div style="font-weight:800;font-size:1rem;">6</div>
+                    <div style="font-size:0.75rem;color:var(--text-muted);">months</div>
+                    <div style="font-size:0.8rem;color:var(--accent);font-weight:600;margin-top:4px;">₹1,020/mo</div>
+                  </div>
+                  <div onclick="selectEmi(this)" style="padding:12px;border:2px solid var(--border);border-radius:var(--radius-md);cursor:pointer;text-align:center;transition:var(--transition);">
+                    <div style="font-weight:800;font-size:1rem;">12</div>
+                    <div style="font-size:0.75rem;color:var(--text-muted);">months</div>
+                    <div style="font-size:0.8rem;color:var(--accent);font-weight:600;margin-top:4px;">₹530/mo</div>
+                  </div>
+                </div>
+                <p style="margin-top:12px;font-size:0.82rem;color:var(--text-muted);">EMI is interest-free for select cards. Processing fee of ₹99 may apply.</p>
+              </div>
+
+              <!-- Pay at Hotel -->
+              <div style="display:none;" id="sec-cash">
+                <div style="padding:16px;background:var(--warning-bg);border:1px solid rgba(255,111,0,0.2);border-radius:var(--radius-md);">
+                  <div style="font-weight:700;color:var(--warning);margin-bottom:6px;">⚠️ Pay at Hotel</div>
+                  <p style="font-size:0.85rem;color:var(--text-secondary);">Your booking will be held for 24 hours. Pay directly at the hotel reception upon check-in. Cancellation policy applies.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Promo Code -->
+            <div class="pay-card">
+              <div class="pay-card-title"><i class="fas fa-tag" style="color:var(--accent);"></i> Promo Code / Gift Card</div>
+              <div class="promo-wrap">
+                <input type="text" class="form-control" placeholder="Enter promo code" id="promoInput" />
+                <button class="btn btn-outline btn-sm" onclick="applyPromo()">Apply</button>
+              </div>
+              <div id="promoMsg" style="margin-top:8px;font-size:0.82rem;display:none;"></div>
+              <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+                <span onclick="document.getElementById('promoInput').value='TRACKINN10'" style="padding:5px 12px;border:1px dashed var(--border-accent);border-radius:var(--radius-full);font-size:0.75rem;color:var(--accent);cursor:pointer;font-weight:600;">TRACKINN10</span>
+                <span onclick="document.getElementById('promoInput').value='FIRST200'" style="padding:5px 12px;border:1px dashed var(--border-accent);border-radius:var(--radius-full);font-size:0.75rem;color:var(--accent);cursor:pointer;font-weight:600;">FIRST200</span>
+              </div>
+            </div>
+
+            <!-- Security Info -->
+            <div class="secure-badge">
+              <i class="fas fa-shield-alt"></i>
+              256-bit SSL encryption · Payments processed via Razorpay · PCI DSS compliant
+            </div>
+          </div>
+
+          <!-- RIGHT: Booking Summary -->
+          <div>
+            <div class="summary-card">
+              <div class="summary-header">
+                <div class="summary-hotel-img">🏛️</div>
+                <div>
+                  <div class="summary-hotel-name">The Taj Residency Varanasi</div>
+                  <div class="summary-hotel-loc">📍 Godowlia Chowk, Varanasi · ⭐ 4.7</div>
+                </div>
+              </div>
+              <div class="summary-body">
+                <div class="summary-line">
+                  <span class="summary-label">Room Type</span>
+                  <span class="summary-val">Deluxe River View</span>
+                </div>
+                <div class="summary-line">
+                  <span class="summary-label">Check-in</span>
+                  <span class="summary-val">Feb 22, 2026</span>
+                </div>
+                <div class="summary-line">
+                  <span class="summary-label">Check-out</span>
+                  <span class="summary-val">Feb 24, 2026</span>
+                </div>
+                <div class="summary-line">
+                  <span class="summary-label">Duration</span>
+                  <span class="summary-val">2 Nights · 1 Room</span>
+                </div>
+                <div class="summary-line">
+                  <span class="summary-label">Guests</span>
+                  <span class="summary-val">2 Adults</span>
+                </div>
+                <div style="height:1px;background:var(--border);margin:8px 0;"></div>
+                <div class="summary-line">
+                  <span class="summary-label">Room Rate</span>
+                  <span class="summary-val">₹2,500 × 2 nights</span>
+                </div>
+                <div class="summary-line">
+                  <span class="summary-label">GST (12%)</span>
+                  <span class="summary-val">₹600</span>
+                </div>
+                <div class="savings-row">
+                  <span>🎉 Promo TRACKINN10</span>
+                  <span>− ₹500</span>
+                </div>
+                <div class="summary-line">
+                  <span class="summary-label">Convenience Fee</span>
+                  <span class="summary-val">₹28</span>
+                </div>
+              </div>
+              <div class="summary-total">
+                <div>
+                  <div class="summary-total-label">Total Payable</div>
+                  <div style="font-size:0.75rem;color:var(--text-muted);">Inclusive of all taxes</div>
+                </div>
+                <div class="summary-total-amount">₹5,128</div>
+              </div>
+            </div>
+
+            <!-- Pay CTA -->
+            <button class="pay-btn" style="margin-top:16px;" onclick="initiatePayment()">
+              <i class="fas fa-lock"></i> Pay ₹5,128 Securely
+            </button>
+
+            <div style="text-align:center;font-size:0.78rem;color:var(--text-muted);margin-top:10px;">
+              By completing payment you agree to our <a href="#" style="color:var(--accent);">Terms & Cancellation Policy</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <nav class="bottom-nav">
+    <a href="dashboard.html" class="bnav-item"><span class="bnav-icon">🏠</span><span class="bnav-label">Home</span></a>
+    <a href="search.html" class="bnav-item"><span class="bnav-icon">🔍</span><span class="bnav-label">Search</span></a>
+    <a href="my-bookings.html" class="bnav-item active"><span class="bnav-icon">📅</span><span class="bnav-label">Bookings</span></a>
+    <a href="rewards.html" class="bnav-item"><span class="bnav-icon">🎁</span><span class="bnav-label">Rewards</span></a>
+    <a href="profile.html" class="bnav-item"><span class="bnav-icon">👤</span><span class="bnav-label">Profile</span></a>
+  </nav>
+
+  <script src="../assets/js/user.js"></script>
+  <script>
+    let activeMethod = 'upi';
+
+    function selectMethod(method) {
+      // Remove active from all buttons
+      document.querySelectorAll('.pay-method-btn').forEach(b => b.classList.remove('active'));
+      // Hide all sections
+      ['upi','card','wallet','netbanking','emi','cash'].forEach(m => {
+        const sec = document.getElementById('sec-'+m);
+        if(sec){ sec.style.display='none'; sec.classList.remove('show'); }
+      });
+      // Activate selected
+      document.getElementById('btn-'+method).classList.add('active');
+      const sec = document.getElementById('sec-'+method);
+      if(sec){ sec.style.display='block'; sec.classList.add('show'); }
+      activeMethod = method;
+    }
+
+    function toggleWallet(el) {
+      document.querySelectorAll('.wallet-opt').forEach(w => w.classList.remove('selected'));
+      el.classList.add('selected');
+    }
+
+    function applyPromo() {
+      const code = document.getElementById('promoInput').value.trim().toUpperCase();
+      const msg = document.getElementById('promoMsg');
+      msg.style.display = 'block';
+      if(code === 'TRACKINN10' || code === 'FIRST200') {
+        msg.style.color = 'var(--success)';
+        msg.textContent = '✅ Promo applied! ₹500 discount added.';
+      } else if(code === '') {
+        msg.style.color = 'var(--warning)';
+        msg.textContent = '⚠️ Please enter a promo code.';
+      } else {
+        msg.style.color = 'var(--danger)';
+        msg.textContent = '❌ Invalid promo code. Try TRACKINN10 or FIRST200.';
+      }
+    }
+
+    function formatCard(input) {
+      let val = input.value.replace(/\D/g,'').substring(0,16);
+      input.value = val.replace(/(.{4})/g,'$1 ').trim();
+      const preview = val.padEnd(16,'•').replace(/(.{4})/g,'$1 ').trim();
+      document.getElementById('cardNumPreview').textContent = preview;
+    }
+
+    function formatExpiry(input) {
+      let val = input.value.replace(/\D/g,'').substring(0,4);
+      if(val.length >= 2) val = val.substring(0,2)+' / '+val.substring(2);
+      input.value = val;
+    }
+
+    function selectEmi(el) {
+      document.querySelectorAll('#sec-emi > div > div').forEach(e => {
+        e.style.border = '2px solid var(--border)';
+        e.style.background = 'transparent';
+      });
+      el.style.border = '2px solid var(--accent)';
+      el.style.background = 'rgba(0,188,212,0.08)';
+    }
+
+    function initiatePayment() {
+      window.location.href = 'payment-pending.html';
+    }
+  </script>
+</body>
+</html>

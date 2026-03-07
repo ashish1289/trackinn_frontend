@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Payment Processing — TRACKINN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script src="../assets/js/theme.js"></script>
+  <link rel="stylesheet" href="../assets/css/main.css" />
+  <link rel="stylesheet" href="../assets/css/user.css" />
+  <style>
+    .pending-page { min-height: calc(100vh - 64px); display: flex; align-items: center; justify-content: center; padding: 24px 16px; }
+    .pending-wrap { width: 100%; max-width: 480px; }
+
+    /* Animated Spinner */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes pulseSoft { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.7;transform:scale(0.96)} }
+    @keyframes progressBar { from{width:0} to{width:var(--progress)} }
+    @keyframes slideUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes dot1 { 0%,80%,100%{transform:scale(0);opacity:0} 40%{transform:scale(1);opacity:1} }
+    @keyframes dot2 { 0%,80%,100%{transform:scale(0);opacity:0} 40%{transform:scale(1);opacity:1} }
+    @keyframes dot3 { 0%,80%,100%{transform:scale(0);opacity:0} 40%{transform:scale(1);opacity:1} }
+
+    .pending-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 40px 32px; text-align: center; position: relative; overflow: hidden; animation: slideUp 0.4s ease both; }
+    .pending-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg, var(--accent), var(--secondary), var(--accent)); background-size:200%; animation: shimmerBar 2s linear infinite; }
+    @keyframes shimmerBar { 0%{background-position:0%} 100%{background-position:200%} }
+
+    /* Spinner */
+    .spinner-wrap { position: relative; width: 96px; height: 96px; margin: 0 auto 28px; }
+    .spinner-outer { width: 96px; height: 96px; border-radius: 50%; border: 3px solid var(--border); border-top-color: var(--accent); border-right-color: var(--secondary); animation: spin 1s linear infinite; }
+    .spinner-inner { position: absolute; inset: 12px; border-radius: 50%; border: 3px solid var(--border); border-top-color: transparent; border-bottom-color: var(--secondary); animation: spin 0.7s linear infinite reverse; }
+    .spinner-icon { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; animation: pulseSoft 1.5s ease infinite; }
+
+    /* Typing dots */
+    .dots { display: inline-flex; gap: 4px; margin-left: 4px; }
+    .dots span { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); display: inline-block; }
+    .dots span:nth-child(1) { animation: dot1 1.4s ease infinite 0s; }
+    .dots span:nth-child(2) { animation: dot2 1.4s ease infinite 0.2s; }
+    .dots span:nth-child(3) { animation: dot3 1.4s ease infinite 0.4s; }
+
+    /* Progress bar */
+    .progress-track { height: 6px; background: var(--bg-input); border-radius: var(--radius-full); overflow: hidden; margin: 24px 0; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--secondary)); border-radius: var(--radius-full); transition: width 0.5s ease; }
+
+    /* Steps */
+    .step-list { text-align: left; display: flex; flex-direction: column; gap: 8px; margin: 20px 0; }
+    .step-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: var(--radius-md); border: 1px solid var(--border); background: var(--bg-input); font-size: 0.85rem; transition: all 0.4s ease; }
+    .step-item.done { border-color: rgba(0,200,83,0.25); background: var(--success-bg); color: var(--text-primary); }
+    .step-item.active { border-color: var(--border-accent); background: rgba(0,188,212,0.07); }
+    .step-item.queued { opacity: 0.45; }
+    .step-num { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800; flex-shrink: 0; }
+    .step-item.done .step-num { background: var(--success); color: #fff; }
+    .step-item.active .step-num { background: var(--accent); color: #fff; animation: pulseSoft 1s ease infinite; }
+    .step-item.queued .step-num { background: var(--bg-input); color: var(--text-muted); border: 1px solid var(--border); }
+    .step-label { font-weight: 600; flex: 1; }
+    .step-time { font-size: 0.75rem; color: var(--text-muted); }
+
+    /* Warning box */
+    .warn-box { display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; background: var(--warning-bg); border: 1px solid rgba(255,111,0,0.2); border-radius: var(--radius-md); margin-top: 20px; font-size: 0.82rem; color: var(--text-secondary); text-align: left; }
+    .warn-box i { color: var(--warning); margin-top: 2px; flex-shrink: 0; }
+
+    /* Timer */
+    .timer-text { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.85rem; color: var(--text-muted); margin-top: 20px; }
+    .timer-val { font-weight: 800; color: var(--text-primary); font-variant-numeric: tabular-nums; }
+
+    /* UPI instruction box */
+    .upi-box { background: var(--bg-input); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; margin: 20px 0; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    .upi-qr { width: 110px; height: 110px; background: #fff; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 3rem; }
+    .upi-id { font-family: monospace; font-weight: 800; font-size: 0.9rem; color: var(--accent); background: rgba(0,188,212,0.08); padding: 8px 16px; border-radius: var(--radius-full); border: 1px dashed var(--border-accent); }
+  </style>
+</head>
+<body class="user-body">
+
+  <header class="user-header">
+    <a href="dashboard.html" class="user-header-logo"><div class="logo-dot">🏨</div>TRACK<em>INN</em></a>
+    <div class="user-header-actions">
+      <button class="user-icon-btn theme-toggle-btn" onclick="toggleTheme()"></button>
+      <a href="profile.html" class="user-avatar-btn">AM</a>
+    </div>
+  </header>
+
+  <div class="pending-page">
+    <div class="pending-wrap">
+      <div class="pending-card">
+        <!-- Spinner -->
+        <div class="spinner-wrap">
+          <div class="spinner-outer"></div>
+          <div class="spinner-inner"></div>
+          <div class="spinner-icon">💳</div>
+        </div>
+
+        <h1 style="font-size:1.4rem;font-weight:900;margin-bottom:6px;">
+          Processing Payment<span class="dots"><span></span><span></span><span></span></span>
+        </h1>
+        <p style="color:var(--text-muted);font-size:0.88rem;margin-bottom:0;">Please wait while we verify your transaction</p>
+
+        <!-- UPI Pending Instruction -->
+        <div class="upi-box">
+          <div class="upi-qr">⬛</div>
+          <div>
+            <div style="font-size:0.78rem;color:var(--text-muted);margin-bottom:4px;">Pay to UPI ID</div>
+            <div class="upi-id">trackinn@hdfcbank</div>
+          </div>
+          <div style="font-size:0.8rem;color:var(--text-muted);">Amount: <strong style="color:var(--accent);font-size:1rem;font-weight:800;">₹5,128</strong></div>
+          <div style="font-size:0.78rem;color:var(--text-muted);">Open your UPI app and complete the payment</div>
+        </div>
+
+        <!-- Progress -->
+        <div class="progress-track">
+          <div class="progress-fill" id="progressFill" style="width:55%;"></div>
+        </div>
+
+        <!-- Steps -->
+        <div class="step-list">
+          <div class="step-item done" id="step1">
+            <div class="step-num">✓</div>
+            <div class="step-label">Payment Initiated</div>
+            <div class="step-time">10:32 AM</div>
+          </div>
+          <div class="step-item active" id="step2">
+            <div class="step-num">2</div>
+            <div class="step-label">Awaiting Bank Confirmation</div>
+            <div class="step-time">Processing...</div>
+          </div>
+          <div class="step-item queued" id="step3">
+            <div class="step-num">3</div>
+            <div class="step-label">Booking Confirmation</div>
+            <div class="step-time">Pending</div>
+          </div>
+          <div class="step-item queued" id="step4">
+            <div class="step-num">4</div>
+            <div class="step-label">Send Confirmation Email</div>
+            <div class="step-time">Pending</div>
+          </div>
+        </div>
+
+        <!-- Warning -->
+        <div class="warn-box">
+          <i class="fas fa-exclamation-triangle"></i>
+          <span>Do <strong>not</strong> close this page or press the back button. This may take up to 2 minutes.</span>
+        </div>
+
+        <!-- Timer -->
+        <div class="timer-text">
+          <i class="fas fa-clock"></i>
+          Session expires in <span class="timer-val" id="timerVal">04:58</span>
+        </div>
+
+        <!-- Cancel -->
+        <button class="btn btn-ghost" style="margin-top:20px;width:100%;justify-content:center;" onclick="cancelPayment()">
+          <i class="fas fa-times"></i> Cancel Payment
+        </button>
+      </div>
+
+      <div style="text-align:center;margin-top:16px;">
+        <div style="font-size:0.78rem;color:var(--text-muted);">Transaction ID: TXN-240220-58291 · Powered by Razorpay</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../assets/js/user.js"></script>
+  <script>
+    // Countdown timer
+    let seconds = 298;
+    const timerEl = document.getElementById('timerVal');
+    const interval = setInterval(() => {
+      if(seconds <= 0) { clearInterval(interval); return; }
+      seconds--;
+      const m = String(Math.floor(seconds/60)).padStart(2,'0');
+      const s = String(seconds%60).padStart(2,'0');
+      timerEl.textContent = m+':'+s;
+    }, 1000);
+
+    // Simulate progress & auto-redirect after 6 seconds
+    let progress = 55;
+    const prog = document.getElementById('progressFill');
+    const progInterval = setInterval(() => {
+      progress = Math.min(progress + 2, 100);
+      prog.style.width = progress + '%';
+      if(progress >= 100) clearInterval(progInterval);
+    }, 300);
+
+    // After 4s, simulate success redirect
+    setTimeout(() => {
+      document.getElementById('step2').className = 'step-item done';
+      document.getElementById('step2').querySelector('.step-num').textContent = '✓';
+      document.getElementById('step2').querySelector('.step-time').textContent = '10:32 AM';
+      document.getElementById('step3').className = 'step-item active';
+      document.getElementById('step3').querySelector('.step-num').textContent = '3';
+    }, 2000);
+
+    setTimeout(() => {
+      window.location.href = 'payment-success.html';
+    }, 5000);
+
+    function cancelPayment() {
+      if(confirm('Cancel this payment? Your booking will be released.')) {
+        window.location.href = 'payment-failed.html';
+      }
+    }
+  </script>
+</body>
+</html>

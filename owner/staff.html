@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html lang="en">
 <script>
   // Role-Based View Logic
@@ -54,28 +54,77 @@
 <body>
   <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeMobileSidebar()"></div>
   <aside class="sidebar" id="sidebar">
-    <a href="dashboard.html" class="sidebar-logo"><div class="slogo-icon">🏨</div><div class="slogo-text">TRACK<em>INN<span class="slogo-sub">Hotel Manager</span></em></div></a>
-    <div class="hotel-badge"><div class="hotel-badge-avatar">🏢</div><div class="hotel-badge-info"><div class="hotel-badge-name">Grand Palace Hotel</div><div class="hotel-badge-plan">⭐ Growth Plan</div></div></div>
+    <a href="dashboard.html" class="sidebar-logo">
+      <div class="slogo-icon">🏨</div>
+      <div class="slogo-text">TRACK<em>INN<span class="slogo-sub">Hotel Manager</span></em></div>
+    </a>
+
+    <div class="hotel-badge">
+      <div class="hotel-badge-avatar">🏢</div>
+      <div class="hotel-badge-info">
+        <div class="hotel-badge-name">Grand Palace Hotel</div>
+        <div class="hotel-badge-plan">⭐ Growth Plan</div>
+      </div>
+    </div>
+
     <nav class="sidebar-nav">
       <div class="nav-section-label">Overview</div>
-      <a href="dashboard.html" class="nav-item"><span class="nav-icon">📊</span><span class="nav-label">Dashboard</span></a>
+      <a href="dashboard.html" class="nav-item" data-tooltip="Dashboard">
+        <span class="nav-icon">📊</span>
+        <span class="nav-label">Dashboard</span>
+      </a>
+
       <div class="nav-section-label">Operations</div>
-      <a href="checkin.html" class="nav-item"><span class="nav-icon">🛎</span><span class="nav-label">Check-in / Check-out</span></a>
-      <a href="rooms.html" class="nav-item"><span class="nav-icon">🛏</span><span class="nav-label">Room Management</span></a>
-      <a href="room-detail.html" class="nav-item" data-tooltip="All Rooms (Grid & Detail)"><span class="nav-icon">🔍</span><span class="nav-label">All Rooms (Live View)</span></a>
-      <a href="bookings.html" class="nav-item"><span class="nav-icon">📅</span><span class="nav-label">Bookings</span><span class="nav-badge">3</span></a>
+      <a href="checkin.html" class="nav-item" data-tooltip="Check-in/out">
+        <span class="nav-icon">🛎</span>
+        <span class="nav-label">Check-in / Check-out</span>
+      </a>
+      <a href="rooms.html" class="nav-item" data-tooltip="Rooms">
+        <span class="nav-icon">🛏</span>
+        <span class="nav-label">Room Management</span>
+      </a>
+      <a href="room-detail.html" class="nav-item" data-tooltip="All Rooms (Grid & Detail)">
+        <span class="nav-icon">🔍</span>
+        <span class="nav-label">All Rooms (Live View)</span>
+      </a>
+      <a href="bookings.html" class="nav-item" data-tooltip="Bookings">
+        <span class="nav-icon">📅</span>
+        <span class="nav-label">Bookings</span>
+        <span class="nav-badge">3</span>
+      </a>
+
       <div class="nav-section-label">Finance</div>
-      <a href="billing.html" class="nav-item"><span class="nav-icon">💳</span><span class="nav-label">Billing & Accounting</span></a>
+      <a href="billing.html" class="nav-item" data-tooltip="Billing">
+        <span class="nav-icon">💳</span>
+        <span class="nav-label">Billing & Accounting</span>
+      </a>
+      <a href="payment-transfer.html" class="nav-item" data-tooltip="Payment Transfer">
+        <span class="nav-icon">🏦</span>
+        <span class="nav-label">Payment Transfer</span>
+      </a>
+
       <div class="nav-section-label">Team</div>
-      <a href="staff.html" class="nav-item active"><span class="nav-icon">👥</span><span class="nav-label">Staff Management</span></a>
+      <a href="staff.html" class="nav-item active" data-tooltip="Staff">
+        <span class="nav-icon">👥</span>
+        <span class="nav-label">Staff Management</span>
+      </a>
+
       <div class="nav-section-label">Insights</div>
-      <a href="analytics.html" class="nav-item"><span class="nav-icon">🤖</span><span class="nav-label">Analytics & AI</span></a>
+      <a href="analytics.html" class="nav-item" data-tooltip="Analytics">
+        <span class="nav-icon">🤖</span>
+        <span class="nav-label">Analytics & AI</span>
+      </a>
       <a href="../login.html" class="nav-item nav-item-logout" data-tooltip="Logout">
         <span class="nav-icon">🚪</span>
         <span class="nav-label">Logout</span>
       </a>
     </nav>
-    <div class="sidebar-footer"><button class="sidebar-toggle" onclick="toggleSidebar()"><span class="toggle-icon">◀</span><span class="nav-label">Collapse Menu</span></button></div>
+    <div class="sidebar-footer">
+      <button class="sidebar-toggle" onclick="toggleSidebar()">
+        <span class="toggle-icon">◀</span>
+        <span class="nav-label">Collapse Menu</span>
+      </button>
+    </div>
   </aside>
 
   <!-- ========== TOPBAR ========== -->
@@ -394,3 +443,4 @@
   </script>
 </body>
 </html>
+

@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payment Approvals — TRACKINN Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script src="../assets/js/theme.js"></script>
+  <link rel="stylesheet" href="../assets/css/main.css" />
+  <link rel="stylesheet" href="../assets/css/dashboard.css" />
+  <link rel="stylesheet" href="../assets/css/admin.css" />
+  <style>
+    /* ── Admin Approvals ── */
+    .req-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 16px; overflow: hidden; transition: var(--transition); }
+    .req-card:hover { border-color: var(--border-accent); box-shadow: var(--shadow-sm); }
+    .req-card.pending-card { border-left: 3px solid var(--warning); }
+    .req-card.approved-card { border-left: 3px solid var(--success); }
+    .req-card.rejected-card { border-left: 3px solid var(--danger); }
+
+    .req-header { padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+    .req-id { font-family: monospace; font-weight: 800; font-size: 0.85rem; color: var(--text-muted); letter-spacing: 1px; }
+    .req-body { padding: 16px 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; }
+    .req-field { }
+    .req-field-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 4px; }
+    .req-field-val { font-size: 0.9rem; font-weight: 700; color: var(--text-primary); }
+    .req-footer { padding: 14px 20px; background: var(--bg-card2); border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .req-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    /* Approve/Reject Buttons */
+    .btn-approve { background: var(--success); color: #fff; padding: 8px 18px; border-radius: var(--radius-full); font-weight: 700; font-size: 0.82rem; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: var(--transition); }
+    .btn-approve:hover { background: #00b04a; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,200,83,0.3); }
+    .btn-reject { background: transparent; color: var(--danger); padding: 8px 18px; border-radius: var(--radius-full); font-weight: 700; font-size: 0.82rem; border: 1.5px solid rgba(244,67,54,0.4); cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: var(--transition); }
+    .btn-reject:hover { background: var(--danger-bg); border-color: var(--danger); transform: translateY(-1px); }
+
+    /* Risk Score Bar */
+    .risk-bar { height: 5px; border-radius: var(--radius-full); margin-top: 6px; background: var(--bg-input); }
+    .risk-fill { height: 100%; border-radius: var(--radius-full); }
+    .risk-low { background: var(--success); }
+    .risk-medium { background: var(--warning); }
+    .risk-high { background: var(--danger); }
+
+    /* Summary chips */
+    .summary-chips { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+    .summary-chip { flex: 1; min-width: 120px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px; display: flex; align-items: center; gap: 12px; }
+    .chip-icon { width: 38px; height: 38px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+    .chip-label { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; }
+    .chip-val { font-size: 1.15rem; font-weight: 900; color: var(--text-primary); }
+
+    /* Filter tabs */
+    .filter-row { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+    .filter-search { flex: 1; min-width: 200px; }
+
+    /* Hotel info badge */
+    .hotel-badge-sm { display: flex; align-items: center; gap: 10px; }
+    .hotel-avatar { width: 36px; height: 36px; border-radius: var(--radius-sm); background: linear-gradient(135deg, var(--primary), var(--accent)); display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+    .hotel-name { font-weight: 700; font-size: 0.9rem; }
+    .hotel-sub { font-size: 0.75rem; color: var(--text-muted); margin-top: 1px; }
+
+    /* Expand row */
+    .req-expand { padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s ease; }
+    .req-expand.open { max-height: 500px; padding: 16px 20px; border-top: 1px solid var(--border); }
+    .detail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; }
+    .detail-item { background: var(--bg-input); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 12px; }
+    .detail-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; color: var(--text-muted); margin-bottom: 4px; }
+    .detail-val { font-size: 0.88rem; font-weight: 700; color: var(--text-primary); font-family: monospace; }
+
+    /* Rejection reason modal */
+    .reject-floating { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
+    .reject-floating.active { display: flex; }
+    .reject-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 28px; width: 100%; max-width: 440px; }
+  </style>
+</head>
+<body>
+  <div class="sidebar-overlay"></div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar sidebar-admin" id="sidebar">
+    <a href="../index.html" class="sidebar-logo">
+      <div class="slogo-icon"><i class="fas fa-shield-halved"></i></div>
+      <div class="slogo-text">TRACKINN<em>.</em> <small class="slogo-sub">ADMIN PANEL</small></div>
+    </a>
+    <div class="hotel-badge">
+      <div class="hotel-badge-avatar">HQ</div>
+      <div class="hotel-badge-info">
+        <div class="hotel-badge-name">Corporate HQ</div>
+        <div class="hotel-badge-plan">Central Control</div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main Business</div>
+      <a href="dashboard.html" class="nav-item"><div class="nav-icon"><i class="fas fa-chart-pie"></i></div><div class="nav-label">Master Dashboard</div></a>
+      <a href="hotels.html" class="nav-item"><div class="nav-icon"><i class="fas fa-hotel"></i></div><div class="nav-label">Manage Hotels</div></a>
+      <a href="users.html" class="nav-item"><div class="nav-icon"><i class="fas fa-users"></i></div><div class="nav-label">Manage Travellers</div></a>
+      <div class="nav-section-label">Finance</div>
+      <a href="commissions.html" class="nav-item"><div class="nav-icon"><i class="fas fa-coins"></i></div><div class="nav-label">Commission Engine</div></a>
+      <a href="payment-approvals.html" class="nav-item active"><div class="nav-icon"><i class="fas fa-hand-holding-usd"></i></div><div class="nav-label">Payment Approvals</div></a>
+      <div class="nav-section-label">Intelligence</div>
+      <a href="intelligence.html" class="nav-item"><div class="nav-icon"><i class="fas fa-brain"></i></div><div class="nav-label">Data Intelligence</div></a>
+      <a href="compliance.html" class="nav-item"><div class="nav-icon"><i class="fas fa-file-contract"></i></div><div class="nav-label">Compliance & Risk</div></a>
+      <a href="suspect_list.html" class="nav-item"><div class="nav-icon"><i class="fas fa-user-secret"></i></div><div class="nav-label">Suspect List</div></a>
+      <div class="nav-section-label">Operations</div>
+      <a href="send_alert.html" class="nav-item"><div class="nav-icon"><i class="fas fa-paper-plane"></i></div><div class="nav-label">Send Alert</div></a>
+      <a href="sales-team.html" class="nav-item"><div class="nav-icon"><i class="fas fa-briefcase"></i></div><div class="nav-label">Sales Team</div></a>
+      <a href="support.html" class="nav-item"><div class="nav-icon"><i class="fas fa-headset"></i></div><div class="nav-label">Support Desk</div></a>
+      <a href="../login.html" class="nav-item nav-item-logout"><div class="nav-icon"><i class="fas fa-sign-out-alt"></i></div><div class="nav-label">Logout</div></a>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="sidebar-toggle"><i class="fas fa-angle-left toggle-icon"></i><span>Collapse Sidebar</span></button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <header class="topbar">
+      <button class="topbar-mobile-menu"><i class="fas fa-bars"></i></button>
+      <div class="topbar-title">Payment Approvals <span>Hotel settlement requests</span></div>
+      <div class="topbar-actions">
+        <button class="topbar-btn theme-toggle-btn" onclick="toggleTheme()"></button>
+        <div class="topbar-date">March 7, 2026</div>
+        <button class="topbar-btn"><i class="fas fa-bell"></i><span class="notif-dot"></span></button>
+        <div class="topbar-profile">
+          <div class="profile-avatar">S</div>
+          <div class="profile-info"><strong>Super Admin</strong><span>System Owner</span></div>
+        </div>
+      </div>
+    </header>
+
+    <div class="page-wrapper">
+      <!-- KPIs -->
+      <div class="summary-chips">
+        <div class="summary-chip">
+          <div class="chip-icon" style="background:var(--warning-bg);color:var(--warning);"><i class="fas fa-clock"></i></div>
+          <div><div class="chip-label">Pending</div><div class="chip-val">12</div></div>
+        </div>
+        <div class="summary-chip">
+          <div class="chip-icon" style="background:var(--success-bg);color:var(--success);"><i class="fas fa-check-circle"></i></div>
+          <div><div class="chip-label">Approved Today</div><div class="chip-val">7</div></div>
+        </div>
+        <div class="summary-chip">
+          <div class="chip-icon" style="background:var(--danger-bg);color:var(--danger);"><i class="fas fa-times-circle"></i></div>
+          <div><div class="chip-label">Rejected</div><div class="chip-val">2</div></div>
+        </div>
+        <div class="summary-chip">
+          <div class="chip-icon" style="background:var(--info-bg);color:var(--info);"><i class="fas fa-rupee-sign"></i></div>
+          <div><div class="chip-label">Pending Amount</div><div class="chip-val">₹18.4L</div></div>
+        </div>
+        <div class="summary-chip">
+          <div class="chip-icon" style="background:rgba(124,77,255,0.12);color:var(--secondary);"><i class="fas fa-money-check-alt"></i></div>
+          <div><div class="chip-label">Settled (MTD)</div><div class="chip-val">₹4.2 Cr</div></div>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="filter-row">
+        <input type="text" class="form-control filter-search" placeholder="🔍 Search by Hotel, ID or amount..." />
+        <select class="form-control" style="width:auto;">
+          <option>All Status</option>
+          <option selected>Pending</option>
+          <option>Approved</option>
+          <option>Rejected</option>
+        </select>
+        <select class="form-control" style="width:auto;">
+          <option>All States</option>
+          <option>Maharashtra</option>
+          <option>Delhi</option>
+          <option>UP</option>
+          <option>Rajasthan</option>
+        </select>
+        <input type="date" class="form-control" style="width:auto;" value="2026-03-07" />
+        <button class="btn btn-outline btn-sm"><i class="fas fa-file-export"></i> Export</button>
+        <button class="btn btn-primary btn-sm" onclick="approveAll()"><i class="fas fa-check-double"></i> Approve All</button>
+      </div>
+
+      <!-- ═══ PENDING REQUESTS ═══ -->
+      <div style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--text-muted);margin-bottom:12px;">🟡 Pending Approval (12)</div>
+
+      <!-- Request 1 -->
+      <div class="req-card pending-card">
+        <div class="req-header">
+          <div>
+            <div class="req-id">TXF-260307-4921</div>
+            <div style="margin-top:4px;">
+              <div class="hotel-badge-sm">
+                <div class="hotel-avatar">🏨</div>
+                <div>
+                  <div class="hotel-name">Grand Palace Hotel</div>
+                  <div class="hotel-sub">Varanasi, UP · Owner: Rajesh Kumar</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
+            <span class="badge badge-warning"><i class="fas fa-clock"></i> Pending Review</span>
+            <div style="font-size:0.75rem;color:var(--text-muted);">Submitted: Mar 7, 10:45 AM</div>
+          </div>
+        </div>
+        <div class="req-body">
+          <div class="req-field">
+            <div class="req-field-label">Transfer Amount</div>
+            <div class="req-field-val" style="font-size:1.2rem;color:var(--accent);">₹50,000</div>
+          </div>
+          <div class="req-field">
+            <div class="req-field-label">Platform Fee (10%)</div>
+            <div class="req-field-val" style="color:var(--danger);">₹5,000</div>
+          </div>
+          <div class="req-field">
+            <div class="req-field-label">Net Payable</div>
+            <div class="req-field-val" style="color:var(--success);">₹44,100</div>
+          </div>
+          <div class="req-field">
+            <div class="req-field-label">Mode</div>
+            <div class="req-field-val">NEFT</div>
+          </div>
+          <div class="req-field">
+            <div class="req-field-label">Period</div>
+            <div class="req-field-val">Mar 1 – Mar 7</div>
+          </div>
+          <div class="req-field">
+            <div class="req-field-label">Risk Score</div>
+            <div class="req-field-val" style="color:var(--success);">Low (18/100)</div>
+            <div class="risk-bar"><div class="risk-fill risk-low" style="width:18%;"></div></div>
+          </div>
+        </div>
+        <div class="req-expand" id="expand-1">
+          <div class="detail-grid">
+            <div class="detail-item"><div class="detail-label">Bank</div><div class="detail-val">HDFC Bank</div></div>
+            <div class="detail-item"><div class="detail-label">Account No.</div><div class="detail-val">5010020394812•</div></div>
+            <div class="detail-item"><div class="detail-label">IFSC</div><div class="detail-val">HDFC0001234</div></div>
+            <div class="detail-item"><div class="detail-label">Account Type</div><div class="detail-val">Current Account</div></div>
+            <div class="detail-item"><div class="detail-label">Previous Transfers</div><div class="detail-val">4 approved, 0 rejected</div></div>
+            <div class="detail-item"><div class="detail-label">KYC Status</div><div class="detail-val" style="color:var(--success);">✓ Verified</div></div>
+            <div class="detail-item"><div class="detail-label">GST on Fee</div><div class="detail-val" style="color:var(--danger);">₹900</div></div>
+            <div class="detail-item"><div class="detail-label">Document</div><div class="detail-val" style="color:var(--accent);cursor:pointer;"><i class="fas fa-file-pdf"></i> View Attached</div></div>
+          </div>
+          <div style="margin-top:14px;padding:12px;background:var(--bg-input);border-radius:var(--radius-md);font-size:0.83rem;">
+            <strong>Remarks:</strong> <span style="color:var(--text-secondary);">Monthly settlement for bookings Mar 1–7, 2026</span>
+          </div>
+        </div>
+        <div class="req-footer">
+          <button onclick="toggleExpand('expand-1')" style="background:none;border:none;color:var(--accent);font-size:0.82rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;">
+            <i class="fas fa-chevron-down" id="expand-1-icon"></i> View Bank Details
+          </button>
+          <div class="req-actions">
+            <button class="btn btn-outline btn-sm" onclick="openModal('viewDoc')"><i class="fas fa-paperclip"></i> View Document</button>
+            <button class="btn-reject" onclick="openReject('TXF-260307-4921')"><i class="fas fa-times"></i> Reject</button>
+            <button class="btn-approve" onclick="approveRequest('req-card-1','₹50,000','Grand Palace Hotel')"><i class="fas fa-check"></i> Approve & Transfer</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Request 2 -->
+      <div class="req-card pending-card" id="req-card-2">
+        <div class="req-header">
+          <div>
+            <div class="req-id">TXF-260307-3812</div>
+            <div style="margin-top:4px;">
+              <div class="hotel-badge-sm">
+                <div class="hotel-avatar">🏖️</div>
+                <div>
+                  <div class="hotel-name">Seaside Resort Goa</div>
+                  <div class="hotel-sub">Panaji, Goa · Owner: Sunita Patel</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
+            <span class="badge badge-warning"><i class="fas fa-clock"></i> Pending Review</span>
+            <div style="font-size:0.75rem;color:var(--text-muted);">Submitted: Mar 7, 09:12 AM</div>
+          </div>
+        </div>
+        <div class="req-body">
+          <div class="req-field">
+            <div class="req-field-label">Transfer Amount</div>
+            <div class="req-field-val" style="font-size:1.2rem;color:var(--accent);">₹2,40,000</div>
+          </div>
+          <div class="req-field">
+            <div class="req-field-label">Platform Fee (10%)</div>
+            <div class="req-field-val" style="color:var(--danger);">₹24,000</div>
+          </div>
+          <div class="req-field">
+            <div class="req-field-label">Net Payable</div>
+            <div class="req-field-val" style="color:var(--success);">₹2,11,680</div>
+          </div>
+          <div class="req-field">
+            <div class="req-field-label">Mode</div>
+            <div class="req-field-val">RTGS</div>
+          </div>
+          <div class="req-field">
+            <div class="req-field-label">Period</div>
+            <div class="req-field-val">Feb 25 – Mar 7</div>
+          </div>
+          <div class="req-field">
+            <div class="req-field-label">Risk Score</div>
+            <div class="req-field-val" style="color:var(--warning);">Medium (54/100)</div>
+            <div class="risk-bar"><div class="risk-fill risk-medium" style="width:54%;"></div></div>
+          </div>
+        </div>
+        <div class="req-expand" id="expand-2">
+          <div class="detail-grid">
+            <div class="detail-item"><div class="detail-label">Bank</div><div class="detail-val">SBI</div></div>
+            <div class="detail-item"><div class="detail-label">Account No.</div><div class="detail-val">3209 8821 4490•</div></div>
+            <div class="detail-item"><div class="detail-label">IFSC</div><div class="detail-val">SBIN0004221</div></div>
+            <div class="detail-item"><div class="detail-label">Account Type</div><div class="detail-val">Current Account</div></div>
+            <div class="detail-item"><div class="detail-label">Previous Transfers</div><div class="detail-val">2 approved, 1 pending</div></div>
+            <div class="detail-item"><div class="detail-label">KYC Status</div><div class="detail-val" style="color:var(--success);">✓ Verified</div></div>
+          </div>
+          <div style="margin-top:14px;padding:12px;background:var(--warning-bg);border:1px solid rgba(255,111,0,0.2);border-radius:var(--radius-md);font-size:0.83rem;display:flex;gap:10px;">
+            <i class="fas fa-exclamation-triangle" style="color:var(--warning);margin-top:2px;"></i>
+            <span><strong style="color:var(--warning);">Medium Risk Flag:</strong> <span style="color:var(--text-secondary);">Unusual transfer spike — 3x higher than last period. Verify booking revenue before approval.</span></span>
+          </div>
+        </div>
+        <div class="req-footer">
+          <button onclick="toggleExpand('expand-2')" style="background:none;border:none;color:var(--accent);font-size:0.82rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;">
+            <i class="fas fa-chevron-down" id="expand-2-icon"></i> View Bank Details
+          </button>
+          <div class="req-actions">
+            <button class="btn btn-outline btn-sm"><i class="fas fa-chart-bar"></i> View Revenue Data</button>
+            <button class="btn-reject" onclick="openReject('TXF-260307-3812')"><i class="fas fa-times"></i> Reject</button>
+            <button class="btn-approve" onclick="approveRequest('req-card-2','₹2,40,000','Seaside Resort Goa')"><i class="fas fa-check"></i> Approve & Transfer</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Request 3 — HIGH RISK -->
+      <div class="req-card pending-card">
+        <div class="req-header">
+          <div>
+            <div class="req-id">TXF-260307-2210</div>
+            <div style="margin-top:4px;">
+              <div class="hotel-badge-sm">
+                <div class="hotel-avatar">⛰️</div>
+                <div>
+                  <div class="hotel-name">Mountain View Retreat</div>
+                  <div class="hotel-sub">Shimla, HP · Owner: Vikram Singh</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
+            <div style="display:flex;gap:6px;">
+              <span class="badge badge-danger"><i class="fas fa-exclamation-triangle"></i> High Risk</span>
+              <span class="badge badge-warning">Pending</span>
+            </div>
+            <div style="font-size:0.75rem;color:var(--text-muted);">Submitted: Mar 6, 11:58 PM</div>
+          </div>
+        </div>
+        <div class="req-body">
+          <div class="req-field">
+            <div class="req-field-label">Transfer Amount</div>
+            <div class="req-field-val" style="font-size:1.2rem;color:var(--accent);">₹5,80,000</div>
+          </div>
+          <div class="req-field">
+            <div class="req-field-label">Platform Fee (10%)</div>
+            <div class="req-field-val" style="color:var(--danger);">₹58,000</div>
+          </div>
+          <div class="req-field">
+            <div class="req-field-label">Net Payable</div>
+            <div class="req-field-val" style="color:var(--success);">₹5,07,480</div>
+          </div>
+          <div class="req-field">
+            <div class="req-field-label">Mode</div>
+            <div class="req-field-val">RTGS</div>
+          </div>
+          <div class="req-field">
+            <div class="req-field-label">Period</div>
+            <div class="req-field-val">Feb 1 – Mar 6</div>
+          </div>
+          <div class="req-field">
+            <div class="req-field-label">Risk Score</div>
+            <div class="req-field-val" style="color:var(--danger);">High (87/100)</div>
+            <div class="risk-bar"><div class="risk-fill risk-high" style="width:87%;"></div></div>
+          </div>
+        </div>
+        <div class="req-footer">
+          <div style="font-size:0.8rem;color:var(--danger);font-weight:600;"><i class="fas fa-flag"></i> Compliance review required before approval</div>
+          <div class="req-actions">
+            <button class="btn btn-outline btn-sm"><i class="fas fa-file-contract"></i> Flag for Compliance</button>
+            <button class="btn-reject" onclick="openReject('TXF-260307-2210')"><i class="fas fa-times"></i> Reject</button>
+            <button class="btn-approve" onclick="approveRequest('req-card-3','₹5,80,000','Mountain View Retreat')"><i class="fas fa-check"></i> Approve Anyway</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ RECENTLY APPROVED ═══ -->
+      <div style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--text-muted);margin:24px 0 12px;">✅ Recently Approved</div>
+
+      <div class="req-card approved-card">
+        <div class="req-header">
+          <div>
+            <div class="req-id">TXF-260306-8821</div>
+            <div style="margin-top:4px;">
+              <div class="hotel-badge-sm">
+                <div class="hotel-avatar">🏙️</div>
+                <div>
+                  <div class="hotel-name">City Stay Delhi</div>
+                  <div class="hotel-sub">Connaught Place, Delhi · Owner: Anita Sharma</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
+            <span class="badge badge-success"><i class="fas fa-check-circle"></i> Approved</span>
+            <div style="font-size:0.75rem;color:var(--text-muted);">Approved by: Super Admin · Mar 6, 02:30 PM</div>
+          </div>
+        </div>
+        <div class="req-body">
+          <div class="req-field"><div class="req-field-label">Transfer Amount</div><div class="req-field-val" style="color:var(--accent);">₹1,12,000</div></div>
+          <div class="req-field"><div class="req-field-label">Net Transferred</div><div class="req-field-val" style="color:var(--success);">₹98,560</div></div>
+          <div class="req-field"><div class="req-field-label">Mode</div><div class="req-field-val">NEFT</div></div>
+          <div class="req-field"><div class="req-field-label">Bank Ref.</div><div class="req-field-val" style="font-family:monospace;">HDFC240306882</div></div>
+        </div>
+        <div class="req-footer">
+          <div style="font-size:0.82rem;color:var(--success);font-weight:600;"><i class="fas fa-check"></i> Transferred to bank · Credit expected: Mar 8</div>
+          <div class="req-actions">
+            <button class="btn btn-outline btn-sm"><i class="fas fa-download"></i> Receipt</button>
+            <button class="btn btn-ghost btn-sm"><i class="fas fa-undo"></i> Reverse</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ REJECTED ═══ -->
+      <div style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--text-muted);margin:24px 0 12px;">❌ Rejected</div>
+
+      <div class="req-card rejected-card">
+        <div class="req-header">
+          <div>
+            <div class="req-id">TXF-260305-1144</div>
+            <div style="margin-top:4px;">
+              <div class="hotel-badge-sm">
+                <div class="hotel-avatar">🌿</div>
+                <div>
+                  <div class="hotel-name">Nature Inn Rishikesh</div>
+                  <div class="hotel-sub">Tapovan, Uttarakhand · Owner: Ramesh Negi</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <span class="badge badge-danger"><i class="fas fa-times-circle"></i> Rejected</span>
+        </div>
+        <div class="req-body">
+          <div class="req-field"><div class="req-field-label">Requested Amount</div><div class="req-field-val" style="color:var(--text-muted);">₹80,000</div></div>
+          <div class="req-field"><div class="req-field-label">Rejection Date</div><div class="req-field-val">Mar 5, 2026</div></div>
+          <div class="req-field"><div class="req-field-label">Rejected By</div><div class="req-field-val">Super Admin</div></div>
+        </div>
+        <div class="req-footer">
+          <div style="display:flex;align-items:flex-start;gap:8px;padding:10px 14px;background:var(--danger-bg);border:1px solid rgba(244,67,54,0.2);border-radius:var(--radius-md);font-size:0.82rem;max-width:420px;">
+            <i class="fas fa-comment-slash" style="color:var(--danger);margin-top:2px;"></i>
+            <span><strong style="color:var(--danger);">Reason:</strong> <span style="color:var(--text-secondary);">Mismatched bank account details. KYC documents do not match account holder name. Please update bank info and resubmit.</span></span>
+          </div>
+          <div class="req-actions">
+            <button class="btn btn-outline btn-sm"><i class="fas fa-envelope"></i> Notify Owner</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Reject Reason Modal -->
+  <div class="reject-floating" id="rejectModal">
+    <div class="reject-box">
+      <h4 style="margin-bottom:6px;"><i class="fas fa-times-circle" style="color:var(--danger);margin-right:8px;"></i>Reject Transfer</h4>
+      <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:20px;">Request ID: <strong id="rejectId"></strong></p>
+      <div class="form-group">
+        <label class="form-label">Rejection Reason</label>
+        <select class="form-control" id="rejectReason">
+          <option>-- Select Reason --</option>
+          <option>Mismatched bank account details</option>
+          <option>KYC documents expired or invalid</option>
+          <option>Insufficient booking revenue to justify transfer</option>
+          <option>Suspicious activity detected</option>
+          <option>Duplicate transfer request</option>
+          <option>Other (specify below)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Additional Notes</label>
+        <textarea class="form-control" rows="3" placeholder="Optional: add a note for the hotel owner..."></textarea>
+      </div>
+      <label style="display:flex;align-items:center;gap:8px;font-size:0.85rem;margin-bottom:20px;cursor:pointer;">
+        <input type="checkbox" id="notifyOwner" checked />
+        Notify hotel owner via email & SMS
+      </label>
+      <div style="display:flex;gap:10px;">
+        <button class="btn btn-ghost" style="flex:1;justify-content:center;" onclick="closeReject()">Cancel</button>
+        <button class="btn-reject" style="flex:1;justify-content:center;border-radius:var(--radius-full);padding:12px 18px;" onclick="confirmReject()"><i class="fas fa-times"></i> Confirm Rejection</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- View Doc Modal -->
+  <div class="modal-overlay" id="viewDoc">
+    <div class="modal" style="max-width:500px;text-align:center;">
+      <div class="modal-header"><h4><i class="fas fa-file-pdf" style="color:var(--danger);"></i> Attached Document</h4><button class="modal-close" onclick="closeModal('viewDoc')">✕</button></div>
+      <div style="background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-md);padding:40px;margin-bottom:20px;">
+        <i class="fas fa-file-pdf" style="font-size:3rem;color:var(--danger);display:block;margin-bottom:12px;"></i>
+        <div style="font-weight:700;margin-bottom:4px;">March_Settlement_GPH.pdf</div>
+        <div style="font-size:0.8rem;color:var(--text-muted);">2.4 MB · Uploaded Mar 7, 10:45 AM</div>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <button class="btn btn-outline" style="flex:1;justify-content:center;" onclick="closeModal('viewDoc')"><i class="fas fa-eye"></i> Preview</button>
+        <button class="btn btn-primary" style="flex:1;justify-content:center;"><i class="fas fa-download"></i> Download</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../assets/js/admin.js"></script>
+  <script>
+    function toggleExpand(id) {
+      const el = document.getElementById(id);
+      const icon = document.getElementById(id+'-icon');
+      el.classList.toggle('open');
+      if(icon) icon.style.transform = el.classList.contains('open') ? 'rotate(180deg)' : '';
+    }
+
+    let currentRejectId = '';
+    function openReject(id) {
+      currentRejectId = id;
+      document.getElementById('rejectId').textContent = id;
+      document.getElementById('rejectModal').classList.add('active');
+    }
+    function closeReject() {
+      document.getElementById('rejectModal').classList.remove('active');
+    }
+    function confirmReject() {
+      const reason = document.getElementById('rejectReason').value;
+      if(reason === '-- Select Reason --') { alert('Please select a rejection reason.'); return; }
+      closeReject();
+      showToast('❌ Transfer request rejected. Owner notified.');
+    }
+
+    function approveRequest(cardId, amount, hotelName) {
+      if(!confirm(`Approve transfer of ${amount} to ${hotelName}? This will initiate a bank transfer.`)) return;
+      showToast(`✅ ₹${amount} approved for ${hotelName}. Transfer initiated!`);
+    }
+
+    function approveAll() {
+      if(!confirm('Approve all pending low-risk requests? This action cannot be undone.')) return;
+      showToast('✅ All low-risk requests approved. Bank transfers initiated.');
+    }
+
+    function showToast(msg) {
+      let toast = document.createElement('div');
+      toast.textContent = msg;
+      toast.style.cssText = 'position:fixed;bottom:24px;right:24px;background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:14px 20px;font-size:0.88rem;font-weight:600;z-index:9999;box-shadow:var(--shadow-md);animation:fadeIn 0.3s ease;max-width:340px;';
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 3500);
+    }
+
+    function openModal(id){ document.getElementById(id).classList.add('active'); }
+    function closeModal(id){ document.getElementById(id).classList.remove('active'); }
+  </script>
+</body>
+</html>

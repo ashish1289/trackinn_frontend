@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Payment Failed — TRACKINN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script src="../assets/js/theme.js"></script>
+  <link rel="stylesheet" href="../assets/css/main.css" />
+  <link rel="stylesheet" href="../assets/css/user.css" />
+  <style>
+    .fail-page { min-height: calc(100vh - 64px); display: flex; align-items: center; justify-content: center; padding: 24px 16px; }
+    .fail-wrap { width: 100%; max-width: 540px; }
+
+    @keyframes shake { 0%,100%{transform:translateX(0)} 15%{transform:translateX(-8px)} 30%{transform:translateX(8px)} 45%{transform:translateX(-6px)} 60%{transform:translateX(6px)} 75%{transform:translateX(-4px)} 90%{transform:translateX(4px)} }
+    @keyframes slideUp { from{opacity:0;transform:translateY(32px)} to{opacity:1;transform:translateY(0)} }
+
+    .fail-icon { width: 96px; height: 96px; border-radius: 50%; background: linear-gradient(135deg, #f44336, #ff7043); display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-size: 2.4rem; color: #fff; box-shadow: 0 8px 32px rgba(244,67,54,0.4); animation: shake 0.6s 0.3s ease; }
+
+    .fail-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 40px 32px; text-align: center; position: relative; overflow: hidden; animation: slideUp 0.5s ease both; }
+    .fail-card::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; background:linear-gradient(90deg,#f44336,#ff7043,#ff6f00); }
+
+    .error-code { display: inline-flex; align-items: center; gap: 8px; background: var(--danger-bg); border: 1px solid rgba(244,67,54,0.25); border-radius: var(--radius-full); padding: 8px 18px; font-size: 0.82rem; font-weight: 700; color: var(--danger); margin-bottom: 20px; }
+
+    .reason-list { text-align: left; margin: 20px 0; display: flex; flex-direction: column; gap: 10px; }
+    .reason-item { display: flex; align-items: flex-start; gap: 12px; padding: 14px; background: var(--bg-input); border: 1px solid var(--border); border-radius: var(--radius-md); }
+    .reason-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--danger); flex-shrink: 0; margin-top: 6px; }
+    .reason-text { font-size: 0.86rem; color: var(--text-secondary); line-height: 1.5; }
+    .reason-text strong { color: var(--text-primary); display: block; margin-bottom: 2px; }
+
+    .refund-note { display: flex; align-items: flex-start; gap: 12px; padding: 16px; background: rgba(0,188,212,0.06); border: 1px solid rgba(0,188,212,0.2); border-radius: var(--radius-md); text-align: left; margin-top: 20px; }
+    .refund-note i { color: var(--accent); margin-top: 2px; flex-shrink: 0; }
+    .refund-note p { font-size: 0.84rem; color: var(--text-secondary); line-height: 1.5; }
+
+    .action-row { display: flex; gap: 10px; margin-top: 24px; flex-wrap: wrap; }
+    .action-row .btn { flex: 1; justify-content: center; }
+
+    .support-link { text-align: center; margin-top: 20px; font-size: 0.82rem; color: var(--text-muted); }
+    .support-link a { color: var(--accent); font-weight: 600; }
+
+    .attempt-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--warning-bg); border: 1px solid rgba(255,111,0,0.2); border-radius: var(--radius-full); padding: 6px 14px; font-size: 0.78rem; font-weight: 700; color: var(--warning); margin-bottom: 16px; }
+  </style>
+</head>
+<body class="user-body">
+
+  <header class="user-header">
+    <a href="dashboard.html" class="user-header-logo"><div class="logo-dot">🏨</div>TRACK<em>INN</em></a>
+    <div class="user-header-actions">
+      <button class="user-icon-btn theme-toggle-btn" onclick="toggleTheme()"></button>
+      <a href="profile.html" class="user-avatar-btn">AM</a>
+    </div>
+  </header>
+
+  <div class="fail-page">
+    <div class="fail-wrap">
+      <div class="fail-card">
+        <!-- Icon -->
+        <div class="fail-icon">✕</div>
+
+        <h1 style="font-size:1.6rem;font-weight:900;margin-bottom:8px;color:var(--danger);">Payment Failed</h1>
+        <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:16px;">We couldn't process your payment. Don't worry — your booking is still saved.</p>
+
+        <div class="error-code"><i class="fas fa-exclamation-circle"></i> Error: PAYMENT_DECLINED · Code 402</div>
+        <div class="attempt-badge"><i class="fas fa-redo"></i> Attempt 1 of 3</div>
+
+        <!-- Reasons -->
+        <div class="reason-list">
+          <div class="reason-item">
+            <div class="reason-dot"></div>
+            <div class="reason-text">
+              <strong>Possible Reason: Insufficient Funds</strong>
+              Your bank may have declined the transaction due to insufficient balance.
+            </div>
+          </div>
+          <div class="reason-item">
+            <div class="reason-dot"></div>
+            <div class="reason-text">
+              <strong>Incorrect Card Details</strong>
+              Check that your card number, expiry date, or CVV were entered correctly.
+            </div>
+          </div>
+          <div class="reason-item">
+            <div class="reason-dot"></div>
+            <div class="reason-text">
+              <strong>Bank Network Issue</strong>
+              Your bank's server may be temporarily unavailable. Please try again or use a different method.
+            </div>
+          </div>
+        </div>
+
+        <!-- Refund Note -->
+        <div class="refund-note">
+          <i class="fas fa-info-circle"></i>
+          <p>If any amount was debited from your account, it will be automatically refunded within <strong>5-7 business days</strong>. You'll receive a confirmation SMS & email once processed.</p>
+        </div>
+
+        <!-- Booked details preserved -->
+        <div style="background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-md);padding:14px;margin-top:20px;text-align:left;">
+          <div style="font-size:0.75rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">Booking On Hold</div>
+          <div style="display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:6px;">
+            <span style="color:var(--text-muted);">Hotel</span><span style="font-weight:700;">Taj Residency Varanasi</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:6px;">
+            <span style="color:var(--text-muted);">Check-in</span><span style="font-weight:700;">Feb 22, 2026</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:0.85rem;">
+            <span style="color:var(--text-muted);">Amount</span><span style="font-weight:700;color:var(--danger);">₹5,128 (not charged)</span>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="action-row">
+          <a href="payment.html" class="btn btn-primary"><i class="fas fa-redo"></i> Retry Payment</a>
+          <a href="payment.html" class="btn btn-outline"><i class="fas fa-exchange-alt"></i> Try Another Method</a>
+        </div>
+        <button class="btn btn-ghost" style="width:100%;margin-top:10px;justify-content:center;" onclick="cancelBooking()">
+          <i class="fas fa-times"></i> Cancel Booking
+        </button>
+      </div>
+
+      <div class="support-link">
+        Need help? <a href="#">Contact Support</a> · <a href="#">Live Chat</a>
+      </div>
+      <div style="text-align:center;margin-top:12px;">
+        <a href="dashboard.html" style="color:var(--text-muted);font-size:0.85rem;">← Back to Home</a>
+      </div>
+    </div>
+  </div>
+
+  <nav class="bottom-nav">
+    <a href="dashboard.html" class="bnav-item"><span class="bnav-icon">🏠</span><span class="bnav-label">Home</span></a>
+    <a href="search.html" class="bnav-item"><span class="bnav-icon">🔍</span><span class="bnav-label">Search</span></a>
+    <a href="my-bookings.html" class="bnav-item"><span class="bnav-icon">📅</span><span class="bnav-label">Bookings</span></a>
+    <a href="rewards.html" class="bnav-item"><span class="bnav-icon">🎁</span><span class="bnav-label">Rewards</span></a>
+    <a href="profile.html" class="bnav-item"><span class="bnav-icon">👤</span><span class="bnav-label">Profile</span></a>
+  </nav>
+
+  <script src="../assets/js/user.js"></script>
+  <script>
+    function cancelBooking() {
+      if(confirm('Cancel this booking? This cannot be undone.')) {
+        window.location.href = 'my-bookings.html';
+      }
+    }
+  </script>
+</body>
+</html>
