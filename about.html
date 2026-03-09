@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us — TRACKINN</title>
+  <meta name="description" content="Learn about TRACKINN — India's #1 Hotel Management SaaS. Our mission, team, and journey to transform hospitality technology in India." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="assets/js/theme.js"></script>
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="stylesheet" href="assets/css/landing.css" />
+  <style>
+    .page-hero { padding: 120px 40px 80px; text-align: center; background: var(--bg-body); position: relative; overflow: hidden; }
+    .page-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% -20%, rgba(124,77,255,0.15), transparent); pointer-events: none; }
+    .page-hero h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; margin-bottom: 20px; }
+    .page-hero p { font-size: 1.15rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto; }
+    .content-section { padding: 80px 40px; }
+    .content-section:nth-child(even) { background: var(--bg-card); }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+    @media (max-width: 768px) { .two-col { grid-template-columns: 1fr; } }
+    .stat-box { background: var(--bg-input); border: 1px solid var(--border); border-radius: 16px; padding: 28px; text-align: center; }
+    .stat-box .num { font-size: 2.5rem; font-weight: 900; background: linear-gradient(135deg, var(--accent), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .stat-box p { color: var(--text-muted); font-size: 0.9rem; margin-top: 6px; }
+    .team-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 28px; text-align: center; transition: transform 0.2s, box-shadow 0.2s; }
+    .team-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.15); }
+    .team-avatar { width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--secondary)); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin: 0 auto 16px; }
+    .team-name { font-weight: 700; font-size: 1rem; }
+    .team-role { color: var(--accent); font-size: 0.85rem; font-weight: 600; margin-top: 4px; }
+    .team-bio { color: var(--text-muted); font-size: 0.82rem; margin-top: 8px; line-height: 1.6; }
+    .value-item { display: flex; gap: 16px; align-items: flex-start; padding: 20px; background: var(--bg-input); border-radius: 12px; border: 1px solid var(--border); }
+    .value-icon { font-size: 1.6rem; flex-shrink: 0; }
+  </style>
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">🏨</div>
+      <span>TRACK<em>INN</em></span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html#features">Features</a>
+      <a href="index.html#modules">Modules</a>
+      <a href="index.html#pricing">Pricing</a>
+      <a href="index.html#testimonials">Reviews</a>
+      <a href="about.html">About Us</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="nav-actions">
+      <button class="btn btn-ghost btn-icon theme-toggle-btn" onclick="toggleTheme()" style="padding: 10px; font-size: 1.1rem; border-radius: 50%;"><i class="fas fa-sun"></i></button>
+      <a href="login.html" class="btn btn-ghost btn-sm">Login</a>
+      <a href="register.html" class="btn btn-primary btn-sm">Start Free Trial</a>
+    </div>
+    <button class="nav-hamburger" id="hamburgerBtn" aria-label="Menu"><span></span><span></span><span></span></button>
+  </nav>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="javascript:void(0)" onclick="toggleTheme()" class="theme-toggle-btn">☀️ Toggle Theme</a>
+    <a href="index.html#features" onclick="closeMenu()">🚀 Features</a>
+    <a href="index.html#modules" onclick="closeMenu()">📦 Modules</a>
+    <a href="index.html#pricing" onclick="closeMenu()">💰 Pricing</a>
+    <a href="index.html#testimonials" onclick="closeMenu()">⭐ Reviews</a>
+    <a href="contact.html" onclick="closeMenu()">📞 Contact</a>
+    <a href="login.html">🔐 Login</a>
+    <a href="register.html" class="btn btn-primary" style="text-align:center;border-radius:12px;padding:14px;display:block;">Start Free Trial →</a>
+  </div>
+
+  <!-- Hero -->
+  <div class="page-hero">
+    <div class="section-label">Our Story</div>
+    <h1>We're Building the <span class="gradient-text">Future of Hospitality</span></h1>
+    <p>TRACKINN was born out of frustration with clunky, expensive, outdated hotel software. We set out to build something that hotel owners in India actually love using.</p>
+  </div>
+
+  <!-- Mission -->
+  <div class="content-section">
+    <div class="container">
+      <div class="two-col">
+        <div>
+          <div class="section-label">Our Mission</div>
+          <h2 style="font-size:2rem; font-weight:800; margin-bottom:20px;">Empowering Every <span class="gradient-text">Indian Hotelier</span></h2>
+          <p style="color:var(--text-secondary); line-height:1.8; margin-bottom:16px;">India has over 5 million hotel rooms spread across thousands of properties — from luxury 5-stars to small budget guesthouses in Tier-2 and Tier-3 cities. Most of these properties still use pen-and-paper registers, disconnected spreadsheets, or expensive legacy software that wasn't built for Indian operations.</p>
+          <p style="color:var(--text-secondary); line-height:1.8; margin-bottom:16px;">We built TRACKINN to change that. Our platform is designed ground-up for Indian hotel operators — with GST invoicing, Aadhaar KYC capture, Sarai API compliance, and UPI payment integration baked into every feature.</p>
+          <p style="color:var(--text-secondary); line-height:1.8;">Our mission is simple: <strong>make world-class hotel management accessible to every Indian hotelier, regardless of size.</strong></p>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div class="stat-box"><div class="num">2,400+</div><p>Hotels on Platform</p></div>
+          <div class="stat-box"><div class="num">₹120Cr+</div><p>Revenue Tracked</p></div>
+          <div class="stat-box"><div class="num">24</div><p>States Covered</p></div>
+          <div class="stat-box"><div class="num">98.6%</div><p>Customer Satisfaction</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Values -->
+  <div class="content-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">What We Stand For</div>
+        <h2>Our Core <span class="gradient-text">Values</span></h2>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-top: 40px;">
+        <div class="value-item"><div class="value-icon">💡</div><div><h5 style="font-weight:700;margin-bottom:6px;">Built for India First</h5><p style="color:var(--text-muted);font-size:0.9rem;line-height:1.6;">Every feature is designed with Indian hotel operations, compliance, and workflows in mind. We understand FORM C, Sarai reporting, and GST intimately.</p></div></div>
+        <div class="value-item"><div class="value-icon">🔒</div><div><h5 style="font-weight:700;margin-bottom:6px;">Data Privacy & Security</h5><p style="color:var(--text-muted);font-size:0.9rem;line-height:1.6;">Guest data is sensitive. We encrypt all personal information, follow DPDP Act guidelines, and never share hotel data with third parties.</p></div></div>
+        <div class="value-item"><div class="value-icon">🤝</div><div><h5 style="font-weight:700;margin-bottom:6px;">Customer Obsession</h5><p style="color:var(--text-muted);font-size:0.9rem;line-height:1.6;">We treat every hotel owner like a partner. Our support team speaks Hindi, Tamil, Telugu, and 8 other Indian languages to ensure every hotelier gets help they understand.</p></div></div>
+        <div class="value-item"><div class="value-icon">⚡</div><div><h5 style="font-weight:700;margin-bottom:6px;">Move Fast, Break Nothing</h5><p style="color:var(--text-muted);font-size:0.9rem;line-height:1.6;">We ship new features every two weeks. But stability is sacred — we maintain a 99.9% uptime SLA so your hotel operations are never disrupted.</p></div></div>
+        <div class="value-item"><div class="value-icon">🌿</div><div><h5 style="font-weight:700;margin-bottom:6px;">Sustainable Growth</h5><p style="color:var(--text-muted);font-size:0.9rem;line-height:1.6;">We grow with our customers. Our pricing is transparent, our contracts are flexible, and we never lock you into long-term commitments you can't exit.</p></div></div>
+        <div class="value-item"><div class="value-icon">📊</div><div><h5 style="font-weight:700;margin-bottom:6px;">Data-Driven Decisions</h5><p style="color:var(--text-muted);font-size:0.9rem;line-height:1.6;">We help hoteliers make smarter decisions with real-time analytics, AI-powered pricing suggestions, and demand forecasting — all out of the box.</p></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Team -->
+  <div class="content-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">The Team</div>
+        <h2>Meet the People <span class="gradient-text">Behind TRACKINN</span></h2>
+        <p>A passionate team of engineers, hospitality experts, and product designers — all deeply invested in transforming Indian hospitality.</p>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:24px; margin-top:40px;">
+        <div class="team-card">
+          <div class="team-avatar">👨‍💼</div>
+          <div class="team-name">Arjun Malhotra</div>
+          <div class="team-role">CEO & Co-founder</div>
+          <div class="team-bio">Former hospitality tech consultant with 12 years experience in IHG and Marriott. Built TRACKINN to solve problems he faced first-hand.</div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">👩‍💻</div>
+          <div class="team-name">Priya Krishnamurthy</div>
+          <div class="team-role">CTO & Co-founder</div>
+          <div class="team-bio">Ex-PayTM and Razorpay engineer. Leads all product engineering and infrastructure — obsessed with sub-50ms load times.</div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">👨‍🎨</div>
+          <div class="team-name">Rohan Desai</div>
+          <div class="team-role">Head of Product Design</div>
+          <div class="team-bio">Previously at Zomato. Believes hotel software should be as beautiful and intuitive as a consumer app.</div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">👩‍📊</div>
+          <div class="team-name">Sunita Agarwal</div>
+          <div class="team-role">VP, Customer Success</div>
+          <div class="team-bio">Ex-OYO operations head. Manages our 24/7 support team across 10 regional languages to help every hotel succeed.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <section class="section" style="background: var(--bg-card); text-align: center; padding: 80px 40px;">
+    <div class="container" style="max-width: 700px;">
+      <div class="section-label">Join the Movement</div>
+      <h2 style="font-size: 2.2rem; font-weight: 900; margin-bottom: 20px;">Ready to Transform Your <span class="gradient-text">Hotel Operations?</span></h2>
+      <p style="color: var(--text-secondary); margin-bottom: 40px;">Join 2,400+ hotel owners who've already moved to TRACKINN. Free to start, easy to scale.</p>
+      <div style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap;">
+        <a href="register.html" class="btn btn-primary btn-lg">🚀 Start Free Trial</a>
+        <a href="contact.html" class="btn btn-outline btn-lg">📞 Contact Sales</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo" style="margin-bottom:4px;display:inline-flex;"><div class="logo-icon">🏨</div><span>TRACK<em>INN</em></span></a>
+          <p>India's most powerful Hotel Management SaaS — built to automate operations, maximize revenue, and delight every guest.</p>
+          <div class="footer-social">
+            <a href="#" class="social-btn" title="Twitter">𝕏</a>
+            <a href="#" class="social-btn" title="LinkedIn">in</a>
+            <a href="#" class="social-btn" title="Instagram">▶</a>
+            <a href="#" class="social-btn" title="WhatsApp">📱</a>
+          </div>
+        </div>
+        <div class="footer-col"><h5>Product</h5><ul><li><a href="index.html#features">Features</a></li><li><a href="index.html#modules">Modules</a></li><li><a href="index.html#pricing">Pricing</a></li><li><a href="#">Changelog</a></li><li><a href="#">API Docs</a></li></ul></div>
+        <div class="footer-col"><h5>Company</h5><ul><li><a href="about.html">About Us</a></li><li><a href="#">Careers</a></li><li><a href="#">Blog</a></li><li><a href="#">Press Kit</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+        <div class="footer-col"><h5>Legal</h5><ul><li><a href="privacy-policy.html">Privacy Policy</a></li><li><a href="terms.html">Terms &amp; Conditions</a></li><li><a href="return-policy.html">Return Policy</a></li><li><a href="#">Help Center</a></li><li><a href="#">Sarai Guide</a></li></ul></div>
+      </div>
+      <div class="footer-bottom"><span>© 2026 TRACKINN Technologies Pvt. Ltd. All rights reserved.</span><span>Made with ❤️ in India 🇮🇳</span></div>
+    </div>
+  </footer>
+  <script>
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 40));
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const mobileNav = document.getElementById('mobileNav');
+    hamburgerBtn.addEventListener('click', () => { mobileNav.classList.toggle('open'); hamburgerBtn.classList.toggle('active'); });
+    function closeMenu() { mobileNav.classList.remove('open'); hamburgerBtn.classList.remove('active'); }
+  </script>
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us — TRACKINN</title>
+  <meta name="description" content="Get in touch with TRACKINN — we're here to help you set up your hotel management system, answer questions, and provide ongoing support." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="assets/js/theme.js"></script>
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="stylesheet" href="assets/css/landing.css" />
+  <style>
+    .page-hero { padding: 120px 40px 80px; text-align: center; position: relative; overflow: hidden; }
+    .page-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% -20%, rgba(124,77,255,0.15), transparent); pointer-events: none; }
+    .page-hero h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; margin-bottom: 20px; }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 60px; align-items: start; padding: 80px 40px; }
+    @media (max-width: 900px) { .contact-grid { grid-template-columns: 1fr; } }
+    .contact-info-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 36px; }
+    .contact-method { display: flex; gap: 16px; align-items: flex-start; padding: 20px 0; border-bottom: 1px solid var(--border); }
+    .contact-method:last-child { border-bottom: none; }
+    .contact-method-icon { width: 44px; height: 44px; border-radius: 12px; background: rgba(124,77,255,0.1); border: 1px solid rgba(124,77,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+    .contact-form-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 40px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+    .office-card { background: var(--bg-input); border: 1px solid var(--border); border-radius: 16px; padding: 24px; }
+  </style>
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="nav-logo"><div class="logo-icon">🏨</div><span>TRACK<em>INN</em></span></a>
+    <div class="nav-links">
+      <a href="index.html#features">Features</a>
+      <a href="index.html#modules">Modules</a>
+      <a href="index.html#pricing">Pricing</a>
+      <a href="index.html#testimonials">Reviews</a>
+      <a href="about.html">About Us</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="nav-actions">
+      <button class="btn btn-ghost btn-icon theme-toggle-btn" onclick="toggleTheme()" style="padding: 10px; font-size: 1.1rem; border-radius: 50%;"><i class="fas fa-sun"></i></button>
+      <a href="login.html" class="btn btn-ghost btn-sm">Login</a>
+      <a href="register.html" class="btn btn-primary btn-sm">Start Free Trial</a>
+    </div>
+    <button class="nav-hamburger" id="hamburgerBtn" aria-label="Menu"><span></span><span></span><span></span></button>
+  </nav>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="javascript:void(0)" onclick="toggleTheme()" class="theme-toggle-btn">☀️ Toggle Theme</a>
+    <a href="index.html#features" onclick="closeMenu()">🚀 Features</a>
+    <a href="index.html#modules" onclick="closeMenu()">📦 Modules</a>
+    <a href="index.html#pricing" onclick="closeMenu()">💰 Pricing</a>
+    <a href="index.html#testimonials" onclick="closeMenu()">⭐ Reviews</a>
+    <a href="contact.html" onclick="closeMenu()">📞 Contact</a>
+    <a href="login.html">🔐 Login</a>
+    <a href="register.html" class="btn btn-primary" style="text-align:center;border-radius:12px;padding:14px;display:block;">Start Free Trial →</a>
+  </div>
+
+  <div class="page-hero">
+    <div class="section-label">Get in Touch</div>
+    <h1>We're <span class="gradient-text">Here to Help</span></h1>
+    <p style="color:var(--text-secondary); max-width:540px; margin:0 auto;">Whether you need a product demo, have a support question, or want to explore our enterprise plans — our team is ready.</p>
+  </div>
+
+  <div class="contact-grid container">
+    <!-- Contact Info -->
+    <div>
+      <div class="contact-info-card" style="margin-bottom:24px;">
+        <h3 style="font-size:1.3rem; font-weight:700; margin-bottom:8px;">Contact Information</h3>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:24px;">Reach us through any channel — we typically respond within 2 hours during business hours.</p>
+        <div class="contact-method">
+          <div class="contact-method-icon">📧</div>
+          <div>
+            <div style="font-weight:600; margin-bottom:4px;">Email Support</div>
+            <div style="color:var(--accent); font-size:0.9rem;">support@trackinn.in</div>
+            <div style="color:var(--text-muted); font-size:0.82rem; margin-top:2px;">Response within 2 working hours</div>
+          </div>
+        </div>
+        <div class="contact-method">
+          <div class="contact-method-icon">📞</div>
+          <div>
+            <div style="font-weight:600; margin-bottom:4px;">Phone / WhatsApp</div>
+            <div style="color:var(--accent); font-size:0.9rem;">+91 98765 43210</div>
+            <div style="color:var(--text-muted); font-size:0.82rem; margin-top:2px;">Mon–Sat, 9 AM – 8 PM IST</div>
+          </div>
+        </div>
+        <div class="contact-method">
+          <div class="contact-method-icon">💬</div>
+          <div>
+            <div style="font-weight:600; margin-bottom:4px;">Live Chat</div>
+            <div style="color:var(--accent); font-size:0.9rem;">Available on the dashboard</div>
+            <div style="color:var(--text-muted); font-size:0.82rem; margin-top:2px;">24/7 AI + human support</div>
+          </div>
+        </div>
+        <div class="contact-method">
+          <div class="contact-method-icon">🏢</div>
+          <div>
+            <div style="font-weight:600; margin-bottom:4px;">Sales Enquiry</div>
+            <div style="color:var(--accent); font-size:0.9rem;">sales@trackinn.in</div>
+            <div style="color:var(--text-muted); font-size:0.82rem; margin-top:2px;">For enterprise & group bookings</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="office-card">
+        <h5 style="font-weight:700; margin-bottom:16px;">📍 Our Offices</h5>
+        <div style="margin-bottom:16px;">
+          <div style="font-weight:600; font-size:0.9rem; margin-bottom:4px;">🏙️ Headquarters — Bangalore</div>
+          <div style="color:var(--text-muted); font-size:0.85rem; line-height:1.6;">WeWork Galaxy, 43, Residency Road, Bangalore, Karnataka — 560025</div>
+        </div>
+        <div>
+          <div style="font-weight:600; font-size:0.9rem; margin-bottom:4px;">🏙️ Regional Office — Mumbai</div>
+          <div style="color:var(--text-muted); font-size:0.85rem; line-height:1.6;">Innov8, 101, Powai, Mumbai, Maharashtra — 400076</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Form -->
+    <div class="contact-form-card">
+      <h3 style="font-size:1.5rem; font-weight:800; margin-bottom:8px;">Send Us a Message</h3>
+      <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:32px;">Fill in the form and our team will get back to you within one business day.</p>
+
+      <div class="form-row" style="margin-bottom:16px;">
+        <div class="form-group"><label class="form-label">First Name *</label><input type="text" class="form-control" placeholder="Rajesh" /></div>
+        <div class="form-group"><label class="form-label">Last Name *</label><input type="text" class="form-control" placeholder="Kumar" /></div>
+      </div>
+      <div class="form-group" style="margin-bottom:16px;"><label class="form-label">Email Address *</label><input type="email" class="form-control" placeholder="rajesh@grandpalace.com" /></div>
+      <div class="form-group" style="margin-bottom:16px;"><label class="form-label">Phone Number</label><input type="tel" class="form-control" placeholder="+91 98765 43210" /></div>
+      <div class="form-group" style="margin-bottom:16px;">
+        <label class="form-label">What can we help you with? *</label>
+        <select class="form-control">
+          <option>Product Demo</option>
+          <option>Technical Support</option>
+          <option>Billing & Subscription</option>
+          <option>Enterprise / Group Pricing</option>
+          <option>Partnership Enquiry</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group" style="margin-bottom:16px;"><label class="form-label">Hotel Name (Optional)</label><input type="text" class="form-control" placeholder="Grand Palace Hotel, Jaipur" /></div>
+      <div class="form-group" style="margin-bottom:28px;">
+        <label class="form-label">Your Message *</label>
+        <textarea class="form-control" rows="5" placeholder="Tell us about your hotel and what you're looking for..."></textarea>
+      </div>
+      <button class="btn btn-primary" style="width:100%; padding:14px; font-size:1rem;">📨 Send Message</button>
+      <p style="color:var(--text-muted); font-size:0.8rem; text-align:center; margin-top:16px;">By submitting, you agree to our <a href="privacy-policy.html" style="color:var(--accent);">Privacy Policy</a>.</p>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <section class="section" style="background:var(--bg-card); padding:80px 40px;">
+    <div class="container" style="max-width:800px;">
+      <div class="section-header">
+        <div class="section-label">FAQ</div>
+        <h2>Common <span class="gradient-text">Questions</span></h2>
+      </div>
+      <div style="margin-top:40px; display:flex; flex-direction:column; gap:16px;">
+        <div style="background:var(--bg-input); border:1px solid var(--border); border-radius:12px; padding:20px;"><h5 style="font-weight:700; margin-bottom:8px;">How long does onboarding take?</h5><p style="color:var(--text-muted); font-size:0.9rem; margin:0;">Most hotels are fully live within 30 minutes. Our onboarding team guides you through every step, from room setup to billing configuration.</p></div>
+        <div style="background:var(--bg-input); border:1px solid var(--border); border-radius:12px; padding:20px;"><h5 style="font-weight:700; margin-bottom:8px;">Is there a free trial?</h5><p style="color:var(--text-muted); font-size:0.9rem; margin:0;">Yes! Every hotel gets a 30-day free trial with full access to all features. No credit card required to start.</p></div>
+        <div style="background:var(--bg-input); border:1px solid var(--border); border-radius:12px; padding:20px;"><h5 style="font-weight:700; margin-bottom:8px;">Do you support multiple properties?</h5><p style="color:var(--text-muted); font-size:0.9rem; margin:0;">Absolutely. TRACKINN supports hotel chains and groups under a single account with a centralized admin dashboard. Contact our sales team for group pricing.</p></div>
+        <div style="background:var(--bg-input); border:1px solid var(--border); border-radius:12px; padding:20px;"><h5 style="font-weight:700; margin-bottom:8px;">What payment methods do guests use?</h5><p style="color:var(--text-muted); font-size:0.9rem; margin:0;">We support all major UPI apps (PhonePe, GPay, BHIM), credit/debit cards via Razorpay, net banking, and cash payments. All transactions are GST-compliant.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo" style="margin-bottom:4px;display:inline-flex;"><div class="logo-icon">🏨</div><span>TRACK<em>INN</em></span></a>
+          <p>India's most powerful Hotel Management SaaS — built to automate operations, maximize revenue, and delight every guest.</p>
+          <div class="footer-social">
+            <a href="#" class="social-btn" title="Twitter">𝕏</a>
+            <a href="#" class="social-btn" title="LinkedIn">in</a>
+            <a href="#" class="social-btn" title="Instagram">▶</a>
+            <a href="#" class="social-btn" title="WhatsApp">📱</a>
+          </div>
+        </div>
+        <div class="footer-col"><h5>Product</h5><ul><li><a href="index.html#features">Features</a></li><li><a href="index.html#modules">Modules</a></li><li><a href="index.html#pricing">Pricing</a></li><li><a href="#">Changelog</a></li><li><a href="#">API Docs</a></li></ul></div>
+        <div class="footer-col"><h5>Company</h5><ul><li><a href="about.html">About Us</a></li><li><a href="#">Careers</a></li><li><a href="#">Blog</a></li><li><a href="#">Press Kit</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+        <div class="footer-col"><h5>Legal</h5><ul><li><a href="privacy-policy.html">Privacy Policy</a></li><li><a href="terms.html">Terms &amp; Conditions</a></li><li><a href="return-policy.html">Return Policy</a></li><li><a href="#">Help Center</a></li><li><a href="#">Sarai Guide</a></li></ul></div>
+      </div>
+      <div class="footer-bottom"><span>© 2026 TRACKINN Technologies Pvt. Ltd. All rights reserved.</span><span>Made with ❤️ in India 🇮🇳</span></div>
+    </div>
+  </footer>
+  <script>
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 40));
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const mobileNav = document.getElementById('mobileNav');
+    hamburgerBtn.addEventListener('click', () => { mobileNav.classList.toggle('open'); hamburgerBtn.classList.toggle('active'); });
+    function closeMenu() { mobileNav.classList.remove('open'); hamburgerBtn.classList.remove('active'); }
+  </script>
+</body>
+</html>
